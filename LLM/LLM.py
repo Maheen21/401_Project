@@ -16,19 +16,19 @@ It also provides recipe ideas based on available ingredients and can identify mi
 If the user goes off-topic, the AI will gently steer the conversation back to ingredient substitutions, recipes, or cooking-related discussions. 
 """
 
-print("[🍽️ Missing Ingredient Finder Chat 🍽️]")
+print("[✨ Missing Ingredient Finder Chat ✨]")
 print("Type 'exit' to end the chat.\n")
 
 while True:
     user_input = input("You: ").strip()
     
     if user_input.lower() == "exit":
-        print("Goodbye! Happy cooking! 👨‍🍳✨")
+        print("✨ Goodbye! Happy cooking! ✨")
         break
     
     response = model.generate_content(system_prompt + "\nUser: " + user_input)
     
     if hasattr(response, 'text'):
-        print("\n[🧑‍🍳 Missing Ingredient Finder 🧑‍🍳]\n" + response.text + "\n")
+        print("\n[✨ Missing Ingredient Finder ✨]\n" + response.text + "\n")
     else:
         print("Error: No response received from AI.\n")
