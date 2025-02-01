@@ -3,4 +3,5 @@
 
 
 Required dependencies:
- - google-cloud-secret-manager (API keys)
+- google.generativeai (LLM)
+- firebase-admin (API secret)
