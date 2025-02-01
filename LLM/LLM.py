@@ -1,6 +1,6 @@
 import google.generativeai as genai
 #Yes, I know this is not secure but until we figure out how to store the keys I'll add it here for testing purposes, I'll change the key ofc before production
-genai.configure(api_key=AIzaSyB6Z8R-k59SK3xoXL_vHEDAkhOyrh_XWHc)
+genai.configure(api_key="AIzaSyB6Z8R-k59SK3xoXL_vHEDAkhOyrh_XWHc")
 model = genai.GenerativeModel("gemini-2.0-flash-exp")
 response = model.generate_content("Explain how AI works")
 print(response.text)
