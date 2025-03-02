@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Ingredients or Upload Photo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .photo-upload-btn {
+            background-color: #FF5722;
+        }
+        .photo-upload-btn:hover {
+            background-color: #e64a19;
+        }
+        .upload-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .upload-section input[type="file"] {
+            display: none;
+        }
+        .upload-section label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF5722;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Enter Ingredients or Upload Photo</h2>
+
+        <!-- Enter Ingredients Section -->
+        <div>
+            <label for="ingredients" class="input-label">Enter Ingredients:</label>
+            <textarea id="ingredients" class="input-field" placeholder="Type your ingredients here..." rows="5"></textarea>
+        </div>
+
+        <!-- Photo Upload Section -->
+        <div class="upload-section">
+            <label for="photo-upload">Upload Photo of Ingredients:</label><br>
+            <input type="file" id="photo-upload" accept="image/*">
+        </div>
+
+        <!-- Buttons -->
+        <button class="btn" onclick="submitIngredients()">Submit Ingredients</button>
+        <button class="btn photo-upload-btn" onclick="submitPhoto()">Submit Photo</button>
+    </div>
+
+    <script>
+        // Handle form submission for entered ingredients
+        function submitIngredients() {
+            const ingredients = document.getElementById('ingredients').value;
+            if (ingredients.trim()) {
+                alert("Ingredients submitted: " + ingredients);
+                // You could submit this data to the backend or process it further
+            } else {
+                alert("Please enter your ingredients.");
+            }
+        }
+
+        // Handle form submission for uploaded photo
+        function submitPhoto() {
+            const photoInput = document.getElementById('photo-upload');
+            if (photoInput.files.length > 0) {
+                alert("Photo uploaded successfully!");
+                // You could process the photo, send it to a server, or display a preview
+            } else {
+                alert("Please upload a photo of your ingredients.");
+            }
+        }
+    </script>
+
+</body>
+</html>
