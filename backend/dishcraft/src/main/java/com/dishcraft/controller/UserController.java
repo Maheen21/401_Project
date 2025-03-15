@@ -9,6 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// Import Spring Security classes.
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.AuthenticationManager;
+import com.dishcraft.security.MyUserDetailsService;
+import com.dishcraft.security.JwtUtil;
+
 /*
  * AuthController
  *
@@ -33,10 +40,20 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final MyUserDetailsService myUserDetailsService;
+    private final JwtUtil jwtUtil;
     
     // Constructor-based dependency injection of UserService.
-    public UserController(UserService userService) {
+    public UserController(
+            UserService userService,
+            AuthenticationManager authenticationManager,
+            MyUserDetailsService myUserDetailsService,
+            JwtUtil jwtUtil) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.myUserDetailsService = myUserDetailsService;
+        this.jwtUtil = jwtUtil;
     }
     
     /**
@@ -60,11 +77,20 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        // Here, you would normally authenticate the user using UserService.
-        // On successful authentication, generate a JWT token.
-        // The following token generation is a placeholder.
-        String token = "dummy-jwt-token";
-        return ResponseEntity.ok(new JwtResponse(token));
+        try {
+            UsernamePasswordAuthenticationToken authToken = 
+                new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
+        
+            authenticationManager.authenticate(authToken);
+            
+            UserDetails userDetails = myUserDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
+            String token = jwtUtil.generateToken(userDetails);
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (Exception ex) {
+            // Log the exception details for troubleshooting.
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Authentication failed: " + ex.getMessage());
+        }
     }
     
     /**
@@ -79,5 +105,11 @@ public class UserController {
         // The code below is a simplified placeholder.
         String newToken = "dummy-new-jwt-token";
         return ResponseEntity.ok(new JwtResponse(newToken));
+    }
+
+    @GetMapping("/users")//For Testing
+    public ResponseEntity<?> getAllUsers() {
+        var users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

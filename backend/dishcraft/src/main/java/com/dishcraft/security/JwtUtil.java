@@ -5,10 +5,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 
 /*
  * JwtUtil
@@ -20,8 +24,8 @@ import java.util.function.Function;
  */
 @Component
 public class JwtUtil {
-    // In production, use a strong secret key from environment variables or configuration.
-    private final String SECRET_KEY = "replace-with-your-secret";
+    @Value("${jwt.secret}")//need to set up the proper secret key
+    private String SECRET_KEY;
 
     // Token expiration time (e.g., 10 hours)
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10;
@@ -57,12 +61,13 @@ public class JwtUtil {
     
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                   .setClaims(claims)
-                   .setSubject(subject)
-                   .setIssuedAt(new Date(System.currentTimeMillis()))
-                   .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                   .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                   .compact();
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                // Convert your secret key to proper format:
+                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
+                .compact();
     }
     
     public Boolean validateToken(String token, UserDetails userDetails) {
