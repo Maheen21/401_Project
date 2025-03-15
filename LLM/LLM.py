@@ -2,6 +2,8 @@ import google.generativeai as genai
 
 # Configure the API key
 genai.configure(api_key="AIzaSyB6Z8R-k59SK3xoXL_vHEDAkhOyrh_XWHc")
+# I know it is not secure to store the API Key in the code but I couldn't find any way to do it because using firebase would mean that I would need to store a firebase API key in the code which is potentially even more dangerous
+
 
 # Define the system prompt
 system_prompt = """
