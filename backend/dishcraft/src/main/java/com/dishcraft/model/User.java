@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Set;
-import java.util.List;
 
 /*
  * ## 1. User Model
@@ -66,13 +65,13 @@ public class User {
      * - Manages the many-to-many relationship between User and DietaryRestriction.
      * - Stores the dietary restrictions associated with the user.
      */
-//  @ManyToMany
-//  @JoinTable(
-//      name = "user_dietary_restrictions",
-//      joinColumns = @JoinColumn(name = "user_id"),
-//      inverseJoinColumns = @JoinColumn(name = "dietary_restriction_id")
-//  )
-//  private Set<DietaryRestriction> dietaryRestrictions;
+    @ManyToMany
+    @JoinTable(
+        name = "user_dietary_restrictions",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "dietary_restriction_id")
+    )
+    private Set<DietaryRestriction> dietaryRestrictions;
 
     /*
      * Favorite Recipes

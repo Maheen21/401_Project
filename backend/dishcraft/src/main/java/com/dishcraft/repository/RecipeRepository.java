@@ -2,8 +2,6 @@ package com.dishcraft.repository;
 
 import com.dishcraft.model.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -28,12 +26,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
      */
     List<Recipe> findDistinctByRecipeIngredientsIngredientIdIn(List<Long> ingredientIds);
 
-    /*
-     * return all recipes after pagination
-     * @param pagable the pagination information
-     * @return the list of recipes after pagination
-     */
-    @Override
-    List<Recipe> findAll();
 
 }
