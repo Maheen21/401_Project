@@ -19,17 +19,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findByNameContainingIgnoreCase(String name);
 
     /*
-     * find recipes by the list of ingredient ids
-     * this query will return the list of recipes that contain some of the ingredients
-     * the recipes will be ordered by the rank of the ingredient
+     * find recipes that contain at least one of the ingredients from the list
+     * the result will be manipulated in the service layer
+     * using mode 
+     * 
+     * @param ingredientIds the list of ingredient ids
+     * @return the list of recipes that contain at least one of the ingredients
      */
-    @Query("SELECT DISTINCT r FROM Recipe r JOIN r.recipeIngredients ri " +
-       "WHERE ri.ingredient.id IN :ingredientIds " +
-       "ORDER BY CASE WHEN ri.ingredient.rank = 'MAIN' THEN 0 ELSE 1 END")
-    List<Recipe> findRecipesByAnyIngredientsOrdered(@Param("ingredientIds") List<Long> ingredientIds);
-
-
-
-
+    List<Recipe> findDistinctByRecipeIngredientsIngredientIdIn(List<Long> ingredientIds);
 
 }
