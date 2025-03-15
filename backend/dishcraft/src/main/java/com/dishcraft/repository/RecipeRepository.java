@@ -28,4 +28,12 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
      */
     List<Recipe> findDistinctByRecipeIngredientsIngredientIdIn(List<Long> ingredientIds);
 
+    /*
+     * return all recipes after pagination
+     * @param pagable the pagination information
+     * @return the list of recipes after pagination
+     */
+    @Override
+    List<Recipe> findAll();
+
 }
