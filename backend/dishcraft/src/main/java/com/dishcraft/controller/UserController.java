@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import com.dishcraft.security.MyUserDetailsService;
 import com.dishcraft.security.JwtUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /*
  * AuthController
@@ -43,17 +44,20 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final MyUserDetailsService myUserDetailsService;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
     
     // Constructor-based dependency injection of UserService.
     public UserController(
             UserService userService,
             AuthenticationManager authenticationManager,
             MyUserDetailsService myUserDetailsService,
-            JwtUtil jwtUtil) {
+            JwtUtil jwtUtil,
+            PasswordEncoder passwordEncoder) {  
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.myUserDetailsService = myUserDetailsService;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;  
     }
     
     /**
@@ -64,7 +68,8 @@ public class UserController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        // Typically, you would validate data and encode the password here.
+        // Encode the raw password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
