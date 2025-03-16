@@ -5,6 +5,7 @@ import com.dishcraft.model.Ingredient;
 import com.dishcraft.repository.IngredientRepository;
 import com.dishcraft.service.IngredientService;
 import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +55,5 @@ public class IngredientServiceImpl implements IngredientService {
                 .map(ingredient -> modelMapper.map(ingredient, IngredientDto.class))
                 .collect(Collectors.toList());
     }
+
 }
