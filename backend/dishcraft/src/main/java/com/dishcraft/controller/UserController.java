@@ -61,10 +61,10 @@ public class UserController {
     }
     
     /**
-     * User Registration Endpoint
-     * URL: POST /api/auth/register
-     * Input: JSON representing a new User.
-     * Output: The created User or a success message.
+     * Registers a new user in the system.
+     *
+     * @param user The user object containing username, email, password, etc.
+     * @return A ResponseEntity containing the created User, or an error message.
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
@@ -75,10 +75,10 @@ public class UserController {
     }
     
     /**
-     * User Login Endpoint
-     * URL: POST /api/auth/login
-     * Input: JSON with username/email and password.
-     * Output: A JWT token in the response body.
+     * Authenticates a user based on the provided credentials.
+     *
+     * @param loginRequest The DTO object containing username/email and password.
+     * @return A ResponseEntity containing a JWT token if authentication succeeds, or a 403 error otherwise.
      */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
@@ -99,22 +99,50 @@ public class UserController {
     }
     
     /**
-     * Token Refresh Endpoint
-     * URL: POST /api/auth/refresh
-     * Input: JSON with a refresh token.
-     * Output: A new JWT token.
-     */
+    * Generates a new JWT token based on a valid refresh token.
+    *
+    * @param refreshTokenRequest The DTO object containing a valid refresh token.
+    * @return A ResponseEntity containing a new JWT token.
+    */
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        // Normally, validate the refresh token and generate a new JWT.
-        // The code below is a simplified placeholder.
-        String newToken = "dummy-new-jwt-token";
-        return ResponseEntity.ok(new JwtResponse(newToken));
+        String refreshToken = refreshTokenRequest.getRefreshToken();
+        String username = jwtUtil.extractUsername(refreshToken);
+
+        // Validate the refresh token:
+        if (username != null && jwtUtil.validateToken(refreshToken, myUserDetailsService.loadUserByUsername(username))) {
+            UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+            String newToken = jwtUtil.generateToken(userDetails);
+            return ResponseEntity.ok(new JwtResponse(newToken));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid or expired refresh token.");
+        }
     }
 
+    /**
+     * Retrieves all registered users in the system.
+     *
+     * @return A ResponseEntity containing the list of all users.
+     */
     @GetMapping("/users")//For Testing
     public ResponseEntity<?> getAllUsers() {
         var users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    // Add this method inside the UserController class:
+
+    /**
+     * Retrieves a new JWT token for a given username.
+     * <p><b>Warning:</b> This endpoint bypasses authentication and is meant for testing only.</p>
+     *
+     * @param username the username to generate the token for.
+     * @return a ResponseEntity containing a JWT token.
+     */
+    @GetMapping("/token/{username}")
+    public ResponseEntity<?> getTokenForUser(@PathVariable String username) {
+        UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+        String token = jwtUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 }
