@@ -1,7 +1,8 @@
-package com.dishcraft.service;
+package com.dishcraft.service.impl;
 
 import com.dishcraft.model.User;
 import com.dishcraft.repository.UserRepository;
+import com.dishcraft.service.CurrentUserService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
