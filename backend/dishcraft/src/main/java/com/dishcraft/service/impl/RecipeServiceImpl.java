@@ -2,8 +2,11 @@ package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.RecipeDto;
 import com.dishcraft.model.Recipe;
+import com.dishcraft.model.User;
 import com.dishcraft.repository.RecipeIngredientRepository;
 import com.dishcraft.repository.RecipeRepository;
+import com.dishcraft.service.CurrentUserService;
+
 import com.dishcraft.service.RecipeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +28,16 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository,
-                             RecipeIngredientRepository recipeIngredientRepository,
-                             ModelMapper modelMapper) {
-        this.recipeRepository = recipeRepository;
-        this.recipeIngredientRepository = recipeIngredientRepository;
-        this.modelMapper = modelMapper;
+    private final CurrentUserService currentUserService;
+    
+        @Autowired
+        public RecipeServiceImpl(RecipeRepository recipeRepository,
+                                 RecipeIngredientRepository recipeIngredientRepository,
+                                 ModelMapper modelMapper, CurrentUserService currentUserService) {
+            this.recipeRepository = recipeRepository;
+            this.recipeIngredientRepository = recipeIngredientRepository;
+            this.modelMapper = modelMapper;
+            this.currentUserService = currentUserService;
     }
 
     @Override
@@ -85,6 +90,12 @@ public class RecipeServiceImpl implements RecipeService {
     public List<RecipeDto> searchRecipes(List<Long> ingredientIds, String mode) {
         // Retrieve candidate recipes that contain at least one of the selected ingredients
         List<Recipe> candidateRecipes = recipeRepository.findDistinctByRecipeIngredientsIngredientIdIn(ingredientIds);
+
+        // Retrieve the current user's dietary restrictions (as lower-case names)
+        User currentUser = currentUserService.getCurrentUser();
+        Set<String> userDietaryRestrictions = currentUser.getDietaryRestrictions().stream()
+                .map(dr -> dr.getName().toLowerCase())
+                .collect(Collectors.toSet());
 
         if ("all".equalsIgnoreCase(mode)) {
             // Filter candidate recipes to include only those that contain all selected ingredients
