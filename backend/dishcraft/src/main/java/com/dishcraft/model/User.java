@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Set;
+import java.util.HashSet;
 
 /*
  * ## 1. User Model
@@ -71,7 +72,7 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "dietary_restriction_id")
     )
-    private Set<DietaryRestriction> dietaryRestrictions;
+    private Set<DietaryRestriction> dietaryRestrictions = new HashSet<>();
 
     /*
      * Favorite Recipes
