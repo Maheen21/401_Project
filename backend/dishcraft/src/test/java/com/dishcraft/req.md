@@ -81,11 +81,12 @@ This document outlines the testing requirements for the Dishcraft backend applic
   - Test endpoints for creating, retrieving, updating, and deleting feedback.
 
 ## Test Environment and Tools
-- **Unit Testing Framework:** JUnit 5
+- **Unit Testing Framework:** JUnit 4 or 5
 - **Integration Testing:** Spring Boot Test with MockMvc
 - **Mocking Framework:** Mockito (for mocking dependencies in unit tests)
 - **In-Memory Database:** H2 (for repository and integration tests)
 - **API Testing:** Postman or RestAssured (for end-to-end API testing)
+- ***additional dependency might be needed***
 
 ## Additional Requirements
 - All test cases should cover both typical and edge case scenarios.
