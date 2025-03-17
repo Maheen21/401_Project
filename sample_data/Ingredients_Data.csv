@@ -1,0 +1,21 @@
+Name,Category,Description,Rank,Dietary Restrictions
+Chicken Breast,Meat,"Boneless, skinless chicken breast.",Main,Non-Vegetarian
+Garlic,Spice,Aromatic bulb used to enhance flavor.,Sub,None
+Onion,Vegetable,Common vegetable with strong flavor.,Sub,None
+Olive Oil,Oil,Healthy cooking oil with a mild taste.,Sub,Vegan
+Black Pepper,Spice,Ground peppercorns for seasoning.,Sub,None
+Salt,Spice,Common seasoning for taste enhancement.,Sub,None
+Tomato,Vegetable,Red juicy fruit used in sauces.,Sub,None
+Pasta,Grain,Common Italian staple made of wheat.,Main,Contains Gluten
+Parmesan Cheese,Dairy,Aged cheese with a strong flavor.,Sub,Vegetarian
+Basil,Herb,Aromatic herb used in Italian dishes.,Sub,None
+Shrimp,Seafood,Small crustaceans with a delicate taste.,Main,Non-Vegetarian
+Butter,Dairy,Fat product made from churned milk.,Sub,Contains Dairy
+Lemon,Fruit,Citrus fruit used for juice and zest.,Sub,None
+Chocolate,Sweetener,Cocoa-based confection used in desserts.,Sub,Vegetarian
+Flour,Grain,Ground wheat used in baking.,Main,Contains Gluten
+Egg,Protein,Common ingredient in baking and cooking.,Main,Non-Vegan
+Sugar,Sweetener,Sweet granulated substance for desserts.,Sub,None
+Milk,Dairy,Dairy product used in cooking and baking.,Sub,Contains Dairy
+Vanilla Extract,Flavoring,Extract from vanilla beans used in desserts.,Sub,None
+Strawberry,Fruit,Red sweet fruit commonly used in desserts.,Sub,None
