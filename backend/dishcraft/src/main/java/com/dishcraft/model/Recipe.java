@@ -1,5 +1,6 @@
 package com.dishcraft.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 import java.util.List;
+ 
 
 
 
@@ -25,16 +27,16 @@ public class Recipe {
      * the id of the recipe
      * this is the primary key of the recipe
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
     /*
      * the name of the recipe
      * this is a required field
      * and not null field
      */
-    @Column(nullable = false)
+   @Column(nullable = false)
     private String name;
 
     /*
@@ -74,7 +76,7 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredient> recipeIngredients;
 
-    
+
 
     
 }
