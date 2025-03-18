@@ -1,0 +1,242 @@
+[
+    {
+      "name": "Spaghetti Carbonara",
+      "description": "A classic Italian pasta dish with creamy sauce and pancetta.",
+      "cookingTime": 25,
+      "recipeIngredients": [
+        {"name": "spaghetti", "quantity": "400", "unit": "g", "isRequired": true},
+        {"name": "pancetta", "quantity": "150", "unit": "g", "isRequired": true},
+        {"name": "egg yolks", "quantity": "3", "unit": "", "isRequired": true},
+        {"name": "parmesan cheese", "quantity": "50", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://www.allrecipes.com/thmb/QtmdHdH04CHgBbjUsISCm_RLTM0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/11973-spaghetti-carbonara-ii-DDMFS-4x3-6edea51e421e4457ac0c3269f3be5157.jpg"
+    },
+    {
+      "name": "Chicken Stir-Fry",
+      "description": "Quick and healthy stir-fry with tender chicken and veggies.",
+      "cookingTime": 20,
+      "recipeIngredients": [
+        {"name": "chicken breast", "quantity": "500", "unit": "g", "isRequired": true},
+        {"name": "soy sauce", "quantity": "2", "unit": "tbsp", "isRequired": true},
+        {"name": "bell peppers", "quantity": "2", "unit": "", "isRequired": true},
+        {"name": "broccoli", "quantity": "200", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://natashaskitchen.com/wp-content/uploads/2018/08/Chicken-Stir-Fry-1-1.jpg"
+    },
+    {
+      "name": "Chocolate Chip Cookies",
+      "description": "Chewy cookies loaded with chocolate chips.",
+      "cookingTime": 30,
+      "recipeIngredients": [
+        {"name": "flour", "quantity": "300", "unit": "g", "isRequired": true},
+        {"name": "butter", "quantity": "200", "unit": "g", "isRequired": true},
+        {"name": "sugar", "quantity": "150", "unit": "g", "isRequired": true},
+        {"name": "chocolate chips", "quantity": "200", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://cdn.loveandlemons.com/wp-content/uploads/2024/08/chocolate-chip-cookie-recipe.jpg"
+    },
+    {
+      "name": "Beef Tacos",
+      "description": "Spicy beef tacos with fresh toppings.",
+      "cookingTime": 35,
+      "recipeIngredients": [
+        {"name": "ground beef", "quantity": "500", "unit": "g", "isRequired": true},
+        {"name": "taco seasoning", "quantity": "2", "unit": "tbsp", "isRequired": true},
+        {"name": "tortillas", "quantity": "8", "unit": "", "isRequired": true},
+        {"name": "salsa", "quantity": "100", "unit": "ml", "isRequired": true}
+      ],
+      "imageUrl": "https://www.onceuponachef.com/images/2023/08/Beef-Tacos.jpg"
+    },
+    {
+      "name": "Vegetable Curry",
+      "description": "A flavorful vegan curry with coconut milk.",
+      "cookingTime": 40,
+      "recipeIngredients": [
+        {"name": "coconut milk", "quantity": "400", "unit": "ml", "isRequired": true},
+        {"name": "curry paste", "quantity": "2", "unit": "tbsp", "isRequired": true},
+        {"name": "potatoes", "quantity": "300", "unit": "g", "isRequired": true},
+        {"name": "carrots", "quantity": "200", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/07/vegetable-curry-recipe.jpg"
+    },
+    {
+      "name": "Pancakes",
+      "description": "Fluffy pancakes perfect for breakfast.",
+      "cookingTime": 20,
+      "recipeIngredients": [
+        {"name": "flour", "quantity": "200", "unit": "g", "isRequired": true},
+        {"name": "milk", "quantity": "300", "unit": "ml", "isRequired": true},
+        {"name": "eggs", "quantity": "2", "unit": "", "isRequired": true},
+        {"name": "sugar", "quantity": "2", "unit": "tbsp", "isRequired": true}
+      ],
+      "imageUrl": "https://www.allrecipes.com/thmb/dOTb-yf_t1CXgw91lg69Wvzrl8E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/AR-162760-fluffy-pancakes-DDMFS-beauty-3x4-35d4b54b54464701b32870d4b1646bfe.jpg"
+    },
+    {
+      "name": "Grilled Salmon",
+      "description": "Juicy salmon fillets with a lemon glaze.",
+      "cookingTime": 25,
+      "recipeIngredients": [
+        {"name": "salmon fillets", "quantity": "4", "unit": "", "isRequired": true},
+        {"name": "lemon juice", "quantity": "3", "unit": "tbsp", "isRequired": true},
+        {"name": "olive oil", "quantity": "2", "unit": "tbsp", "isRequired": true},
+        {"name": "garlic", "quantity": "2", "unit": "cloves", "isRequired": true}
+      ],
+      "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/how-to-grill-salmon-recipe1-1655870645.jpg?crop=0.6666666666666667xw:1xh;center,top&resize=1200:*"
+    },
+    {
+      "name": "Margherita Pizza",
+      "description": "Simple pizza with fresh tomatoes and mozzarella.",
+      "cookingTime": 45,
+      "recipeIngredients": [
+        {"name": "pizza dough", "quantity": "300", "unit": "g", "isRequired": true},
+        {"name": "tomato sauce", "quantity": "100", "unit": "ml", "isRequired": true},
+        {"name": "mozzarella", "quantity": "150", "unit": "g", "isRequired": true},
+        {"name": "basil", "quantity": "10", "unit": "leaves", "isRequired": true}
+      ],
+      "imageUrl": "https://kristineskitchenblog.com/wp-content/uploads/2024/07/margherita-pizza-22-2-500x500.jpg"
+    },
+    {
+      "name": "Lentil Soup",
+      "description": "Hearty and warming soup with lentils and spices.",
+      "cookingTime": 50,
+      "recipeIngredients": [
+        {"name": "lentils", "quantity": "200", "unit": "g", "isRequired": true},
+        {"name": "vegetable broth", "quantity": "1", "unit": "L", "isRequired": true},
+        {"name": "onion", "quantity": "1", "unit": "", "isRequired": true},
+        {"name": "cumin", "quantity": "1", "unit": "tsp", "isRequired": true}
+      ],
+      "imageUrl": "https://www.noracooks.com/wp-content/uploads/2018/11/square-1.jpg"
+    },
+    {
+      "name": "Apple Pie",
+      "description": "Classic dessert with a flaky crust and spiced apples.",
+      "cookingTime": 60,
+      "recipeIngredients": [
+        {"name": "flour", "quantity": "400", "unit": "g", "isRequired": true},
+        {"name": "apples", "quantity": "6", "unit": "", "isRequired": true},
+        {"name": "sugar", "quantity": "150", "unit": "g", "isRequired": true},
+        {"name": "cinnamon", "quantity": "1", "unit": "tsp", "isRequired": true}
+      ],
+      "imageUrl": "https://www.inspiredtaste.net/wp-content/uploads/2019/11/Homemade-Apple-Pie-From-Scratch-1200.jpg"
+    },
+    {
+      "name": "Caesar Salad",
+      "description": "Crisp romaine with creamy dressing and croutons.",
+      "cookingTime": 15,
+      "recipeIngredients": [
+        {"name": "romaine lettuce", "quantity": "1", "unit": "head", "isRequired": true},
+        {"name": "caesar dressing", "quantity": "100", "unit": "ml", "isRequired": true},
+        {"name": "croutons", "quantity": "50", "unit": "g", "isRequired": true},
+        {"name": "parmesan", "quantity": "30", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://www.grocery.coop/sites/default/files/styles/recipe_photo/public/NCG_Dennis_Becker_Classic_Caesar_Salad_715_x_477.jpg?itok=sdL3NiyO"
+    },
+    {
+      "name": "Beef Stroganoff",
+      "description": "Creamy beef dish served over noodles.",
+      "cookingTime": 40,
+      "recipeIngredients": [
+        {"name": "beef sirloin", "quantity": "600", "unit": "g", "isRequired": true},
+        {"name": "sour cream", "quantity": "200", "unit": "ml", "isRequired": true},
+        {"name": "mushrooms", "quantity": "250", "unit": "g", "isRequired": true},
+        {"name": "egg noodles", "quantity": "300", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://godairyfree.org/wp-content/uploads/2022/12/Beef-Stroganoff-online-feature2.jpg"
+    },
+    {
+      "name": "Banana Bread",
+      "description": "Moist and sweet bread made with ripe bananas.",
+      "cookingTime": 60,
+      "recipeIngredients": [
+        {"name": "bananas", "quantity": "3", "unit": "", "isRequired": true},
+        {"name": "flour", "quantity": "250", "unit": "g", "isRequired": true},
+        {"name": "sugar", "quantity": "150", "unit": "g", "isRequired": true},
+        {"name": "butter", "quantity": "100", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://www.allrecipes.com/thmb/kcdxlIXhpJJUY08OMgsE1yLpX6U=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/6984-banana-sour-cream-bread-DDMFS-4x3-42e521007c6241ca9db1a870f93d70b4.jpg"
+    },
+    {
+      "name": "Chicken Alfredo",
+      "description": "Creamy pasta with grilled chicken.",
+      "cookingTime": 30,
+      "recipeIngredients": [
+        {"name": "fettuccine", "quantity": "400", "unit": "g", "isRequired": true},
+        {"name": "chicken breast", "quantity": "500", "unit": "g", "isRequired": true},
+        {"name": "heavy cream", "quantity": "200", "unit": "ml", "isRequired": true},
+        {"name": "parmesan", "quantity": "100", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://iwashyoudry.com/wp-content/uploads/2022/08/Chicken-Alfredo-Low-Res-21.jpg"
+    },
+    {
+      "name": "French Onion Soup",
+      "description": "Rich soup topped with melted cheese.",
+      "cookingTime": 70,
+      "recipeIngredients": [
+        {"name": "onions", "quantity": "4", "unit": "", "isRequired": true},
+        {"name": "beef broth", "quantity": "1", "unit": "L", "isRequired": true},
+        {"name": "baguette", "quantity": "4", "unit": "slices", "isRequired": true},
+        {"name": "gruyere cheese", "quantity": "100", "unit": "g", "isRequired": true}
+      ],
+      "imageUrl": "https://feelgoodfoodie.net/wp-content/uploads/2024/10/French-Onion-Soup-11.jpg"
+    },
+    {
+      "name": "Shrimp Scampi",
+      "description": "Garlicky shrimp served over pasta.",
+      "cookingTime": 20,
+      "recipeIngredients": [
+        {"name": "shrimp", "quantity": "500", "unit": "g", "isRequired": true},
+        {"name": "linguine", "quantity": "300", "unit": "g", "isRequired": true},
+        {"name": "butter", "quantity": "50", "unit": "g", "isRequired": true},
+        {"name": "garlic", "quantity": "3", "unit": "cloves", "isRequired": true}
+      ],
+      "imageUrl": "https://littlespoonfarm.com/wp-content/uploads/2024/07/Shrimp-Scampi-Recipe-photo-1.jpg"
+    },
+    {
+      "name": "Blueberry Muffins",
+      "description": "Soft muffins bursting with blueberries.",
+      "cookingTime": 35,
+      "recipeIngredients": [
+        {"name": "flour", "quantity": "250", "unit": "g", "isRequired": true},
+        {"name": "blueberries", "quantity": "200", "unit": "g", "isRequired": true},
+        {"name": "sugar", "quantity": "100", "unit": "g", "isRequired": true},
+        {"name": "milk", "quantity": "150", "unit": "ml", "isRequired": true}
+      ],
+      "imageUrl": "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image/public/2022-12/KABC_Quick-Breads_Blueberry-Muffin_08304.jpg?itok=EM7XxPfL"
+    },
+    {
+      "name": "Roasted Lamb",
+      "description": "Tender lamb with rosemary and garlic.",
+      "cookingTime": 90,
+      "recipeIngredients": [
+        {"name": "lamb leg", "quantity": "1.5", "unit": "kg", "isRequired": true},
+        {"name": "rosemary", "quantity": "2", "unit": "tbsp", "isRequired": true},
+        {"name": "garlic", "quantity": "4", "unit": "cloves", "isRequired": true},
+        {"name": "olive oil", "quantity": "3", "unit": "tbsp", "isRequired": true}
+      ],
+      "imageUrl": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2016/2/26/0/FN_Ina-Garten_Herb-Roasted-Lamb-H1_s4x3.jpg.rend.hgtvcom.1280.1280.suffix/1558026543714.webp"
+    },
+    {
+      "name": "Pumpkin Soup",
+      "description": "Creamy soup with seasonal pumpkin flavor.",
+      "cookingTime": 45,
+      "recipeIngredients": [
+        {"name": "pumpkin", "quantity": "1", "unit": "kg", "isRequired": true},
+        {"name": "cream", "quantity": "200", "unit": "ml", "isRequired": true},
+        {"name": "vegetable stock", "quantity": "800", "unit": "ml", "isRequired": true},
+        {"name": "onion", "quantity": "1", "unit": "", "isRequired": true}
+      ],
+      "imageUrl": "https://www.healthyfood.com/wp-content/uploads/2019/07/Creamy-pumpkin-soup-1024x638.jpg"
+    },
+    {
+      "name": "Tiramisu",
+      "description": "Layered Italian dessert with coffee and mascarpone.",
+      "cookingTime": 30,
+      "recipeIngredients": [
+        {"name": "mascarpone", "quantity": "250", "unit": "g", "isRequired": true},
+        {"name": "ladyfingers", "quantity": "200", "unit": "g", "isRequired": true},
+        {"name": "coffee", "quantity": "200", "unit": "ml", "isRequired": true},
+        {"name": "cocoa powder", "quantity": "2", "unit": "tbsp", "isRequired": true}
+      ],
+      "imageUrl": "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image/public/2023-03/Tiramisu_1430-1.jpg?itok=DUplf517"
+    }
+  ]
