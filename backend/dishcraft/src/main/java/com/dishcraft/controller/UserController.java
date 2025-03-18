@@ -5,6 +5,7 @@ import com.dishcraft.service.UserService;
 import com.dishcraft.dto.LoginRequest;
 import com.dishcraft.dto.JwtResponse;
 import com.dishcraft.dto.RefreshTokenRequest;
+import com.dishcraft.security.MyUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -81,18 +82,22 @@ public class UserController {
             UsernamePasswordAuthenticationToken authToken = 
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
-        
+
             authenticationManager.authenticate(authToken);
+
+
             
-            UserDetails userDetails = myUserDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
-            String token = jwtUtil.generateToken(userDetails);
+            MyUserDetails myUser = (MyUserDetails) myUserDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
+            String role = myUser.getRole(); 
+            String token = jwtUtil.generateToken(myUser, role);
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception ex) {
-            // Log the exception details for troubleshooting.
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Authentication failed: " + ex.getMessage());
+            // Log exception details for troubleshooting.
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                .body("Authentication failed: " + ex.getMessage());
         }
     }
-    
+
     /**
      * Token Refresh Endpoint
      * URL: POST /api/auth/refresh

@@ -54,18 +54,20 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
     
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, String role) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername(), role);
     }
-    
-    private String createToken(Map<String, Object> claims, String subject) {
+
+    private String createToken(Map<String, Object> claims, String subject, String role) {
+        // Dynamically assign the role passed into the method
+        claims.put("role", role);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                // Convert your secret key to proper format:
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
                 .compact();
     }
