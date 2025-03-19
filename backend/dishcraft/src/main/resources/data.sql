@@ -80,3 +80,20 @@ INSERT INTO ingredient_dietary_restrictions (ingredient_id, dietary_restriction_
 INSERT INTO ingredient_dietary_restrictions (ingredient_id, dietary_restriction_id) VALUES (12, 6);
 INSERT INTO ingredient_dietary_restrictions (ingredient_id, dietary_restriction_id) VALUES (12, 7);
 
+-- 4. recipes table data
+INSERT INTO recipes (name, description, instruction, cooking_time, image_url)
+VALUES ('Caprese Salad', 'A simple Italian salad with fresh ingredients.',
+        'Slice tomatoes and mozzarella cheese. Layer with basil, drizzle olive oil, and season with salt and pepper.',
+        10, 'http://example.com/images/caprese.jpg');
+
+--5. recipe_ingredients join table data
+
+-- Recipe 1: Caprese Salad
+INSERT INTO recipe_ingredients (id, recipe_id, ingredient_id, quantity, unit, is_required)
+VALUES (1, 1, 1, 2, 'pieces', TRUE);   -- Tomato
+INSERT INTO recipe_ingredients (id, recipe_id, ingredient_id, quantity, unit, is_required)
+VALUES (2, 1, 2, 100, 'grams', TRUE);    -- Mozzarella Cheese
+INSERT INTO recipe_ingredients (id, recipe_id, ingredient_id, quantity, unit, is_required)
+VALUES (3, 1, 3, 5, 'leaves', TRUE);     -- Basil
+INSERT INTO recipe_ingredients (id, recipe_id, ingredient_id, quantity, unit, is_required)
+VALUES (4, 1, 4, 2, 'tablespoons', FALSE);  -- Olive Oil

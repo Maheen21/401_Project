@@ -4,11 +4,15 @@ import com.dishcraft.dto.IngredientDto;
 import com.dishcraft.model.Ingredient;
 import com.dishcraft.repository.IngredientRepository;
 import com.dishcraft.service.IngredientService;
+
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,13 +39,23 @@ public class IngredientServiceImpl implements IngredientService {
      * @return the mapped IngredientDto
      * @throws RuntimeException if the ingredient is not found
      */
+    @Transactional(readOnly = true)
     @Override
     public IngredientDto getIngredientById(Long id) {
-        Ingredient ingredient = ingredientRepository.findById(id)
+        Ingredient ingredient = ingredientRepository.findByIdWithDietaryRestrictions(id)
                 .orElseThrow(() -> new RuntimeException("Ingredient not found with id: " + id));
-        return modelMapper.map(ingredient, IngredientDto.class);
+    
+        IngredientDto ingredientDto = modelMapper.map(ingredient, IngredientDto.class);
+    
+        // Initialize the dietary restrictions collection to avoid LazyInitializationException
+        ingredientDto.setDietaryRestrictions(
+                ingredient.getDietaryRestrictions().stream()
+                        .map(dietaryRestriction -> dietaryRestriction.getName()) // Map to dietary restriction name
+                        .collect(Collectors.toList())
+        );
+    
+        return ingredientDto;
     }
-
     /**
      * Searches for ingredients whose names contain the specified keyword, case-insensitive.
      *
