@@ -52,7 +52,9 @@ public class SecurityConfig {
             // Configure endpoint security: permit auth endpoints, secure others
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/api/auth/**",
+                    "/api/auth/**",                    
+                    "/api/recipes/**",
+                    "/api/ingredients/**",
                     "/v3/api-docs/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**"
