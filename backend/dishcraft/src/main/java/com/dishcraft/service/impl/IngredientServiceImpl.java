@@ -1,5 +1,6 @@
 package com.dishcraft.service.impl;
 
+import com.dishcraft.dto.DietaryRestrictionDto;
 import com.dishcraft.dto.IngredientDto;
 import com.dishcraft.model.Ingredient;
 import com.dishcraft.repository.IngredientRepository;
@@ -49,10 +50,15 @@ public class IngredientServiceImpl implements IngredientService {
     
         // Initialize the dietary restrictions collection to avoid LazyInitializationException
         ingredientDto.setDietaryRestrictions(
-                ingredient.getDietaryRestrictions().stream()
-                        .map(dietaryRestriction -> dietaryRestriction.getName()) // Map to dietary restriction name
-                        .collect(Collectors.toList())
-        );
+            ingredient.getDietaryRestrictions().stream()
+                    .map(dietaryRestriction -> {
+                        DietaryRestrictionDto dto = new DietaryRestrictionDto();
+                        dto.setId(dietaryRestriction.getId());
+                        dto.setName(dietaryRestriction.getName());
+                        return dto;
+                    })
+                    .collect(Collectors.toList())
+);
     
         return ingredientDto;
     }

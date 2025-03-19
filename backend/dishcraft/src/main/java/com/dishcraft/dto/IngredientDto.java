@@ -12,5 +12,5 @@ public class IngredientDto {
     private String category;
     private String description;
     private String rank;
-    private List<String> dietaryRestrictions;    
+    private List<DietaryRestrictionDto> dietaryRestrictions;    
 }
