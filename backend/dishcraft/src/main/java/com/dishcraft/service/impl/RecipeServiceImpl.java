@@ -11,6 +11,9 @@ import com.dishcraft.service.RecipeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -76,8 +79,26 @@ public RecipeDto getRecipeById(Long id) {
 }
     @Override
     public Page<RecipeDto> getAllRecipes(Pageable pageable) {
-        return recipeRepository.findAll(pageable)
-                .map(recipe -> modelMapper.map(recipe, RecipeDto.class));
+        // Define allowed sorting fields
+        List<String> allowedSortFields = List.of("name", "cookingTime", "description");
+        
+
+        // Validate and filter sorting fields
+        Sort filteredSort = Sort.by(pageable.getSort().stream()
+                .filter(order -> allowedSortFields.contains(order.getProperty()))
+                .map(order -> new Sort.Order(order.getDirection(), order.getProperty()))
+                .toList());
+
+        Pageable validatedPageable = PageRequest.of(
+                pageable.getPageNumber(), pageable.getPageSize(), filteredSort);
+        Page<Recipe> recipes = recipeRepository.findAll(validatedPageable);
+        if (recipes.isEmpty()) {
+            System.out.println("⚠️ No recipes found in pagination request. Total records in DB: " + recipeRepository.count());
+        } else {
+            System.out.println("✅ Recipes retrieved: " + recipes.getTotalElements());
+        }
+            
+        return recipes.map(recipe -> modelMapper.map(recipe, RecipeDto.class));
     }
 
     @Override
