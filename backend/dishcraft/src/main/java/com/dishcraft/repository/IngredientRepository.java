@@ -2,8 +2,11 @@ package com.dishcraft.repository;
 
 import com.dishcraft.model.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
@@ -47,4 +50,14 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
      * @return the list of ingredients that comply with the dietary restriction
      */
     List<Ingredient> findByDietaryRestrictions_Id(Long dietaryRestrictionId);
+
+    /*
+     * find ingredient by ID and fetch its dietary restrictions
+     * @param id the unique identifier of the ingredient
+     * @return the ingredient with its dietary restrictions
+     * @throws RuntimeException if the ingredient is not found
+     */
+    @Query("SELECT i FROM Ingredient i LEFT JOIN FETCH i.dietaryRestrictions WHERE i.id = :id")
+    Optional<Ingredient> findByIdWithDietaryRestrictions(@Param("id") Long id);
+
 }

@@ -51,6 +51,6 @@ public class RecipeIngredient {
     /**
      * Flag indicating if the ingredient is required (true) or optional (false).
      */
-    @Column(nullable = false)
+    @Column(name = "is_required", nullable = false) // ✅ column name is_required
     private Boolean isRequired;
 }

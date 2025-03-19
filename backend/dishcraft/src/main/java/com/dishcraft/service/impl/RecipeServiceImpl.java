@@ -1,6 +1,7 @@
 package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.RecipeDto;
+import com.dishcraft.dto.RecipeIngredientDto;
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.User;
 import com.dishcraft.repository.RecipeIngredientRepository;
@@ -10,6 +11,9 @@ import com.dishcraft.service.RecipeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -50,17 +54,51 @@ public class RecipeServiceImpl implements RecipeService {
         return modelMapper.map(savedRecipe, RecipeDto.class);
     }
 
-    @Override
-    public RecipeDto getRecipeById(Long id) {
-        Recipe recipe = recipeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
-        return modelMapper.map(recipe, RecipeDto.class);
-    }
+@Override
+public RecipeDto getRecipeById(Long id) {
+    Recipe recipe = recipeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
 
+    RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
+
+    // ✅ add name of ingredient to RecipeIngredientDto
+    List<RecipeIngredientDto> ingredientDtos = recipe.getRecipeIngredients().stream()
+            .map(ri -> {
+                RecipeIngredientDto dto = new RecipeIngredientDto();
+                dto.setId(ri.getId());
+                dto.setName(ri.getIngredient().getName()); // ✅ map ingredient name
+                dto.setQuantity(ri.getQuantity());
+                dto.setUnit(ri.getUnit());
+                dto.setIsRequired(ri.getIsRequired());
+                return dto;
+            })
+            .collect(Collectors.toList());
+
+    recipeDto.setRecipeIngredients(ingredientDtos);
+    return recipeDto;
+}
     @Override
     public Page<RecipeDto> getAllRecipes(Pageable pageable) {
-        return recipeRepository.findAll(pageable)
-                .map(recipe -> modelMapper.map(recipe, RecipeDto.class));
+        // Define allowed sorting fields
+        List<String> allowedSortFields = List.of("name", "cookingTime", "description");
+        
+
+        // Validate and filter sorting fields
+        Sort filteredSort = Sort.by(pageable.getSort().stream()
+                .filter(order -> allowedSortFields.contains(order.getProperty()))
+                .map(order -> new Sort.Order(order.getDirection(), order.getProperty()))
+                .toList());
+
+        Pageable validatedPageable = PageRequest.of(
+                pageable.getPageNumber(), pageable.getPageSize(), filteredSort);
+        Page<Recipe> recipes = recipeRepository.findAll(validatedPageable);
+        if (recipes.isEmpty()) {
+            System.out.println("⚠️ No recipes found in pagination request. Total records in DB: " + recipeRepository.count());
+        } else {
+            System.out.println("✅ Recipes retrieved: " + recipes.getTotalElements());
+        }
+            
+        return recipes.map(recipe -> modelMapper.map(recipe, RecipeDto.class));
     }
 
     @Override
