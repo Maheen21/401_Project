@@ -93,11 +93,22 @@ public class RecipeServiceImpl implements RecipeService {
         List<Recipe> candidateRecipes = recipeRepository.findDistinctByRecipeIngredientsIngredientIdIn(ingredientIds);
 
         // Retrieve the current user's dietary restrictions (as lower-case names)
-        User currentUser = currentUserService.getCurrentUser();
-        Set<String> userDietaryRestrictions = currentUser.getDietaryRestrictions().stream()
-                .map(dr -> dr.getName().toLowerCase())
-                .collect(Collectors.toSet());
 
+        User currentUser;
+
+        try {
+            currentUser = currentUserService.getCurrentUser();
+        } catch (IllegalStateException e) {
+            // if not logged in, use empty sets
+            currentUser = null;
+        }
+
+        Set<String> userDietaryRestrictions = (currentUser != null) ?
+        currentUser.getDietaryRestrictions().stream()
+            .map(dr -> dr.getName().toLowerCase())
+            .collect(Collectors.toSet()) : 
+        Set.of();
+        
         // Filter recipes based on the user's dietary restrictions
         candidateRecipes = filterRecipesByDietaryRestrictions(candidateRecipes, userDietaryRestrictions);
 
