@@ -44,10 +44,11 @@ public class JwtUtil {
     }
     
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                   .setSigningKey(SECRET_KEY)
-                   .parseClaimsJws(token)
-                   .getBody();
+        return Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)))
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
     
     private Boolean isTokenExpired(String token) {
