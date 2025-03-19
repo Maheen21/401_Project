@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.io.IOException;
 
@@ -52,9 +52,7 @@ public class SecurityConfig {
             // Configure endpoint security: permit auth endpoints, secure others
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/api/auth/**",                    
-                    "/api/recipes/**",
-                    "/api/ingredients/**",
+                    "/api/auth/**",
                     "/v3/api-docs/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**"
@@ -76,7 +74,7 @@ public class SecurityConfig {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }
 
