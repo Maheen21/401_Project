@@ -46,6 +46,51 @@ public class IngredientController {
         return ResponseEntity.ok(ingredients);
     }
 
-    // Additional endpoints can be added here, such as listing all ingredients,
-    // filtering by category or dietary restrictions, etc.
+    /**
+     * Retrieve all ingredients from the database.
+     *
+     * @return a list of all ingredients as IngredientDto
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<IngredientDto>> getAllIngredients() {
+        List<IngredientDto> ingredients = ingredientService.getAllIngredients();
+        return ResponseEntity.ok(ingredients);
+    }
+
+    /**
+     * Create a new ingredient in the database.
+     *
+     * @param ingredientDto the ingredient details to be created
+     * @return the created ingredient details as IngredientDto
+     */
+    @PostMapping
+    public ResponseEntity<IngredientDto> createIngredient(@RequestBody IngredientDto ingredientDto) {
+        IngredientDto createdIngredient = ingredientService.createIngredient(ingredientDto);
+        return ResponseEntity.ok(createdIngredient);
+    }
+
+    /**
+     * Update the ingredient details by its ID.
+     *
+     * @param id the unique identifier of the ingredient
+     * @param ingredientDto the updated ingredient details
+     * @return the updated ingredient details as IngredientDto
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<IngredientDto> updateIngredient(@PathVariable Long id, @RequestBody IngredientDto ingredientDto) {
+        IngredientDto updatedIngredient = ingredientService.updateIngredient(id, ingredientDto);
+        return ResponseEntity.ok(updatedIngredient);
+    }
+
+    /**
+     * Delete an ingredient by its ID.
+     *
+     * @param id the unique identifier of the ingredient
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIngredient(@PathVariable Long id) {
+        ingredientService.deleteIngredient(id);
+        return ResponseEntity.noContent().build();
+    }
+    
 }
