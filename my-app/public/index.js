@@ -1,3 +1,6 @@
+import { fetchIngredients } from 'ingredients.js';
+import { fetchRecipes } from 'recipe.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   // Check if a JWT exists and adjust UI if needed.
   const jwt = localStorage.getItem('jwtToken');

@@ -8,7 +8,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("/my-app/public/bgs/seamless-3289975_1920.png") no-repeat center center fixed;
+  background: url("/bgs/seamless-3289975_1920.png") no-repeat center center fixed;
   background-size: cover;
 }
 
