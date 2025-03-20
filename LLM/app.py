@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-#from flask_swagger import swagger
 from flasgger import Swagger
 import google.generativeai as genai
 
@@ -21,7 +20,7 @@ Generate a structured, numbered list of step-by-step instructions
 Adjust the recipe based on the available ingredients
 Suggest suitable ingredient substitutions if necessary
 
-The AI does not engage in freeform conversation. It strictly follows the structured JSON input format and responds with a formatted JSON output containing the recipe instructions. do not use codeblock to generate the code snippet
+The AI does not engage in freeform conversation. It strictly follows the structured JSON input format and responds with a formatted JSON output containing the recipe instructions.
 
 Example response format is as follows:
 
@@ -40,7 +39,6 @@ Example response format is as follows:
     "n. <step n instructions>"
   ]
 }
-
 """
 
 # Initialize the model with the system instruction
@@ -52,10 +50,10 @@ _chat = None
 # Function to clear the conversation history
 def Clear():
     """
-    Clears the conversation history by starting a new chat session with an empty history.
+    Clears the conversation history by resetting the chat session to None.
     """
     global _chat
-    _chat = model.start_chat(history=[])
+    _chat = None  # Explicitly reset to None
     return {"message": "Conversation history cleared"}
 
 # Function to start a new conversation
@@ -70,6 +68,10 @@ def StartConv(input_str):
         dict: A dictionary containing the AI's response or an error message.
     """
     Clear()  # Clear the history before starting a new conversation
+    if not input_str:  # Check for empty input
+        return {"error": "Input cannot be empty. Please provide a valid recipe input."}
+    global _chat
+    _chat = model.start_chat(history=[])  # Start a new chat session
     response = _chat.send_message(input_str)
     if hasattr(response, 'text'):
         return {"response": response.text}
@@ -99,6 +101,7 @@ def ContinueConv(input_str):
 # Initialize the Flask application
 app = Flask(__name__)
 swagger = Swagger(app)
+
 # REST API endpoint to clear the conversation history
 @app.route('/clear', methods=['POST'])
 def clear_endpoint():
@@ -194,7 +197,6 @@ def continue_endpoint():
     input_str = data.get('input', '')
     result = ContinueConv(input_str)
     return jsonify(result)
-
 
 # Run the Flask app in debug mode
 if __name__ == '__main__':

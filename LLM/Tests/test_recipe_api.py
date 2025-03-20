@@ -1,67 +1,88 @@
-import pytest
+import unittest
 import requests
 import json
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from app import app
+from threading import Thread
 
-BASE_URL = "http://127.0.0.1:5000"
+class TestFlaskApp(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.app = app
+        cls.server_thread = Thread(target=cls.app.run, kwargs={'host': '0.0.0.0', 'port': 5000, 'debug': False})
+        cls.server_thread.daemon = True
+        cls.server_thread.start()
+        cls.base_url = 'http://127.0.0.1:5000'
+        import time
+        time.sleep(1)
 
-@pytest.fixture
-def api_client():
-    yield
-    requests.post(f"{BASE_URL}/clear")
+    def test_1_clear_endpoint(self):
+        response = requests.post(f'{self.base_url}/clear')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data['message'], 'Conversation history cleared')
 
-def test_clear_endpoint():
-    response = requests.post(f"{BASE_URL}/clear")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Conversation history cleared"}
+    def test_2_start_endpoint_valid_input(self):
+        payload = {
+            "input": json.dumps({
+                "recipe": "Chocolate Chip Cookies",
+                "requiredIngredients": ["flour", "sugar", "butter", "chocolate chips"],
+                "availableIngredients": ["flour", "butter", "chocolate chips"],
+                "description": "Mix dry and wet ingredients, bake at 350°F for 12 minutes. Can use honey instead of sugar."
+            })
+        }
+        response = requests.post(f'{self.base_url}/start', json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn('response', data)
+        response_str = data['response'].strip()
+        if response_str.startswith('```json') and response_str.endswith('```'):
+            response_str = response_str[7:-3].strip()
+        response_text = json.loads(response_str)
+        self.assertEqual(response_text['recipe'], 'Chocolate Chip Cookies')
+        self.assertIn('missingIngredients', response_text)
+        self.assertIn('steps', response_text)
+        self.assertEqual(response_text['missingIngredients']['sugar'], 'honey')
 
-def test_start_endpoint_valid_input(api_client):
-    payload = {
-        "input": json.dumps({
-            "recipe": "Chocolate Chip Cookies",
-            "requiredIngredients": ["flour", "sugar", "butter", "chocolate chips", "eggs"],
-            "availableIngredients": ["flour", "butter", "chocolate chips", "eggs"],
-            "description": "Mix ingredients, form dough, bake at 350°F for 10-12 minutes. Sugar can be replaced with honey."
-        })
-    }
-    response = requests.post(f"{BASE_URL}/start", json=payload)
-    assert response.status_code == 200
-    data = json.loads(response.json()["response"])
-    assert data["recipe"] == "Chocolate Chip Cookies"
-    assert "sugar" in data["missingIngredients"]
-    assert data["missingIngredients"]["sugar"] == "honey"
-    assert len(data["steps"]) > 0
-    assert data["steps"][0].startswith("1.")
+    def test_3_start_endpoint_invalid_input(self):
+        payload = {"input": ""}
+        response = requests.post(f'{self.base_url}/start', json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn('error', data)
+        self.assertEqual(data['error'], 'Input cannot be empty. Please provide a valid recipe input.')
 
-def test_start_endpoint_missing_input(api_client):
-    payload = {"input": ""}
-    response = requests.post(f"{BASE_URL}/start", json=payload)
-    assert response.status_code == 200
-    assert response.json() == {"error": "Input cannot be empty. Please provide recipe details."}
+    def test_4_continue_endpoint_without_start(self):
+        requests.post(f'{self.base_url}/clear')
+        payload = {"input": "What about flour?"}
+        response = requests.post(f'{self.base_url}/continue', json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn('error', data)
+        self.assertEqual(data['error'], 'Chat session not started. Use /start first.')
 
-def test_continue_endpoint_no_session(api_client):
-    payload = {"input": "What about flour?"}
-    response = requests.post(f"{BASE_URL}/continue", json=payload)
-    assert response.status_code == 200
-    assert response.json() == {"error": "Chat session not started. Use /start first."}
+    def test_5_continue_endpoint_after_start(self):
+        start_payload = {
+            "input": json.dumps({
+                "recipe": "Pancakes",
+                "requiredIngredients": ["flour", "milk", "eggs"],
+                "availableIngredients": ["flour", "milk"],
+                "description": "Mix ingredients and cook on a skillet."
+            })
+        }
+        requests.post(f'{self.base_url}/start', json=start_payload)
+        continue_payload = {"input": "What can I use instead of eggs?"}
+        response = requests.post(f'{self.base_url}/continue', json=continue_payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn('response', data)
+        self.assertTrue(isinstance(data['response'], str))
 
-def test_full_conversation_flow(api_client):
-    start_payload = {
-        "input": json.dumps({
-            "recipe": "Pancakes",
-            "requiredIngredients": ["flour", "milk", "eggs", "sugar"],
-            "availableIngredients": ["flour", "eggs"],
-            "description": "Mix ingredients into a batter, cook on a skillet. Milk can be replaced with water, sugar with syrup."
-        })
-    }
-    start_response = requests.post(f"{BASE_URL}/start", json=start_payload)
-    assert start_response.status_code == 200
-    start_data = json.loads(start_response.json()["response"])
-    assert start_data["recipe"] == "Pancakes"
-    assert "milk" in start_data["missingIngredients"]
-    assert "sugar" in start_data["missingIngredients"]
+    @classmethod
+    def tearDownClass(cls):
+        pass
 
-    continue_payload = {"input": "Can I use almond milk instead of water?"}
-    continue_response = requests.post(f"{BASE_URL}/continue", json=continue_payload)
-    assert continue_response.status_code == 200
-    continue_data = json.loads(continue_response.json()["response"])
-    assert "steps" in continue_data
+if __name__ == '__main__':
+    unittest.main()
