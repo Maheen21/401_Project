@@ -1,20 +1,115 @@
-/* Base body style for this page */
+/* Full-page background */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("/my-app/public/bgs/seamless-3289975_1920.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* White overlay for faded effect */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4); /* Adjust opacity as needed */
+  z-index: -1;
+}
+
+/* Tab container styling */
+.tab-container {
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Tab header buttons */
+.tab-header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.tab-button.active {
+  background: rgba(255, 255, 255, 1);
+  font-weight: bold;
+}
+
+/* Tab content */
+.tab-content {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.content {
+  display: none;
+}
+
+.content.active {
+  display: block;
+}
+
+/* Ingredients & Recipes text */
+h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+/* Ingredients List */
+#ingredientsList {
+  margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .tab-container {
+      width: 95%;
+      padding: 15px;
+  }
+}
+
+
+/* Base body style for this page
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 20px;
-  /* Using flex-start for vertical alignment so content appears toward the top */
+  /* Using flex-start for vertical alignment so content appears toward the top 
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
   position: relative;
-}
+} 
 
 .tab-container {
   position: relative;
-  margin-top: 100px; /* similar offset, but now part of page flow */
+  margin-top: 100px; /* similar offset, but now part of page flow 
   width: 66%;
   background-color: #fff;
   border-radius: 8px;
@@ -22,17 +117,17 @@ body {
   overflow: auto;
 }
 
-/* Tab Header styling */
+/* Tab Header styling 
 .tab-header {
   display: flex;
   border-bottom: 1px solid #ddd;
 }
 
-/* Smaller tab buttons */
+/* Smaller tab buttons 
 .tab-button {
   flex: 1;
-  padding: 10px;      /* Reduced padding */
-  font-size: 14px;    /* Smaller font size */
+  padding: 10px;      /* Reduced padding 
+  font-size: 14px;    /* Smaller font size 
   background-color: #f4f4f4;
   border: none;
   cursor: pointer;
@@ -45,17 +140,17 @@ body {
   border-bottom: 2px solid #4CAF50;
 }
 
-/* Tab content area styling */
+/* Tab content area styling 
 .tab-content {
   padding: 20px;
 }
 
-/* Hide content sections by default */
+/* Hide content sections by default 
 .content {
   display: none;
 }
 
-/* Show the active content section */
+/* Show the active content section 
 .content.active {
   display: block;
-}
+} */

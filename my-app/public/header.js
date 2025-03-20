@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
       top: 0;
       left: 0;
       width: 100%;
-      background: #333;
+      background: #8E2800;
       color: #fff;
       padding: 10px 20px;
       display: flex;
@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fallback for invalid token: show guest interface.
         headerContent = `
           <div>Welcome, Guest</div>
-          <button id="auth-btn" style="${buttonStyle} background: #007BFF; color: #fff;">Login</button>
+          <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
         `;
       }
     } else {
       // If no token exists, show login button.
       headerContent = `
         <div>Welcome, Guest</div>
-        <button id="auth-btn" style="${buttonStyle} background: #007BFF; color: #fff;">Login</button>
+        <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
       `;
     }
     
