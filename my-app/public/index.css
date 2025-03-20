@@ -98,6 +98,22 @@ h2 {
   transition: box-shadow 0.3s ease-in-out;
 }
 
+.btn {
+  background-color: #B64926; /* Blue */
+  margin-top: 20px;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Add smooth transitions */
+}
+
+.btn:hover {
+  background-color: #cf6947; /* Darker Blue */
+  box-shadow: 0 0 10px #FFF0A5; /* Glowing effect */
+}
+
 
 
 /* Base body style for this page
