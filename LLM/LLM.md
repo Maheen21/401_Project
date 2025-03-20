@@ -1,116 +1,61 @@
-# LLM.py Documentation
+# LLM Directory Documentation
 
 ## Overview
-The `LLM.py` module provides a conversational AI assistant focused on helping users find ingredient substitutes and suggesting recipes. It utilizes the Google Generative AI API to generate responses while maintaining a structured interaction with users.
 
-## Dependencies
-- `google.generativeai` (Google Generative AI API)
+The LLM directory contains the necessary files to run a Flask-based API that utilizes Google's Generative AI to assist users with ingredient substitutions and recipe suggestions. This documentation provides an overview of the files and how to set up and run the application.
 
-## Configuration
-The module requires an API key for Google Generative AI, which is currently hardcoded in the script (not secure). The system prompt is pre-defined to keep conversations related to cooking and ingredient substitution.
+## Files in the LLM Directory
 
-## System Prompt
-The assistant is programmed with the following core functionality:
-- Suggest ingredient substitutes based on user input.
-- Provide recipe ideas with available ingredients.
-- Identify missing ingredients and recommend alternatives.
-- Keep the conversation focused on cooking and steer away from off-topic discussions.
+1.  **Dockerfile**
 
-## Global Variables
-- `model`: An instance of `GenerativeModel` configured with the system prompt.
-- `_chat`: A global variable storing the active chat session.
+    * This file is used to containerize the application.
+    * It provides the instructions for building a Docker image that includes the necessary dependencies and environment configurations to run the API.
 
-## Functions
-### `Clear()`
-```python
-def Clear():
-    """
-    Clears the conversation history by starting a new chat session with an empty history.
-    """
-    global _chat
-    _chat = model.start_chat(history=[])
-```
-- **Purpose**: Resets the conversation by clearing the chat history.
-- **Usage**: Called when a new conversation session needs to be initiated.
+2.  **app.py**
 
-### `StartConv(input_str: str) -> str`
-```python
-def StartConv(input_str):
-    """
-    Starts a new conversation by clearing the history and sending the initial user input.
+    * The core application file that defines a Flask API for handling ingredient substitution queries.
+    * The API integrates with Google's Generative AI (Gemini-2.0) and provides the following endpoints:
+        * `/clear` (POST): Clears the conversation history.
+        * `/start` (POST): Starts a new conversation with an initial input.
+        * `/continue` (POST): Continues an existing conversation with the AI.
+        * `/spec` (GET): Provides the Swagger API documentation.
 
-    Args:
-        input_str (str): The initial user message to start the conversation.
+3.  **requirements.txt**
 
-    Returns:
-        str: The AI's response to the initial message.
-    """
-    Clear()
-    response = _chat.send_message(input_str)
-    if hasattr(response, 'text'):
-        return response.text
-    else:
-        return "Error: No response received from AI."
-```
-- **Purpose**: Initializes a new conversation with the provided input.
-- **Arguments**:
-  - `input_str` (str): The initial user message.
-- **Returns**: AI-generated response as a string.
-- **Usage**: Used when starting a fresh conversation.
+    * Lists the dependencies required to run the application, including:
+        * `flask` – For the web framework.
+        * `flask-swagger` – For API documentation.
+        * `google-generativeai` – To interact with Google's AI model.
 
-### `ContinueConv(input_str: str) -> str`
-```python
-def ContinueConv(input_str):
-    """
-    Continues the conversation by sending the user's input to the current chat session.
+## Setup and Installation
 
-    Args:
-        input_str (str): The user's message to continue the conversation.
+### Prerequisites
 
-    Returns:
-        str: The AI's response to the user's message, or an error if the session isn't started.
-    """
-    if _chat is None:
-        return "Error: Chat session not started. Please use StartConv first."
-    response = _chat.send_message(input_str)
-    if hasattr(response, 'text'):
-        return response.text
-    else:
-        return "Error: No response received from AI."
-```
-- **Purpose**: Sends a user message in an ongoing conversation session.
-- **Arguments**:
-  - `input_str` (str): User's message to continue the conversation.
-- **Returns**: AI-generated response as a string.
-- **Error Handling**: Returns an error if the chat session is not started.
-- **Usage**: Used to maintain an active chat session after initialization.
+* Docker (if running in a containerized environment)
+* Python 3
+* Virtual environment (optional, but recommended)
 
-## Usage Example
-```python
-from LLM import StartConv, ContinueConv, Clear
+### Running the Application
 
-# Start a conversation
-response = StartConv("I am making a cake but I am out of eggs. What can I use instead?")
-print(response)
+1.  **Using Python Locally**
 
-# Continue the conversation
-response = ContinueConv("I also don’t have milk. Any substitutes?")
-print(response)
-```
+    * (Instructions to be added when available)
 
-## Test Cases
-The module has been tested using the following scripts:
+2.  **Using Docker**
 
-- **`test_cli.py`**: Ensures the module works as a command-line interface (CLI) tool.
-- **`prompt_test.py`**: Verifies that the AI responds correctly to a pre-written cooking-related prompt.
-- **`prompt_with_input_test.py`**: Confirms that user-provided dish names are correctly incorporated into the conversation.
-- **`off_topic_test.py`**: Ensures the AI keeps conversations focused on cooking, even when given off-topic input.
+    * (Instructions to be added when available)
 
-## Limitations
-- The API key is hardcoded, which is a security risk.
-- No exception handling for API failures or network errors.
-- Limited to cooking-related conversations and unable to handle multi-topic discussions efficiently.
+## API Endpoints
 
-## Conclusion
-The `LLM.py` module effectively serves as an ingredient substitution assistant by leveraging Google's Generative AI. While functional, it can be improved in terms of security, robustness, and flexibility.
+| Endpoint   | Method | Description                               |
+| ---------- | ------ | ----------------------------------------- |
+| `/clear`   | POST   | Clears the conversation history.        |
+| `/start`   | POST   | Starts a new conversation with an initial input. |
+| `/continue` | POST   | Continues an ongoing conversation.          |
+| `/spec`    | GET    | Provides Swagger API documentation.      |
 
+## Notes
+
+* Ensure you set the Google Generative AI API key before running the application.
+* The application is designed to assist with ingredient substitutions and recipe suggestions, keeping conversations focused on cooking-related topics.
+* The `app.py` file initializes the AI model and manages user interactions via RESTful API endpoints.
