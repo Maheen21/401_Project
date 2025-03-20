@@ -2,8 +2,11 @@ package com.dishcraft.config;
 
 import com.dishcraft.dto.DietaryRestrictionDto;
 import com.dishcraft.dto.IngredientDto;
+import com.dishcraft.dto.RecipeIngredientDto;
 import com.dishcraft.model.DietaryRestriction;
 import com.dishcraft.model.Ingredient;
+import com.dishcraft.model.RecipeIngredient;
+
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
@@ -48,6 +51,16 @@ public class ModelMapperConfig {
 
                 destination.setDietaryRestrictions(dietaryRestrictionDtos);
 
+                return destination;
+            });
+        
+        modelMapper.typeMap(RecipeIngredient.class, RecipeIngredientDto.class)
+            .setPostConverter(context -> {
+                RecipeIngredient source = context.getSource();
+                RecipeIngredientDto destination = context.getDestination();
+                if (source.getIngredient() != null) {
+                    destination.setName(source.getIngredient().getName());
+                }
                 return destination;
             });
 

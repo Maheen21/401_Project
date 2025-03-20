@@ -2,8 +2,11 @@ package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.RecipeDto;
 import com.dishcraft.dto.RecipeIngredientDto;
+import com.dishcraft.model.Ingredient;
 import com.dishcraft.model.Recipe;
+import com.dishcraft.model.RecipeIngredient;
 import com.dishcraft.model.User;
+import com.dishcraft.repository.IngredientRepository;
 import com.dishcraft.repository.RecipeIngredientRepository;
 import com.dishcraft.repository.RecipeRepository;
 import com.dishcraft.service.CurrentUserService;
@@ -33,15 +36,21 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final ModelMapper modelMapper;
     private final CurrentUserService currentUserService;
+    private final IngredientRepository ingredientRepository;
+
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository,
                              RecipeIngredientRepository recipeIngredientRepository,
                              ModelMapper modelMapper,
+                             IngredientRepository ingredientRepository,
                              CurrentUserService currentUserService) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientRepository = recipeIngredientRepository;
         this.modelMapper = modelMapper;
+
+        this.ingredientRepository = ingredientRepository;
+
         this.currentUserService = currentUserService;
     }
 
@@ -65,7 +74,7 @@ public RecipeDto getRecipeById(Long id) {
     List<RecipeIngredientDto> ingredientDtos = recipe.getRecipeIngredients().stream()
             .map(ri -> {
                 RecipeIngredientDto dto = new RecipeIngredientDto();
-                dto.setId(ri.getId());
+                dto.setIngredientId(ri.getIngredient().getId());
                 dto.setName(ri.getIngredient().getName()); // ✅ map ingredient name
                 dto.setQuantity(ri.getQuantity());
                 dto.setUnit(ri.getUnit());
@@ -105,15 +114,34 @@ public RecipeDto getRecipeById(Long id) {
     public RecipeDto updateRecipe(Long id, RecipeDto recipeDto) {
         Recipe existingRecipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
-
-        // Update fields from DTO
+    
         existingRecipe.setName(recipeDto.getName());
         existingRecipe.setDescription(recipeDto.getDescription());
         existingRecipe.setInstruction(recipeDto.getInstruction());
         existingRecipe.setCookingTime(recipeDto.getCookingTime());
         existingRecipe.setImageUrl(recipeDto.getImageUrl());
-        // Additional update logic for RecipeIngredient can be added here
-
+    
+        if (recipeDto.getRecipeIngredients() != null) {
+            // Delete existing recipe ingredients and add new ones
+            recipeIngredientRepository.deleteAll(existingRecipe.getRecipeIngredients());
+            recipeIngredientRepository.flush();
+            existingRecipe.getRecipeIngredients().clear();
+    
+            for (RecipeIngredientDto riDto : recipeDto.getRecipeIngredients()) {
+                Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
+                        .orElseThrow(() -> new RuntimeException("Ingredient not found with id: " + riDto.getIngredientId()));
+    
+                RecipeIngredient recipeIngredient = new RecipeIngredient();
+                recipeIngredient.setRecipe(existingRecipe);
+                recipeIngredient.setIngredient(ingredient);
+                recipeIngredient.setQuantity(riDto.getQuantity());
+                recipeIngredient.setUnit(riDto.getUnit());
+                recipeIngredient.setIsRequired(riDto.getIsRequired());
+    
+                existingRecipe.addIngredient(recipeIngredient);
+            }
+        }
+    
         Recipe updatedRecipe = recipeRepository.save(existingRecipe);
         return modelMapper.map(updatedRecipe, RecipeDto.class);
     }

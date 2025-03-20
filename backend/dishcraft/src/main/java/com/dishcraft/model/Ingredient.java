@@ -52,6 +52,7 @@ public class Ingredient {
      * Rank or type of the ingredient indicating its importance within a recipe.
      * Example values: "MAIN" for core ingredients, "SUB" for secondary ingredients.
      */
+    @Column(name = "ingredient_rank")
     private String rank;
 
     /**

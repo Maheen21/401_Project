@@ -77,6 +77,16 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredient> recipeIngredients;
 
+      public void addIngredient(RecipeIngredient ri) {
+        recipeIngredients.add(ri);
+        ri.setRecipe(this);
+    }
+    
+    public void removeIngredient(RecipeIngredient ri) {
+        recipeIngredients.remove(ri);
+        ri.setRecipe(null);
+    }
+
 
 
     
