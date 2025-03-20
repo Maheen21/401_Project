@@ -182,35 +182,36 @@ public RecipeDto getRecipeById(Long id) {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Filters the provided list of recipes based on the user's dietary restrictions.
-     *
-     * @param recipes the list of candidate recipes
-     * @param userDietaryRestrictions the set of dietary restrictions (lower-case) from the current user
-     * @return a filtered list of recipes that are compatible with the user's dietary restrictions
-     */
-    private List<Recipe> filterRecipesByDietaryRestrictions(List<Recipe> recipes, Set<String> userDietaryRestrictions) {
-        return recipes.stream()
-                .filter(recipe -> isRecipeCompatibleWithDiet(recipe, userDietaryRestrictions))
-                .collect(Collectors.toList());
-    }
+/**
+ * Filters the provided list of recipes based on the user's dietary restrictions.
+ *
+ * @param recipes the list of candidate recipes
+ * @param userDietaryRestrictions the set of dietary restrictions (lower-case) from the current user
+ * @return a filtered list of recipes that are NOT restricted by the user's dietary restrictions
+ */
+private List<Recipe> filterRecipesByDietaryRestrictions(List<Recipe> recipes, Set<String> userDietaryRestrictions) {
+    return recipes.stream()
+            .filter(recipe -> isRecipeAllowedForUser(recipe, userDietaryRestrictions)) // ✅ 겹치지 않는 레시피만 반환
+            .collect(Collectors.toList());
+}
 
-    /**
-     * Checks whether a recipe is compatible with the user's dietary restrictions.
-     *
-     * @param recipe the recipe to check
-     * @param userDietaryRestrictions the set of dietary restrictions from the user
-     * @return true if the recipe is compatible, false otherwise
-     */
-    private boolean isRecipeCompatibleWithDiet(Recipe recipe, Set<String> userDietaryRestrictions) {
-        return recipe.getRecipeIngredients().stream()
-                .allMatch(ri -> {
-                    // Extract ingredient dietary restrictions as lower-case names
-                    Set<String> ingredientRestrictions = ri.getIngredient().getDietaryRestrictions().stream()
-                            .map(dr -> dr.getName().toLowerCase())
-                            .collect(Collectors.toSet());
-                    // The ingredient is compatible if all its restrictions are satisfied by the user
-                    return userDietaryRestrictions.containsAll(ingredientRestrictions);
-                });
-    }
+/**
+ * Checks whether a recipe does NOT conflict with the user's dietary restrictions.
+ *
+ * @param recipe the recipe to check
+ * @param userDietaryRestrictions the set of dietary restrictions from the user
+ * @return true if the recipe does NOT conflict with the user's dietary restrictions, false otherwise
+ */
+private boolean isRecipeAllowedForUser(Recipe recipe, Set<String> userDietaryRestrictions) {
+    return recipe.getRecipeIngredients().stream()
+            .allMatch(ri -> {
+                // Get the dietary restrictions for each ingredient (in lowercase)
+                Set<String> ingredientRestrictions = ri.getIngredient().getDietaryRestrictions().stream()
+                        .map(dr -> dr.getName().toLowerCase())
+                        .collect(Collectors.toSet());
+
+                // ✅ only retain recipes that do not contain any restricted ingredients
+                return ingredientRestrictions.stream().noneMatch(userDietaryRestrictions::contains);
+            });
+}
 }
