@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_swagger import swagger
+from flasgger import Swagger
 import google.generativeai as genai
 
 # Configure the API key for Google Generative AI
@@ -97,7 +98,7 @@ def ContinueConv(input_str):
 
 # Initialize the Flask application
 app = Flask(__name__)
-
+swagger = Swagger(app)
 # REST API endpoint to clear the conversation history
 @app.route('/clear', methods=['POST'])
 def clear_endpoint():
@@ -194,14 +195,6 @@ def continue_endpoint():
     result = ContinueConv(input_str)
     return jsonify(result)
 
-# REST API endpoint to serve the Swagger specification
-@app.route('/spec')
-def spec():
-    swag = swagger(app)
-    swag['info']['version'] = "1.0"
-    swag['info']['title'] = "Cooking Assistant API"
-    swag['info']['description'] = "API for cooking assistance with ingredient substitutions and recipe suggestions."
-    return jsonify(swag)
 
 # Run the Flask app in debug mode
 if __name__ == '__main__':

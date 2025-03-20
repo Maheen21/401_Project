@@ -1,3 +1,4 @@
 flask
 flask-swagger
 google-generativeai
+flasgger
