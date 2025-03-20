@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
@@ -61,7 +62,11 @@ public class SecurityConfig {
                     "/swagger-ui.html",
                     "/swagger-ui/**"
                 ).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/recipies/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/ingredients/**").permitAll()
+                
                 .anyRequest().authenticated()
+
             )
             // Add our JWT filter before the UsernamePasswordAuthenticationFilter
             .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userDetailsService), UsernamePasswordAuthenticationFilter.class);
