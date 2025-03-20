@@ -70,4 +70,11 @@ public interface RecipeService {
      * @return the list of recipe DTOs that match the search criteria
      */
     List<RecipeDto> searchRecipes(List<Long> ingredientIds, String mode);    
+
+    /*
+     * get all recipes in the database and return them in a list
+     * 
+     * @return the list of recipe DTOs
+     */
+    List<RecipeDto> getAllRecipes();
 }

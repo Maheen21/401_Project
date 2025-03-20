@@ -119,4 +119,15 @@ public class RecipeController {
         List<RecipeDto> recipes = recipeService.searchRecipes(ingredientIds, mode);
         return ResponseEntity.ok(recipes);
     }
+
+    /**
+     * Retrieve all recipes.
+     *
+     * @return a list of all recipes
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<RecipeDto>> getAllRecipes() {
+        List<RecipeDto> recipes = recipeService.getAllRecipes();
+        return ResponseEntity.ok(recipes);
+    }
 }
