@@ -1,0 +1,185 @@
+body {
+  margin: 0;
+  padding: 80px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("/bgs/seamless-3289975_1920.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2); /* Adjust opacity if needed */
+  z-index: -1;
+}
+
+/* Increase the overall size of the tab container */
+.tab-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 30px; /* Increased padding for a larger look */
+  max-width: 1200px; /* Increased max-width */
+  width: 95%; /* Use more available width */
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Tab header styling */
+.tab-header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+/* Base style for tab buttons */
+.tab-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: 0.3s ease;
+  color: #000; /* Set text color to black */
+}
+
+/* Active tab button style */
+.tab-button.active {
+  background: rgba(255, 255, 255, 1);
+  font-weight: bold;
+}
+
+/* Tab content styling */
+.tab-content {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tab-container {
+      width: 95%;
+      padding: 15px;
+  }
+}
+
+/* Hover effect for tab buttons */
+.tab-button:hover {
+  box-shadow: 0 0 20px #f7e384;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Form element styles */
+.form-group, .form-group-inline {
+  margin: 10px 0;
+  text-align: left;
+}
+
+.form-group-inline {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the plus and remove buttons */
+.add-ingredient-btn, .remove-ingredient-btn {
+  padding: 0 8px;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Standard button styling */
+button {
+  cursor: pointer;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #007BFF;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* Hide all tab content by default */
+.content {
+  display: none;
+}
+
+/* Only show the active tab */
+.content.active {
+  display: block;
+}
+
+/* Two-column layout within the Recipes tab with 4:6 ratio */
+.recipe-tab-container {
+  display: flex;
+  gap: 20px;
+}
+
+.add-recipe-column {
+  flex: 4;
+}
+
+.list-recipes-column {
+  flex: 6;
+}
+
+/* Style for individual recipe items */
+.recipe-item {
+  position: relative;              /* For absolute positioning of controls */
+  text-align: left;                /* Left align content */
+  border: 1px solid #ccc;          /* Light border */
+  border-radius: 8px;              /* Rounded corners */
+  padding: 10px 50px 10px 10px;     /* Extra right padding for controls */
+  margin-bottom: 10px;             /* Space between boxes */
+  background: #fff;                /* White background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Container for the edit and delete controls */
+.recipe-item .controls {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+/* Styling for individual control buttons */
+.recipe-item .controls button {
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.recipe-item .controls button:hover {
+  background: #0056b3;
+}
