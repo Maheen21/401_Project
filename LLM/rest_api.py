@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
+from flask_swagger import swagger
 import google.generativeai as genai
 
 # Configure the API key for Google Generative AI
-# Note: For security, consider storing this in an environment variable (e.g., using os.environ).
-# As per your request, it’s included directly here since you couldn’t find an alternative.
 genai.configure(api_key="AIzaSyB6Z8R-k59SK3xoXL_vHEDAkhOyrh_XWHc")
 
 # Define the system prompt for the conversational AI
@@ -19,7 +18,6 @@ If the user goes off-topic, the AI will gently steer the conversation back to in
 model = genai.GenerativeModel("gemini-2.0-flash-exp", system_instruction=system_prompt)
 
 # Global variable to maintain the chat session state across requests
-# Note: This works for development but may need a more robust solution (e.g., session storage) for production.
 _chat = None
 
 # Function to clear the conversation history
@@ -76,9 +74,20 @@ app = Flask(__name__)
 @app.route('/clear', methods=['POST'])
 def clear_endpoint():
     """
-    Endpoint to clear the conversation history.
-    Expects a POST request (no body required).
-    Example: curl -X POST http://127.0.0.1:5000/clear
+    ---
+    tags:
+      - Conversation
+    summary: Clear the conversation history
+    description: Clears the conversation history by starting a new chat session with an empty history.
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Conversation history cleared
     """
     result = Clear()
     return jsonify(result)
@@ -87,9 +96,33 @@ def clear_endpoint():
 @app.route('/start', methods=['POST'])
 def start_endpoint():
     """
-    Endpoint to start a new conversation.
-    Expects a POST request with JSON body containing 'input' field.
-    Example: curl -X POST -H "Content-Type: application/json" -d '{"input": "I’m missing sugar for cookies"}' http://127.0.0.1:5000/start
+    ---
+    tags:
+      - Conversation
+    summary: Start a new conversation
+    description: Starts a new conversation by clearing the history and sending the initial user input.
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            input:
+              type: string
+              description: The initial user message
+              example: I’m missing sugar for cookies
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            response:
+              type: string
+              description: The AI's response
+      400:
+        description: Bad Request
     """
     data = request.get_json()
     input_str = data.get('input', '')
@@ -100,14 +133,47 @@ def start_endpoint():
 @app.route('/continue', methods=['POST'])
 def continue_endpoint():
     """
-    Endpoint to continue the conversation.
-    Expects a POST request with JSON body containing 'input' field.
-    Example: curl -X POST -H "Content-Type: application/json" -d '{"input": "What about flour?"}' http://127.0.0.1:5000/continue
+    ---
+    tags:
+      - Conversation
+    summary: Continue the conversation
+    description: Continues the conversation by sending the user's input to the current chat session.
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            input:
+              type: string
+              description: The user's message
+              example: What about flour?
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            response:
+              type: string
+              description: The AI's response
+      400:
+        description: Bad Request
     """
     data = request.get_json()
     input_str = data.get('input', '')
     result = ContinueConv(input_str)
     return jsonify(result)
+
+# REST API endpoint to serve the Swagger specification
+@app.route('/spec')
+def spec():
+    swag = swagger(app)
+    swag['info']['version'] = "1.0"
+    swag['info']['title'] = "Cooking Assistant API"
+    swag['info']['description'] = "API for cooking assistance with ingredient substitutions and recipe suggestions."
+    return jsonify(swag)
 
 # Run the Flask app in debug mode
 if __name__ == '__main__':
