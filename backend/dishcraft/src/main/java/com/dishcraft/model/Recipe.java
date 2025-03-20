@@ -57,13 +57,14 @@ public class Recipe {
      * estimated time to cook the recipe
      * in minutes
      */
-    @Column(nullable = false)
+    @Column(name = "cooking_time", nullable = false)
     private Integer cookingTime;
 
     /*
      * the image url of the recipe (may be null)
      * 
      */
+    @Column(name = "image_url")
     private String imageUrl;
 
     /*

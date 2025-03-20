@@ -25,5 +25,33 @@ public interface IngredientService {
      */
     List<IngredientDto> searchIngredientsByName(String name);
 
-    // Additional methods can be added for filtering by category, dietary restrictions, etc.
+    /*
+     * Retrieve all ingredients from the database.
+     * @return a list of all ingredients as IngredientDto
+     */
+    List<IngredientDto> getAllIngredients();
+
+    /**
+     * Create a new ingredient in the database.
+     *
+     * @param ingredientDto the ingredient details to be created
+     * @return the created ingredient details as IngredientDto
+     */
+    IngredientDto createIngredient(IngredientDto ingredientDto);
+
+    /**
+     * Update the ingredient details by its ID.
+     *
+     * @param id the unique identifier of the ingredient
+     * @param ingredientDto the updated ingredient details
+     * @return the updated ingredient details as IngredientDto
+     */
+    IngredientDto updateIngredient(Long id, IngredientDto ingredientDto);
+
+    /**
+     * Delete an ingredient by its ID.
+     *
+     * @param id the unique identifier of the ingredient
+     */
+    void deleteIngredient(Long id);
 }

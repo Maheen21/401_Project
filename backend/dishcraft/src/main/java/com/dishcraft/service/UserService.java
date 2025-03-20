@@ -2,6 +2,7 @@ package com.dishcraft.service;
 
 import com.dishcraft.model.User;
 import com.dishcraft.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    // Constructor-based dependency injection of UserRepository.
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /*
@@ -43,9 +45,10 @@ public class UserService {
     }
 
     /*
-     * Create a new user.
+     * Create a new user, encrypting the password.
      */
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -57,8 +60,8 @@ public class UserService {
             .map(user -> {
                 user.setUsername(updatedUser.getUsername());
                 user.setEmail(updatedUser.getEmail());
-                user.setPassword(updatedUser.getPassword());
-                // Additional fields to update can be added here.
+                // If updating password, encrypt it
+                user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
                 return userRepository.save(user);
             });
     }

@@ -14,5 +14,5 @@ public class UserDto {
     private Long id;
     private String username;
     private String email;
-    // Include any additional fields you want to expose (exclude sensitive info)
+    private String role;  // Include role if needed
 }

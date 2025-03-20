@@ -62,6 +62,13 @@ public class User {
     private String password;
 
     /*
+     * role
+     * - The user's role.
+     */
+    @Column(nullable = false)
+    private String role = "user";
+
+    /*
      * Dietary Restrictions
      * - Manages the many-to-many relationship between User and DietaryRestriction.
      * - Stores the dietary restrictions associated with the user.

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -75,4 +77,17 @@ public class Ingredient {
         inverseJoinColumns = @JoinColumn(name = "dietary_restriction_id")
     )
     private Set<DietaryRestriction> dietaryRestrictions;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // use id only
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Ingredient)) return false;
+        Ingredient other = (Ingredient) obj;
+        return Objects.equals(id, other.id); // use id only
+    }
 }

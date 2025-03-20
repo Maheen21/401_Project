@@ -1,6 +1,7 @@
 package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.RecipeDto;
+import com.dishcraft.dto.RecipeIngredientDto;
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.User;
 import com.dishcraft.repository.RecipeIngredientRepository;
@@ -10,6 +11,9 @@ import com.dishcraft.service.RecipeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -50,17 +54,51 @@ public class RecipeServiceImpl implements RecipeService {
         return modelMapper.map(savedRecipe, RecipeDto.class);
     }
 
-    @Override
-    public RecipeDto getRecipeById(Long id) {
-        Recipe recipe = recipeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
-        return modelMapper.map(recipe, RecipeDto.class);
-    }
+@Override
+public RecipeDto getRecipeById(Long id) {
+    Recipe recipe = recipeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
 
+    RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
+
+    // ✅ add name of ingredient to RecipeIngredientDto
+    List<RecipeIngredientDto> ingredientDtos = recipe.getRecipeIngredients().stream()
+            .map(ri -> {
+                RecipeIngredientDto dto = new RecipeIngredientDto();
+                dto.setId(ri.getId());
+                dto.setName(ri.getIngredient().getName()); // ✅ map ingredient name
+                dto.setQuantity(ri.getQuantity());
+                dto.setUnit(ri.getUnit());
+                dto.setIsRequired(ri.getIsRequired());
+                return dto;
+            })
+            .collect(Collectors.toList());
+
+    recipeDto.setRecipeIngredients(ingredientDtos);
+    return recipeDto;
+}
     @Override
     public Page<RecipeDto> getAllRecipes(Pageable pageable) {
-        return recipeRepository.findAll(pageable)
-                .map(recipe -> modelMapper.map(recipe, RecipeDto.class));
+        // Define allowed sorting fields
+        List<String> allowedSortFields = List.of("name", "cookingTime", "description");
+        
+
+        // Validate and filter sorting fields
+        Sort filteredSort = Sort.by(pageable.getSort().stream()
+                .filter(order -> allowedSortFields.contains(order.getProperty()))
+                .map(order -> new Sort.Order(order.getDirection(), order.getProperty()))
+                .toList());
+
+        Pageable validatedPageable = PageRequest.of(
+                pageable.getPageNumber(), pageable.getPageSize(), filteredSort);
+        Page<Recipe> recipes = recipeRepository.findAll(validatedPageable);
+        if (recipes.isEmpty()) {
+            System.out.println("⚠️ No recipes found in pagination request. Total records in DB: " + recipeRepository.count());
+        } else {
+            System.out.println("✅ Recipes retrieved: " + recipes.getTotalElements());
+        }
+            
+        return recipes.map(recipe -> modelMapper.map(recipe, RecipeDto.class));
     }
 
     @Override
@@ -144,35 +182,36 @@ public class RecipeServiceImpl implements RecipeService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Filters the provided list of recipes based on the user's dietary restrictions.
-     *
-     * @param recipes the list of candidate recipes
-     * @param userDietaryRestrictions the set of dietary restrictions (lower-case) from the current user
-     * @return a filtered list of recipes that are compatible with the user's dietary restrictions
-     */
-    private List<Recipe> filterRecipesByDietaryRestrictions(List<Recipe> recipes, Set<String> userDietaryRestrictions) {
-        return recipes.stream()
-                .filter(recipe -> isRecipeCompatibleWithDiet(recipe, userDietaryRestrictions))
-                .collect(Collectors.toList());
-    }
+/**
+ * Filters the provided list of recipes based on the user's dietary restrictions.
+ *
+ * @param recipes the list of candidate recipes
+ * @param userDietaryRestrictions the set of dietary restrictions (lower-case) from the current user
+ * @return a filtered list of recipes that are NOT restricted by the user's dietary restrictions
+ */
+private List<Recipe> filterRecipesByDietaryRestrictions(List<Recipe> recipes, Set<String> userDietaryRestrictions) {
+    return recipes.stream()
+            .filter(recipe -> isRecipeAllowedForUser(recipe, userDietaryRestrictions)) // ✅ 겹치지 않는 레시피만 반환
+            .collect(Collectors.toList());
+}
 
-    /**
-     * Checks whether a recipe is compatible with the user's dietary restrictions.
-     *
-     * @param recipe the recipe to check
-     * @param userDietaryRestrictions the set of dietary restrictions from the user
-     * @return true if the recipe is compatible, false otherwise
-     */
-    private boolean isRecipeCompatibleWithDiet(Recipe recipe, Set<String> userDietaryRestrictions) {
-        return recipe.getRecipeIngredients().stream()
-                .allMatch(ri -> {
-                    // Extract ingredient dietary restrictions as lower-case names
-                    Set<String> ingredientRestrictions = ri.getIngredient().getDietaryRestrictions().stream()
-                            .map(dr -> dr.getName().toLowerCase())
-                            .collect(Collectors.toSet());
-                    // The ingredient is compatible if all its restrictions are satisfied by the user
-                    return userDietaryRestrictions.containsAll(ingredientRestrictions);
-                });
-    }
+/**
+ * Checks whether a recipe does NOT conflict with the user's dietary restrictions.
+ *
+ * @param recipe the recipe to check
+ * @param userDietaryRestrictions the set of dietary restrictions from the user
+ * @return true if the recipe does NOT conflict with the user's dietary restrictions, false otherwise
+ */
+private boolean isRecipeAllowedForUser(Recipe recipe, Set<String> userDietaryRestrictions) {
+    return recipe.getRecipeIngredients().stream()
+            .allMatch(ri -> {
+                // Get the dietary restrictions for each ingredient (in lowercase)
+                Set<String> ingredientRestrictions = ri.getIngredient().getDietaryRestrictions().stream()
+                        .map(dr -> dr.getName().toLowerCase())
+                        .collect(Collectors.toSet());
+
+                // ✅ only retain recipes that do not contain any restricted ingredients
+                return ingredientRestrictions.stream().noneMatch(userDietaryRestrictions::contains);
+            });
+}
 }
