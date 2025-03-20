@@ -1,9 +1,9 @@
 /* Full-page background */
 body {
   margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
+  padding: 80px;
+  /* height: 100vh;
+  width: 100vw; */
   position: relative;
   display: flex;
   align-items: center;
