@@ -1,3 +1,5 @@
+let selectedIngredients = []; //to save them before sending to api
+
 async function fetchIngredients() {
   try {
     // Get JWT from localStorage (if available)
@@ -68,52 +70,102 @@ async function fetchIngredients() {
   }
 }
 
+// function handleSubmitIngredients() {
+//   // Get all selected ingredients (checkboxes)
+//   const selectedIngredients = [];
+//   const checkboxes = document.querySelectorAll('.ingredient-checkbox:checked');
+
+//   checkboxes.forEach(checkbox => {
+//     const ingredientId = checkbox.value;
+//     selectedIngredients.push({
+//       id: ingredientId,
+//       name: checkbox.nextElementSibling.querySelector('strong').textContent
+//     });
+//   });
+
+//   if (selectedIngredients.length > 0) {
+//     // Create a JSON object with the selected ingredients
+//     const ingredientsJSON = JSON.stringify(selectedIngredients, null, 2);
+
+//     // Log the JSON (or send it to the backend)
+//     console.log(ingredientsJSON);
+
+//     // Optionally, you can download the JSON file
+//     const blob = new Blob([ingredientsJSON], { type: 'application/json' });
+//     const link = document.createElement('a');
+//     link.href = URL.createObjectURL(blob);
+//     link.download = 'selected_ingredients.json';
+//     link.click();
+//   } else {
+//     alert('No ingredients selected.');
+//   }
+
+//   //TODO: make new api endpoint to put submitted ingredients in
+//   fetch('http://localhost:8080/api/submit-ingredients', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+//     },
+//     body: JSON.stringify(selectedIngredients)
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     alert('Ingredients submitted successfully!');
+//     switchToRecipesTab();
+//   })
+//   .catch(error => {
+//     console.error('Error submitting ingredients:', error);
+//     alert('Error submitting ingredients.');
+//     switchToRecipesTab();
+//   });
+// }
+
 function handleSubmitIngredients() {
-  // Get all selected ingredients (checkboxes)
   const selectedIngredients = [];
   const checkboxes = document.querySelectorAll('.ingredient-checkbox:checked');
 
   checkboxes.forEach(checkbox => {
-    const ingredientId = checkbox.value;
-    selectedIngredients.push({
-      id: ingredientId,
-      name: checkbox.nextElementSibling.querySelector('strong').textContent
-    });
+      const ingredientId = checkbox.value;
+      selectedIngredients.push({
+          id: ingredientId,
+          name: checkbox.nextElementSibling.querySelector('strong').textContent
+      });
   });
 
   if (selectedIngredients.length > 0) {
-    // Create a JSON object with the selected ingredients
-    const ingredientsJSON = JSON.stringify(selectedIngredients, null, 2);
+      // Store ingredients in localStorage
+      localStorage.setItem('selectedIngredients', JSON.stringify(selectedIngredients));
 
-    // Log the JSON (or send it to the backend)
-    console.log(ingredientsJSON);
-
-    // Optionally, you can download the JSON file
-    const blob = new Blob([ingredientsJSON], { type: 'application/json' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'selected_ingredients.json';
-    link.click();
+      // Switch to Recipes tab
+      switchToRecipesTab();
   } else {
-    alert('No ingredients selected.');
+      alert('No ingredients selected.');
+  }
+}
+
+
+
+function switchToRecipesTab() {
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const contentSections = document.querySelectorAll('.content');
+
+  // Remove 'active' class from all tabs and sections
+  tabButtons.forEach(btn => btn.classList.remove('active'));
+  contentSections.forEach(section => section.classList.remove('active'));
+
+  // Find and activate the Recipes tab and its content
+  const recipesTabButton = document.querySelector('.tab-button[data-tab="recipes"]');
+  const recipesContent = document.getElementById('recipes');
+
+  if (recipesTabButton && recipesContent) {
+    recipesTabButton.classList.add('active');
+    recipesContent.classList.add('active');
   }
 
-  fetch('http://localhost:8080/api/submit-ingredients', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
-    },
-    body: JSON.stringify(selectedIngredients)
-  })
-  .then(response => response.json())
-  .then(data => {
-    alert('Ingredients submitted successfully!');
-  })
-  .catch(error => {
-    console.error('Error submitting ingredients:', error);
-    alert('Error submitting ingredients.');
-  });
+  // Fetch recipes after switching tabs
+  fetchRecipes();
 }
+
 
 

@@ -1,3 +1,5 @@
+let selectedRecipe = null; //store to send to api
+
 document.addEventListener('DOMContentLoaded', () => {
     // Check if a JWT exists and if so, decode and add the Edit Recipes button for root users.
     const jwt = localStorage.getItem('jwtToken');
@@ -58,11 +60,34 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         
         // Append each recipe (customize the markup as needed).
+        // data.forEach(recipe => {
+        //   const recipeDiv = document.createElement('div');
+        //   recipeDiv.classList.add('recipe-item');
+        //   recipeDiv.innerHTML = `<h3>${recipe.name}</h3><p>${recipe.description}</p>`;
+        //   recipesContainer.appendChild(recipeDiv);
+        // });
         data.forEach(recipe => {
-          const recipeDiv = document.createElement('div');
-          recipeDiv.classList.add('recipe-item');
-          recipeDiv.innerHTML = `<h3>${recipe.name}</h3><p>${recipe.description}</p>`;
-          recipesContainer.appendChild(recipeDiv);
+          const recipeButton = document.createElement('button');
+          recipeButton.classList.add('recipe-button');
+
+          // Create separate elements for name and description
+          const recipeName = document.createElement('span');
+          recipeName.classList.add('recipe-name');
+          recipeName.textContent = recipe.name;
+
+          const recipeDescription = document.createElement('span');
+          recipeDescription.classList.add('recipe-description');
+          recipeDescription.textContent = recipe.description;
+
+          // Append both elements to the button
+          recipeButton.appendChild(recipeName);
+          recipeButton.appendChild(recipeDescription);
+
+          // Add click event listener
+          recipeButton.addEventListener('click', () => handleRecipeClick(recipe));
+
+          // Append the button to the container.
+          recipesContainer.appendChild(recipeButton);
         });
       } else {
         console.error('Failed to fetch recipes:', response.statusText);
@@ -70,4 +95,87 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
+  
+
+//   function handleRecipeClick(recipe) {
+//     console.log("Recipe clicked:", recipe);
+//     alert(`You selected: ${recipe.name}\n\nDescription: ${recipe.description}`);
+// }
+
+  // function handleRecipeClick(recipe) {
+  //   if (selectedIngredients.length === 0) {
+  //       alert("Please select ingredients first!");
+  //       return;
+  //   }
+
+  //   selectedRecipe = recipe;
+  //   console.log("Selected Recipe:", selectedRecipe);
+
+  //   // Send selected ingredients and recipe to the backend
+  //   submitIngredientsAndRecipe();
+  // }
+
+  function handleRecipeClick(recipe) {
+    // Retrieve ingredients from localStorage
+    const selectedIngredients = JSON.parse(localStorage.getItem('selectedIngredients'));
+
+    if (!selectedIngredients || selectedIngredients.length === 0) {
+        alert("Please select ingredients first!");
+        return;
+    }
+
+    const selectedRecipe = recipe;
+    console.log("Selected Recipe:", selectedRecipe);
+
+    // Send both ingredients and recipe to the backend
+    submitIngredientsAndRecipe(selectedIngredients, selectedRecipe);
   }
+
+
+  async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
+    const requestData = {
+        ingredients: selectedIngredients,
+        recipe: selectedRecipe
+    };
+
+    console.log("Submitting:", requestData);
+
+    // Create an object containing both the selected ingredients and the selected recipe
+    const data = {
+      ingredients: selectedIngredients,
+      recipe: selectedRecipe
+    };
+
+    // Log the data to the console for debugging
+    console.log("Ingredients and Recipe Data:", JSON.stringify(data, null, 2));
+
+    // Optionally, download the data as a JSON file for verification
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'ingredients_and_recipe.json'; // Set the filename for the download
+    link.click();
+
+    try {
+        const response = await fetch('http://localhost:8080/api/submit-selection', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (response.ok) {
+            alert('Ingredients and Recipe submitted successfully!');
+        } else {
+            console.error('Error submitting data:', response.statusText);
+            alert('Failed to submit selection.');
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error submitting selection.");
+    }
+  }
+
+}

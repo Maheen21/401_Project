@@ -114,6 +114,40 @@ h2 {
   box-shadow: 0 0 10px #FFF0A5; /* Glowing effect */
 }
 
+.recipe-button {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  padding: 15px; /* Increased padding for taller buttons */
+  background-color: white;
+  color: black; /* Dark text for contrast */
+  border: 2px solid #ddd; /* Light border for subtle styling */
+  border-radius: 8px; /* Slightly rounded edges */
+  font-size: 18px; /* Bigger text */
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.recipe-button:hover {
+  background-color: #f0f0f0; /* Light grey on hover */
+}
+
+.recipe-name {
+  font-size: 20px;
+  font-weight: bold;
+  display: block; /* Forces it to be on its own line */
+}
+
+.recipe-description {
+  font-size: 14px;
+  font-weight: normal;
+  color: #555;
+  margin-top: 5px;
+  display: block; /* Ensures it appears below the name */
+}
+
+
 
 
 /* Base body style for this page
