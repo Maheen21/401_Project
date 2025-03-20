@@ -92,6 +92,13 @@ h2 {
   }
 }
 
+/* Hover effect for tab buttons */
+.tab-button:hover {
+  box-shadow: 0 0 20px #f7e384; /* Glowing effect */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+
 
 /* Base body style for this page
 body {
