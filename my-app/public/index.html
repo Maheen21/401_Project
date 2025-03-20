@@ -3,19 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recipe Options</title>
+  <title>Recipes & Ingredients</title>
   <link rel="stylesheet" href="index.css" />
   <script src="index.js" defer></script>
   <script src="header.js" defer></script>
+  <script src="recipe.js" defer></script>
+  <script src="ingredients.js" defer></script>
 </head>
 <body>
-  <!-- Login Link at top-right -->
-  <a href="login.html" class="login-link">Login</a>
-  <div class="container">
-    <h2>Choose an Option</h2>
-    <button class="option-btn" onclick="window.location.href='recipes.html'">Select a Recipe</button>
-    <button class="option-btn photo-upload" onclick="window.location.href='/photo-upload'">Photo Upload Ingredients</button>
-    <button class="option-btn" onclick="window.location.href='/enter-ingredients'">Enter Ingredients</button>
+  <div class="tab-container">
+    <div class="tab-header">
+      <button class="tab-button active" data-tab="ingredients">Ingredients</button>
+      <button class="tab-button" data-tab="recipes">Recipes</button>
+    </div>
+    <div class="tab-content">
+      <div id="ingredients" class="content active">
+        <h2>Ingredients</h2>
+        <p>Select an ingredient from the list below:</p>
+        <div id="ingredientsList"></div>
+      </div>
+      <div id="recipes" class="content">
+        <h2>Recipes</h2>
+        <p>Here are the available dishes.</p>
+        <!-- Add your recipe content here -->
+      </div>
+    </div>
   </div>
 </body>
 </html>
