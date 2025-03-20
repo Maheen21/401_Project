@@ -1,4 +1,3 @@
-// filepath: c:\Users\User\Desktop\Winter25\SENG401\401_Project\backend\dishcraft\src\main\java\com\dishcraft\config\CorsConfig.java
 package com.dishcraft.config;
 
 import org.springframework.context.annotation.Bean;
@@ -14,8 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000")
-                        .allowedOrigins("http://localhost:8080")
+                        .allowedOrigins("http://localhost:3000", "http://localhost:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }
