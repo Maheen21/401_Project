@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_swagger import swagger
+#from flask_swagger import swagger
 from flasgger import Swagger
 import google.generativeai as genai
 
