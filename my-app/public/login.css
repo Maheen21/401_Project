@@ -5,7 +5,12 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
+  background-image: url("/my-app/public/bgs/seamless-3289975_1920.png"); /* Replace with the path to your square image */
+  background-size: cover; /* Ensures the image covers the entire screen */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed;
 }
 
 .container {
@@ -54,6 +59,150 @@ select {
 .btn {
   width: 100%;
   padding: 10px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Add smooth transitions */
+}
+
+.btn:hover {
+  background-color: #45a049; /* Darker Green */
+  box-shadow: 0 0 10px #FFF0A5; /* Glowing effect */
+}
+
+.guest-btn {
+  background-color: #FFB03B; /* Red */
+  margin-top: 10px;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Add smooth transitions */
+}
+
+.guest-btn:hover {
+  background-color: #fdbf61; /* Darker Red */
+  box-shadow: 0 0 10px #FFF0A5; /* Glowing effect */
+}
+
+.register-btn {
+  background-color: #B64926; /* Blue */
+  margin-top: 20px;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Add smooth transitions */
+}
+
+.register-btn:hover {
+  background-color: #cf6947; /* Darker Blue */
+  box-shadow: 0 0 10px #FFF0A5; /* Glowing effect */
+}
+
+/* Forgot Password Link */
+.forgot-password {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-password a {
+  color: #B64926; /* Blue */
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Initially hide the register container */
+#register-container {
+  display: none;
+}
+
+#login-container { 
+  width: 420px;
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+  border: 2px solid rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(300px); /* Adjust the blur value as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #050505;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+#register-container {
+  width: 420px;
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+  border: 2px solid rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(300px); /* Adjust the blur value as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #050505;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+
+/* body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  position: relative;
+}
+
+/* Back Button inside the login box 
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Add extra top margin so the heading doesn't overlap the back button 
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+/* Adjust input fields 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+  width: 90%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Common Button Styles 
+.btn {
+  width: 100%;
+  padding: 10px;
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -80,7 +229,7 @@ select {
   background-color: #0056b3;
 }
 
-/* Forgot Password Link */
+/* Forgot Password Link 
 .forgot-password {
   text-align: center;
   margin-top: 10px;
@@ -93,7 +242,7 @@ select {
   text-decoration: underline;
 }
 
-/* Initially hide the register container */
+/* Initially hide the register container 
 #register-container {
   display: none;
-}
+} */
