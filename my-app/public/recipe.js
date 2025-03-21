@@ -124,6 +124,11 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
       const result = await response.json();
       console.log("LLM Response:", result);
       alert("LLM Response Received: " + result.response);
+      // Store the LLM response in localStorage
+      localStorage.setItem('llmResponse', JSON.stringify(result.response));
+
+      // Redirect to output.html
+      window.location.href = 'output.html';
     } else {
       console.error('Error contacting LLM:', response.statusText);
       alert('Failed to fetch suggestions.');
