@@ -6,44 +6,59 @@
   <title>The Flavor Fix | Recipe</title>
   <link rel="shortcut icon" href="logo_main.png" type="image/x-icon">
   <link rel="stylesheet" href="output.css" />
+  <script src="header.js" defer></script>
 </head>
 <body>
 
+
   <div class="section recipe">
-    <h3>Recipe</h3>
+    <h2>Recipe</h2>
     <p id="recipe-description">
       <!-- Recipe description will be populated here -->
     </p>
   </div>
 
-  <div class="section llm-response">
+
+  <!-- <div class="section llm-response">
     <h3>LLM Response</h3>
-    <p id="llm-response">
+    <p id="llm-response"> -->
       <!-- LLM response will be populated here -->
-    </p>
-  </div>
+    <!-- </p>
+  </div> -->
+
 
   <script>
     // Fetch the saved LLM response from localStorage
     const llmResponse = localStorage.getItem('llmResponse');
 
+
     if (llmResponse) {
       // Display the response
       const parsedResponse = JSON.parse(llmResponse);
 
+
       const recipeDescription = document.getElementById('recipe-description');
       recipeDescription.textContent = parsedResponse || 'No response available!';
+      // recipeDescription.textContent = llmResponse;
 
-      const llmResponseElement = document.getElementById('llm-response');
-      llmResponseElement.textContent = parsedResponse || 'No suggestions available!';
+
+      // const llmResponseElement = document.getElementById('llm-response');
+      // llmResponseElement.textContent = parsedResponse || 'No suggestions available!';
     } else {
       console.error('No LLM response found in localStorage');
       alert('No suggestions available!');
     }
   </script>
 
+
 </body>
 </html>
+
+
+
+
+
+
 
 
 <!-- <!DOCTYPE html>

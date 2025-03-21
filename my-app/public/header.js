@@ -87,4 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = 'admin.html'; // Adjust this URL to your admin page.
     });
   }
+
+  // const homeBtn = document.getElementById("home-btn");
+  // if (homeBtn) {
+  //   homeBtn.addEventListener('click', function() {
+  //     window.location.href = 'index.html'; // Adjust this URL to your home page.
+  //   });
+  // }
 });
