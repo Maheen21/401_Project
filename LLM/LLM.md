@@ -18,7 +18,7 @@ The LLM directory contains the necessary files to run a Flask-based API that uti
         * `/clear` (POST): Clears the conversation history.
         * `/start` (POST): Starts a new conversation with an initial input.
         * `/continue` (POST): Continues an existing conversation with the AI.
-        * `/spec` (GET): Provides the Swagger API documentation.
+ 
 
 3.  **requirements.txt**
 
@@ -52,7 +52,7 @@ The LLM directory contains the necessary files to run a Flask-based API that uti
 | `/clear`   | POST   | Clears the conversation history.        |
 | `/start`   | POST   | Starts a new conversation with an initial input. |
 | `/continue` | POST   | Continues an ongoing conversation.          |
-| `/spec`    | GET    | Provides Swagger API documentation.      |
+
 
 ## Notes
 
