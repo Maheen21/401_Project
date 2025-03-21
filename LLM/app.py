@@ -97,11 +97,22 @@ def ContinueConv(input_str):
         return {"response": response.text}
     else:
         return {"error": "No response received from AI."}
+#get some system environment variables
+import os
+
+#get cors information from the environment
+cors_origins = os.getenv('CORS', 'http://localhost:3000') #3000 is the default port for react
+
+if cors_origins != "http://localhost:3000":
+    cors_origins = [origin.strip() for origin in cors_origins.split(",")]
+    
 
 # Initialize the Flask application
 app = Flask(__name__)
 swagger = Swagger(app)
-CORS(app)
+print(cors_origins)
+# Enable CORS for the Flask app
+CORS(app, origins=cors_origins)
 # REST API endpoint to clear the conversation history
 @app.route('/clear', methods=['POST'])
 def clear_endpoint():
