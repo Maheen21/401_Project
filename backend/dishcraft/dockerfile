@@ -11,4 +11,4 @@ COPY target/dishcraft-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 
 # Run the jar file with JVM option to pass the active profile from environment variable
-ENTRYPOINT ["sh", "-c", "exec java -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE:-devdocker} -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "exec java -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE:-production} -jar app.jar"]
