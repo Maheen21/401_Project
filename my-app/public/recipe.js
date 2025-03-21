@@ -110,7 +110,7 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
   console.log("Sending data to LLM:", requestData);
 
   try {
-    const response = await fetch('http://localhost:5000/start', { // Adjust the LLM API URL
+    const response = await fetch('https://dishcraft-llm-k6snsjrexa-uc.a.run.app/start', { // Adjust the LLM API URL
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
