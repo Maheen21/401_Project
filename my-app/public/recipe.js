@@ -123,7 +123,7 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
     if (response.ok) {
       const result = await response.json();
       console.log("LLM Response:", result);
-      alert("LLM Response Received: " + result.response);
+      //alert("LLM Response Received: " + result.response);
       // Store the LLM response in localStorage
       localStorage.setItem('llmResponse', JSON.stringify(result.response));
 
