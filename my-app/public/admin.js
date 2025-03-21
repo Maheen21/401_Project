@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadIngredients() {
     try {
       const token = localStorage.getItem('jwtToken');
-      const response = await fetch('http://localhost:8080/api/ingredients/all', {
+      const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/ingredients/all', {
         method: 'GET',
         headers: {
           'Accept': '*/*',
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     try {
       const token = localStorage.getItem('jwtToken');
-      const response = await fetch('http://localhost:8080/api/recipes', {
+      const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/recipes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchRecipesBtn.addEventListener('click', async () => {
       try {
         const token = localStorage.getItem('jwtToken');
-        const response = await fetch('http://localhost:8080/api/recipes/all', {
+        const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/recipes/all', {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         (async () => {
           try {
             const token = localStorage.getItem('jwtToken');
-            const response = await fetch(`http://localhost:8080/api/recipe/${updatedRecipe.id}`, {
+            const response = await fetch(`https://dishcraft-api-414213457313.us-central1.run.app/api/recipe/${updatedRecipe.id}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
         (async () => {
           try {
             const token = localStorage.getItem('jwtToken');
-            const response = await fetch(`http://localhost:8080/api/recipes/${recipeObj.id}`, {
+            const response = await fetch(`https://dishcraft-api-414213457313.us-central1.run.app/api/recipes/${recipeObj.id}`, {
               method: 'DELETE',
               headers: {
                 'Authorization': token ? `Bearer ${token}` : ''

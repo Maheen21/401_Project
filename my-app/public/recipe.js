@@ -36,7 +36,7 @@ async function fetchRecipes() {
   try {
     // Replace with your actual backend endpoint.
     const token = localStorage.getItem('jwtToken');
-    const response = await fetch('http://localhost:8080/api/recipes/all', {
+    const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/recipes/all', {
       method: 'GET',
       headers: {
         'Accept': '*/*',
@@ -204,7 +204,7 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
 //       // Replace with your actual backend endpoint.
 //       const token = localStorage.getItem('jwtToken');
 
-//       const response = await fetch('http://localhost:8080/api/recipes/all', {
+//       const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/recipes/all', {
 //         method: 'GET',
 //         headers: {
 //           'Accept': '*/*',
@@ -345,7 +345,7 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
 //   //     link.click();
   
 //   //     // Submit the data to the backend
-//   //     const response = await fetch('http://localhost:8080/api/submit-selection', {
+//   //     const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/submit-selection', {
 //   //       method: 'POST',
 //   //       headers: {
 //   //         'Content-Type': 'application/json',
@@ -426,7 +426,7 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
 //   //   link.click();
 
 //   //   try {
-//   //       const response = await fetch('http://localhost:8080/api/submit-selection', {
+//   //       const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/submit-selection', {
 //   //           method: 'POST',
 //   //           headers: {
 //   //               'Content-Type': 'application/json',

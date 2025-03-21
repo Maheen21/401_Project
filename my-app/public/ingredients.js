@@ -6,7 +6,7 @@ async function fetchIngredients() {
     const token = localStorage.getItem('jwtToken');
 
     // Replace with your actual backend endpoint for ingredients.
-    const response = await fetch('http://localhost:8080/api/ingredients/all', {
+    const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/ingredients/all', {
       method: 'GET',
       headers: {
         'Accept': '*/*',
@@ -101,7 +101,7 @@ async function fetchIngredients() {
 //   }
 
 //   //TODO: make new api endpoint to put submitted ingredients in
-//   fetch('http://localhost:8080/api/submit-ingredients', {
+//   fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/submit-ingredients', {
 //     method: 'POST',
 //     headers: {
 //       'Content-Type': 'application/json',
