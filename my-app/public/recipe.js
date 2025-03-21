@@ -123,31 +123,9 @@ async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
     if (response.ok) {
       const result = await response.json();
       console.log("LLM Response:", result);
-      //alert("LLM Response Received: " + result.response);
-      // Store the LLM response in localStorage
-      localStorage.setItem('llmResponse', JSON.stringify(result.response));
-
-      // Format the response into plain text
-      // let formattedResponse = `Recipe: ${result.recipe}\n\n`;
-
-      // // Format missing ingredients
-      // formattedResponse += 'Missing Ingredients:\n';
-      // for (const [ingredient, suggestion] of Object.entries(result.missingIngredients)) {
-      //   formattedResponse += `${ingredient}: ${suggestion}\n`;
-      // }
-
-      // // Format the steps
-      // formattedResponse += '\nSteps:\n';
-      // result.steps.forEach((step, index) => {
-      //   formattedResponse += `${index + 1}. ${step}\n`;
-      // });
-
-      // Clean up the string to remove any unwanted escape characters or formatting
-      // formattedResponse = formattedResponse.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-
-      // Store the plain text formatted response in localStorage
-      // localStorage.setItem('llmResponse', formattedResponse);
-
+    
+      localStorage.setItem('llmResponse', result.response);
+    
       // Redirect to output.html
       window.location.href = 'output.html';
     } else {

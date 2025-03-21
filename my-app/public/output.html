@@ -28,28 +28,73 @@
 
 
   <script>
-    // Fetch the saved LLM response from localStorage
-    const llmResponse = localStorage.getItem('llmResponse');
+    let savedDataRaw = localStorage.getItem('llmResponse');
+    console.log('Raw savedData:', savedDataRaw);
 
+    if (savedDataRaw) {
+      try {
+        // Remove markdown formatting (```json and ```)
+        savedDataRaw = savedDataRaw.replace(/```json/g, '').replace(/```/g, '');
+        // Trim any extra whitespace or line breaks
+        savedDataRaw = savedDataRaw.trim();
 
-    if (llmResponse) {
-      // Display the response
-      const parsedResponse = JSON.parse(llmResponse);
+        // Parse the JSON string into an object
+        const savedData = JSON.parse(savedDataRaw);
+        console.log('Parsed savedData:', savedData);
 
+        // Validate the parsed data structure
+        if (
+          savedData &&
+          savedData.recipe !== undefined &&
+          savedData.missingIngredients !== undefined &&
+          savedData.steps !== undefined
+        ) {
+          const recipe = savedData.recipe || 'No recipe title';
+          const missingIngredients = savedData.missingIngredients || {};
+          const steps = savedData.steps || [];
 
-      const recipeDescription = document.getElementById('recipe-description');
-      recipeDescription.textContent = parsedResponse || 'No response available!';
-      // recipeDescription.textContent = llmResponse;
+          console.log('recipe:', recipe);
+          console.log('missingIngredients:', missingIngredients);
+          console.log('steps:', steps);
 
+          // Render missing ingredients
+          let missingFormatted = '';
+          if (Object.keys(missingIngredients).length > 0) {
+            missingFormatted = Object.entries(missingIngredients)
+              .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
+              .join('');
+            missingFormatted = `<ul>${missingFormatted}</ul>`;
+          } else {
+            missingFormatted = '<p>None</p>';
+          }
 
-      // const llmResponseElement = document.getElementById('llm-response');
-      // llmResponseElement.textContent = parsedResponse || 'No suggestions available!';
+          // use <ul> instead of <ol> to avoid double numbering
+          const stepsFormatted = steps.length > 0
+            ? steps.map(step => `<li>${step}</li>`).join('')
+            : '<li>No steps provided.</li>';
+
+          const formattedText = `
+            <strong>🍽️ Recipe:</strong> ${recipe} <br><br>
+            <strong>📝 Missing Ingredients:</strong> ${missingFormatted} <br><br>
+            <strong>👨‍🍳 Steps:</strong> <ul>${stepsFormatted}</ul>
+          `;
+
+          document.getElementById('recipe-description').innerHTML = formattedText;
+        } else {
+          console.error('Invalid or incomplete data structure:', savedData);
+          document.getElementById('recipe-description').textContent = 'Invalid or incomplete data structure!';
+        }
+      } catch (error) {
+        console.error("Error parsing savedData:", error);
+        document.getElementById('recipe-description').textContent = 'Error parsing data!';
+      }
     } else {
-      console.error('No LLM response found in localStorage');
-      alert('No suggestions available!');
+      console.error('No data found in localStorage for key "llmResponse".');
+      document.getElementById('recipe-description').textContent = 'No recipe data found!';
     }
   </script>
-
+  
+  
 
 </body>
 </html>
