@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; 
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     z-index: 1000;
     box-sizing: border-box;
@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
       userRole = payload.role || "N/A";
       
       headerContent = `
-        <div>
+        <div style="display: flex; align-items: center;">
           Welcome, <strong>${username}</strong> (Role: ${userRole})
           ${userRole.toLowerCase() === 'root' ? `<button id="admin-btn" style="${buttonStyle} background:#FFB03B; color: #fff; margin-left: 10px;">Admin</button>` : ""}
         </div>
-        <div>
+        <div style="display: flex; align-items: center;">
           <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
           <button id="auth-btn" style="${buttonStyle} background: #e53935; color: #fff;">Logout</button>
         </div>
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Fallback for invalid token: show guest interface.
       headerContent = `
         <div>Welcome, Guest</div>
-        <div>
+        <div style="display: flex; align-items: center;">
           <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
           <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
         </div>
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // If no token exists, show login button.
     headerContent = `
       <div>Welcome, Guest</div>
-      <div>
+      <div style="display: flex; align-items: center;">
         <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
         <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
       </div>
