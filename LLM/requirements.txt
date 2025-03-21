@@ -2,3 +2,4 @@ flask
 flask-swagger
 google-generativeai
 flasgger
+flask_cors
