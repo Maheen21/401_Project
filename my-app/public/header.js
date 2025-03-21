@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
           ${userRole.toLowerCase() === 'root' ? `<button id="admin-btn" style="${buttonStyle} background: #007BFF; color: #fff; margin-left: 10px;">Admin</button>` : ""}
         </div>
         <div>
+          <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
           <button id="auth-btn" style="${buttonStyle} background: #e53935; color: #fff;">Logout</button>
         </div>
       `;
@@ -54,14 +55,20 @@ document.addEventListener('DOMContentLoaded', function() {
       // Fallback for invalid token: show guest interface.
       headerContent = `
         <div>Welcome, Guest</div>
-        <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
+        <div>
+          <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
+          <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
+        </div>
       `;
     }
   } else {
     // If no token exists, show login button.
     headerContent = `
       <div>Welcome, Guest</div>
-      <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
+      <div>
+        <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
+        <button id="auth-btn" style="${buttonStyle} background: #468966; color: #fff;">Login</button>
+      </div>
     `;
   }
   
@@ -87,11 +94,12 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = 'admin.html'; // Adjust this URL to your admin page.
     });
   }
-
-  // const homeBtn = document.getElementById("home-btn");
-  // if (homeBtn) {
-  //   homeBtn.addEventListener('click', function() {
-  //     window.location.href = 'index.html'; // Adjust this URL to your home page.
-  //   });
-  // }
+  
+  // Set up the Home button to navigate to the homepage.
+  const homeBtn = document.getElementById("home-btn");
+  if (homeBtn) {
+    homeBtn.addEventListener('click', function() {
+      window.location.href = 'index.html'; // Adjust this URL to your home page if needed.
+    });
+  }
 });

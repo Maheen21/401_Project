@@ -110,12 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ingredientGroups.forEach(group => {
       const nameInput = group.querySelector('.ingredient-name');
       const quantityInput = group.querySelector('.ingredient-quantity');
+      const unitInput = group.querySelector('.ingredient-unit');  // new field
       const requiredCheckbox = group.querySelector('.ingredient-required');
       const ingredientName = nameInput.value.trim();
       const ingredientId = (window.ingredientsMap && window.ingredientsMap[ingredientName]) || null;
       const quantity = parseFloat(quantityInput.value);
       const isRequired = requiredCheckbox.checked;
-      const unit = "";
+      const unit = unitInput ? unitInput.value.trim() : ""; // capture unit value
       
       if (ingredientName !== "") {
         recipeIngredients.push({
