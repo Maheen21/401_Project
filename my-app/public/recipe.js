@@ -141,66 +141,100 @@ document.addEventListener('DOMContentLoaded', () => {
     return ingredient;
   }
   
+  // async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
+  //   try {
+  //     // Fetch full ingredient details for each selected ingredient
+  //     const updatedIngredients = await Promise.all(selectedIngredients.map(async (ingredient) => {
+  //       const fullIngredient = await fetchIngredientDetails(ingredient.id);
+  //       return {
+  //         ...ingredient,
+  //         name: fullIngredient.name,
+  //         category: fullIngredient.category,
+  //         description: fullIngredient.description,
+  //         rank: fullIngredient.rank,
+  //         dietaryRestrictions: fullIngredient.dietaryRestrictions
+  //       };
+  //     }));
+  
+  //     // Prepare the data to be sent
+  //     const requestData = {
+  //       ingredients: updatedIngredients,
+  //       recipe: selectedRecipe
+  //     };
+  
+  //     console.log("Submitting:", requestData);
+  
+  //     // Create an object containing both the selected ingredients and the selected recipe
+  //     const data = {
+  //       ingredients: updatedIngredients,
+  //       recipe: selectedRecipe
+  //     };
+  
+  //     // Log the data to the console for debugging
+  //     console.log("Ingredients and Recipe Data:", JSON.stringify(data, null, 2));
+  
+  //     // Optionally, download the data as a JSON file for verification
+  //     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  //     const link = document.createElement('a');
+  //     link.href = URL.createObjectURL(blob);
+  //     link.download = 'ingredients_and_recipe.json'; // Set the filename for the download
+  //     link.click();
+  
+  //     // Submit the data to the backend
+  //     const response = await fetch('http://localhost:8080/api/submit-selection', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+  //       },
+  //       body: JSON.stringify(requestData)
+  //     });
+  
+  //     if (response.ok) {
+  //       alert('Ingredients and Recipe submitted successfully!');
+  //     } else {
+  //       console.error('Error submitting data:', response.statusText);
+  //       alert('Failed to submit selection.');
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     alert("Error submitting selection.");
+  //   }
+  // }
+
   async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
+    const requestData = {
+        ingredients: selectedIngredients,
+        recipe: selectedRecipe
+    };
+
+    console.log("Sending data to LLM:", requestData);
+
     try {
-      // Fetch full ingredient details for each selected ingredient
-      const updatedIngredients = await Promise.all(selectedIngredients.map(async (ingredient) => {
-        const fullIngredient = await fetchIngredientDetails(ingredient.id);
-        return {
-          ...ingredient,
-          name: fullIngredient.name,
-          category: fullIngredient.category,
-          description: fullIngredient.description,
-          rank: fullIngredient.rank,
-          dietaryRestrictions: fullIngredient.dietaryRestrictions
-        };
-      }));
-  
-      // Prepare the data to be sent
-      const requestData = {
-        ingredients: updatedIngredients,
-        recipe: selectedRecipe
-      };
-  
-      console.log("Submitting:", requestData);
-  
-      // Create an object containing both the selected ingredients and the selected recipe
-      const data = {
-        ingredients: updatedIngredients,
-        recipe: selectedRecipe
-      };
-  
-      // Log the data to the console for debugging
-      console.log("Ingredients and Recipe Data:", JSON.stringify(data, null, 2));
-  
-      // Optionally, download the data as a JSON file for verification
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'ingredients_and_recipe.json'; // Set the filename for the download
-      link.click();
-  
-      // Submit the data to the backend
-      const response = await fetch('http://localhost:8080/api/submit-selection', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
-        },
-        body: JSON.stringify(requestData)
-      });
-  
-      if (response.ok) {
-        alert('Ingredients and Recipe submitted successfully!');
-      } else {
-        console.error('Error submitting data:', response.statusText);
-        alert('Failed to submit selection.');
-      }
+        const response = await fetch('http://localhost:5000/start', { // Adjust the LLM API URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                input: `Given these ingredients: ${selectedIngredients.map(i => i.name).join(', ')}, and this recipe: ${selectedRecipe.name} (${selectedRecipe.description}), suggest ingredient substitutions and recipe improvements.`
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log("LLM Response:", result);
+            alert("LLM Response Received: " + result.reply);
+        } else {
+            console.error('Error contacting LLM:', response.statusText);
+            alert('Failed to fetch suggestions.');
+        }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error submitting selection.");
+        console.error("Error:", error);
+        alert("Error communicating with LLM.");
     }
   }
+
   
 
   // async function submitIngredientsAndRecipe(selectedIngredients, selectedRecipe) {
