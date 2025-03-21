@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = { usernameOrEmail, password };
     
             try {
-                const response = await fetch('http://localhost:8080/api/auth/login', {
+                const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = { username, email, password, dietaryRestrictions };
             
             try {
-                const response = await fetch('http://localhost:8080/api/auth/register', {
+                const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
