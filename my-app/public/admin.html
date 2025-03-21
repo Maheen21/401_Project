@@ -71,6 +71,7 @@
           <div class="list-recipes-column">
             <h2>Current Recipes</h2>
             <button id="fetchRecipesBtn" type="button">Fetch Recipes</button>
+            <input type="text" id="recipeSearchBar" placeholder="Search recipes by name" />
             <div id="recipesList">
               <!-- Recipes will be loaded here by admin.js -->
             </div>
@@ -80,11 +81,53 @@
       
       <!-- Ingredients Tab Content -->
       <div id="ingredients" class="content">
-        <h2>All Ingredients</h2>
-        <div id="ingredientsList">
-          <!-- Ingredients will be loaded here by admin.js -->
+        <div class="ingredient-tab-container">
+          <!-- Add Ingredient Column -->
+          <div class="add-ingredient-column">
+            <h3>Add Ingredient</h3>
+            <form id="addIngredientForm">
+              <div class="form-group">
+                <label for="ingredient-name">Ingredient Name:</label>
+                <input type="text" id="ingredient-name" required>
+              </div>
+              <div class="form-group">
+                <label for="ingredient-category">Category:</label>
+                <input type="text" id="ingredient-category" required>
+              </div>
+              <div class="form-group">
+                <label for="ingredient-description">Description:</label>
+                <textarea id="ingredient-description" rows="3" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="ingredient-rank">Rank:</label>
+                <input type="text" id="ingredient-rank" required>
+              </div>
+              <div class="form-group">
+                <label>Dietary Restrictions:</label><br>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="1" data-name="Gluten-Free"> Gluten-Free</label>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="2" data-name="Dairy-Free"> Dairy-Free</label>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="3" data-name="Nut-Free"> Nut-Free</label>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="4" data-name="Vegetarian"> Vegetarian</label>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="5" data-name="Vegan"> Vegan</label>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="6" data-name="Kosher"> Kosher</label>
+                <label><input type="checkbox" class="dietary-restriction-checkbox" value="7" data-name="Halal"> Halal</label>
+              </div>
+              <div class="form-group">
+                <button type="submit">Add Ingredient</button>
+              </div>
+            </form>
+          </div>
+          <!-- List Ingredients Column -->
+          <div class="list-ingredients-column">
+            <h2>All Ingredients</h2>
+            <button id="fetchIngredientsBtn" type="button" onclick="loadIngredientsForManagement()">Fetch Ingredients</button>
+            <input type="text" id="ingredientSearchBar" placeholder="Search by name" />
+            <div id="ingredientsList">
+              <!-- Ingredients will be loaded here by admin.js -->
+            </div>
+          </div>
         </div>
-      </div>
+      </div>      
     </div>
   </div>
 </body>

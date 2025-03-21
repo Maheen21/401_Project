@@ -183,3 +183,71 @@ button:hover {
 .recipe-item .controls button:hover {
   background: #0056b3;
 }
+
+/* Ingredients Tab Styles */
+.ingredient-item {
+  position: relative;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 50px 10px 10px;  /* Extra right padding for controls */
+  margin-bottom: 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ingredient-item h4 {
+  margin: 0 0 5px 0;
+}
+
+.ingredient-item .controls {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.ingredient-item .controls button {
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ingredient-item .controls button:hover {
+  background: #0056b3;
+}
+
+/* Two-column layout within the Recipes tab with 4:6 ratio */
+.recipe-tab-container {
+  display: flex;
+  gap: 20px;
+}
+
+.add-recipe-column {
+  flex: 4;
+}
+
+.list-recipes-column {
+  flex: 6;
+}
+
+/* Two-column layout for Ingredients tab */
+.ingredient-tab-container {
+  display: flex;
+  gap: 20px;
+}
+
+.add-ingredient-column {
+  flex: 4;
+}
+
+.list-ingredients-column {
+  flex: 6;
+}
