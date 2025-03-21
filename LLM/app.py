@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flasgger import Swagger
 import google.generativeai as genai
-
+from flask_cors import CORS
 # Configure the API key for Google Generative AI
 genai.configure(api_key="AIzaSyB6Z8R-k59SK3xoXL_vHEDAkhOyrh_XWHc")
 
@@ -101,7 +101,7 @@ def ContinueConv(input_str):
 # Initialize the Flask application
 app = Flask(__name__)
 swagger = Swagger(app)
-
+CORS(app)
 # REST API endpoint to clear the conversation history
 @app.route('/clear', methods=['POST'])
 def clear_endpoint():
