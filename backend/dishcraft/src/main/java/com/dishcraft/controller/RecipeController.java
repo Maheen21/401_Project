@@ -82,7 +82,6 @@ public class RecipeController {
         RecipeDto updatedRecipe = recipeService.updateRecipe(id, recipeDto);
         return ResponseEntity.ok(updatedRecipe);
     }
-
     /**
      * Delete a recipe.
      *

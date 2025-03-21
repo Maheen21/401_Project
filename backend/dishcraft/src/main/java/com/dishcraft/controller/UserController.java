@@ -5,13 +5,14 @@ import com.dishcraft.service.UserService;
 import com.dishcraft.dto.LoginRequest;
 import com.dishcraft.dto.JwtResponse;
 import com.dishcraft.dto.RefreshTokenRequest;
+import com.dishcraft.dto.UserResponseDto;
+import com.dishcraft.dto.UserRequestDto;
+
 import com.dishcraft.security.MyUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 // Import Spring Security classes.
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,9 +67,9 @@ public class UserController {
      * Output: The created User or a success message.
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody UserRequestDto dto) {
         // Typically, you would validate data and encode the password here.
-        User createdUser = userService.createUser(user);
+        User createdUser = userService.createUser(dto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
     

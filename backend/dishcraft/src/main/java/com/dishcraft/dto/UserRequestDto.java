@@ -10,9 +10,10 @@ import lombok.Data;
  *   Use this instead of exposing the full User entity.
  */
 @Data
-public class UserDto {
+public class UserRequestDto {
     private Long id;
     private String username;
     private String email;
+    private String password;
     private String role;  // Include role if needed
 }

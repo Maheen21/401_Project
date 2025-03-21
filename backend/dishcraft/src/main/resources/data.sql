@@ -11,127 +11,127 @@ INSERT INTO dietary_restrictions (id, name) VALUES (6, 'Kosher');
 INSERT INTO dietary_restrictions (id, name) VALUES (7, 'Halal');
 
 -- 2. ingredients table data (covering all ingredients from the 20 recipes)
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (1, 'spaghetti', 'Grain', 'Italian pasta made from wheat.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (2, 'pancetta', 'Meat', 'Cured pork belly.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (3, 'egg yolks', 'Protein', 'Yolks from chicken eggs.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (4, 'parmesan cheese', 'Dairy', 'Aged Italian cheese.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (5, 'chicken breast', 'Meat', 'Boneless chicken breast.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (6, 'soy sauce', 'Condiment', 'Fermented soybean sauce.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (7, 'bell peppers', 'Vegetable', 'Colorful sweet peppers.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (8, 'broccoli', 'Vegetable', 'Green cruciferous vegetable.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (9, 'flour', 'Grain', 'Ground wheat flour.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (10, 'butter', 'Dairy', 'Cream churned into fat.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (11, 'sugar', 'Sweetener', 'Granulated sweetener.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (12, 'chocolate chips', 'Sweetener', 'Small chocolate pieces.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (13, 'ground beef', 'Meat', 'Minced beef.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (14, 'taco seasoning', 'Spice', 'Blend of spices for tacos.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (15, 'tortillas', 'Grain', 'Flatbread for tacos.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (16, 'salsa', 'Condiment', 'Spicy tomato-based sauce.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (17, 'coconut milk', 'Dairy Alternative', 'Milk from coconut.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (18, 'curry paste', 'Spice', 'Spicy paste for curry.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (19, 'potatoes', 'Vegetable', 'Starchy root vegetable.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (20, 'carrots', 'Vegetable', 'Orange root vegetable.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (21, 'milk', 'Dairy', 'Cow’s milk.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (22, 'eggs', 'Protein', 'Whole chicken eggs.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (23, 'salmon fillets', 'Seafood', 'Fillets of salmon.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (24, 'lemon juice', 'Fruit', 'Juice from lemons.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (25, 'olive oil', 'Oil', 'Oil from olives.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (26, 'garlic', 'Spice', 'Aromatic bulb.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (27, 'pizza dough', 'Grain', 'Dough for pizza base.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (28, 'tomato sauce', 'Condiment', 'Sauce from tomatoes.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (29, 'mozzarella', 'Dairy', 'Soft Italian cheese.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (30, 'basil', 'Herb', 'Fresh basil leaves.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (31, 'lentils', 'Grain', 'Dried lentils.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (32, 'vegetable broth', 'Liquid', 'Broth from vegetables.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (33, 'onion', 'Vegetable', 'Bulb vegetable.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (34, 'cumin', 'Spice', 'Ground cumin seeds.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (35, 'apples', 'Fruit', 'Fresh apples.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (36, 'cinnamon', 'Spice', 'Ground cinnamon.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (37, 'romaine lettuce', 'Vegetable', 'Crisp lettuce.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (38, 'caesar dressing', 'Condiment', 'Creamy salad dressing.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (39, 'croutons', 'Grain', 'Toasted bread cubes.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (40, 'beef sirloin', 'Meat', 'Sirloin cut of beef.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (41, 'sour cream', 'Dairy', 'Fermented cream.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (42, 'mushrooms', 'Vegetable', 'Edible fungi.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (43, 'egg noodles', 'Grain', 'Flat wheat noodles.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (44, 'bananas', 'Fruit', 'Ripe bananas.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (45, 'fettuccine', 'Grain', 'Flat pasta.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (46, 'heavy cream', 'Dairy', 'High-fat cream.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (47, 'beef broth', 'Liquid', 'Broth from beef.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (48, 'baguette', 'Grain', 'French bread.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (49, 'gruyere cheese', 'Dairy', 'Swiss cheese.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (50, 'shrimp', 'Seafood', 'Fresh shrimp.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (51, 'linguine', 'Grain', 'Thin pasta.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (52, 'blueberries', 'Fruit', 'Fresh blueberries.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (53, 'lamb leg', 'Meat', 'Leg of lamb.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (54, 'rosemary', 'Herb', 'Fresh rosemary.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (55, 'pumpkin', 'Vegetable', 'Fresh pumpkin.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (56, 'cream', 'Dairy', 'Light cream.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (57, 'vegetable stock', 'Liquid', 'Stock from vegetables.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (58, 'mascarpone', 'Dairy', 'Italian cream cheese.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (59, 'ladyfingers', 'Grain', 'Light sponge biscuits.', 'MAIN');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (60, 'coffee', 'Beverage', 'Brewed coffee.', 'SUB');
-INSERT INTO ingredients (id, name, category, description, rank) 
+INSERT INTO ingredients (id, name, category, description, ingredient_rank) 
 VALUES (61, 'cocoa powder', 'Sweetener', 'Unsweetened cocoa.', 'SUB');
 
 -- 3. ingredient_dietary_restrictions join table data
