@@ -133,4 +133,40 @@ Before deploying the frontend, **API endpoint values must be updated** in the Re
 
 The frontend is fully decoupled from the backend, allowing for flexible deployment and easy integration with AI-powered enhancements.
 
+## 🧠 AI Layer (Python LLM API)
+
+The AI component of **Dishcraft** is implemented as a lightweight Flask server that interacts with Google’s Gemini model via the Generative AI SDK. Its purpose is to enrich basic recipe data by generating:
+
+- Step-by-step cooking instructions
+- Ingredient substitutions based on user inventory
+
+### 🎯 Key Responsibilities
+
+- Receive structured recipe input (title, ingredients, available ingredients, and short description)
+- Generate a consistent AI-powered response to guide the cooking process
+- Adjust instructions based on missing or substituted ingredients
+
+### 📌 Endpoints Used
+
+- `POST /start`  
+  Starts a new LLM session with user input. This is the **only** endpoint currently used by the Dishcraft frontend.
+
+> Other endpoints like `/continue` and `/clear` exist for managing session state, but are not actively used in the current implementation.
+
+### ⚙️ Tech Stack
+
+- **Flask** (Web server)
+- **Flasgger** (Swagger integration for API docs)
+- **Google Generative AI SDK** (Gemini model)
+- **Flask-CORS** (for cross-origin frontend access)
+
+### ⚙️ Environment Configuration
+
+- **CORS origins** are configured through the `CORS` environment variable  
+  (default: `http://localhost:3000` for local React development)
+- The Gemini API key is currently embedded in the code for development purposes, but it will be moved to environment variable management in a future version to enhance security and flexibility.
+
+---
+
+This AI layer operates independently from the main backend and is designed to be stateless and easily replaceable or extendable.
 
