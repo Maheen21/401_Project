@@ -10,22 +10,29 @@
 </head>
 <body>
 
-
-  <div class="section recipe">
+  <!-- Panel 1: Recipe -->
+  <div class="glass-panel">
     <h2>Recipe</h2>
-    <p id="recipe-description">
-      <!-- Recipe description will be populated here -->
+    <p id="recipe-name">
+      <!-- Recipe name will be populated here -->
     </p>
   </div>
 
+  <!-- Panel 2: Missing Ingredients -->
+  <div class="glass-panel">
+    <h3>Missing Ingredients</h3>
+    <div id="missing-ingredients">
+      <!-- Missing ingredients will be populated here -->
+    </div>
+  </div>
 
-  <!-- <div class="section llm-response">
-    <h3>LLM Response</h3>
-    <p id="llm-response"> -->
-      <!-- LLM response will be populated here -->
-    <!-- </p>
-  </div> -->
-
+  <!-- Panel 3: Steps -->
+  <div class="glass-panel">
+    <h3>Steps</h3>
+    <div id="steps">
+      <!-- Steps will be populated here -->
+    </div>
+  </div>
 
   <script>
     let savedDataRaw = localStorage.getItem('llmResponse');
@@ -57,53 +64,41 @@
           console.log('missingIngredients:', missingIngredients);
           console.log('steps:', steps);
 
-          // Render missing ingredients
+          // recipe name
+          document.getElementById('recipe-name').textContent = recipe;
+
+          // missing ingredients
           let missingFormatted = '';
           if (Object.keys(missingIngredients).length > 0) {
             missingFormatted = Object.entries(missingIngredients)
-              .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
+              .map(([key, value]) => `<div><strong>${key}:</strong> ${value}</div>`)
               .join('');
-            missingFormatted = `<ul>${missingFormatted}</ul>`;
           } else {
             missingFormatted = '<p>None</p>';
           }
+          document.getElementById('missing-ingredients').innerHTML = missingFormatted;
 
-          // use <ul> instead of <ol> to avoid double numbering
+          // steps with line breaks
           const stepsFormatted = steps.length > 0
-            ? steps.map(step => `<li>${step}</li>`).join('')
-            : '<li>No steps provided.</li>';
-
-          const formattedText = `
-            <strong>🍽️ Recipe:</strong> ${recipe} <br><br>
-            <strong>📝 Missing Ingredients:</strong> ${missingFormatted} <br><br>
-            <strong>👨‍🍳 Steps:</strong> <ul>${stepsFormatted}</ul>
-          `;
-
-          document.getElementById('recipe-description').innerHTML = formattedText;
+            ? steps.map(step => `${step}<br><br>`).join('')
+            : 'No steps provided.';
+          document.getElementById('steps').innerHTML = stepsFormatted;
         } else {
           console.error('Invalid or incomplete data structure:', savedData);
-          document.getElementById('recipe-description').textContent = 'Invalid or incomplete data structure!';
+          document.getElementById('recipe-name').textContent = 'Invalid or incomplete data structure!';
         }
       } catch (error) {
         console.error("Error parsing savedData:", error);
-        document.getElementById('recipe-description').textContent = 'Error parsing data!';
+        document.getElementById('recipe-name').textContent = 'Error parsing data!';
       }
     } else {
       console.error('No data found in localStorage for key "llmResponse".');
-      document.getElementById('recipe-description').textContent = 'No recipe data found!';
+      document.getElementById('recipe-name').textContent = 'No recipe data found!';
     }
   </script>
-  
-  
 
 </body>
 </html>
-
-
-
-
-
-
 
 
 <!-- <!DOCTYPE html>
