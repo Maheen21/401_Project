@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Flavor Fix | Login | Register</title>
+  <link rel="stylesheet" href="login.css" />
+  <script src="login.js" defer></script>
+  <link rel="shortcut icon" href="logo_main.png" type="image/x-icon">
+</head>
+<body>
+  <!-- Login Container -->
+  <div class="container" id="login-container">
+    <!-- Back Arrow Button inside the login box -->
+    <button class="back-button" onclick="window.location.href='index.html'">&#8592;</button>
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+    <button type="button" class="btn register-btn" onclick="showRegister()">Register</button>
+    <button type="button" class="btn guest-btn" onclick="window.location.href='index.html'">Sign in as Guest</button>
+    <div class="forgot-password">
+      <a href="/forgot-password">Forgot password?</a>
+    </div>
+  </div>
+  
+  <!-- Register Container -->
+  <div class="container" id="register-container">
+    <h2>Register</h2>
+    <form action="/submit-register" method="POST">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit" class="btn">Register</button>
+    </form>
+    <button type="button" class="btn guest-btn" onclick="showLogin()">Back to Login</button>
+  </div>
+</body>
+</html>

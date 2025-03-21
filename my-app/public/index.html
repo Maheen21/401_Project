@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Flavor Fix | Home</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="index.js" defer></script>
+  <script src="header.js" defer></script>
+  <script src="recipe.js" defer></script>
+  <script src="ingredients.js" defer></script>
+  <link rel="shortcut icon" href="logo_main.png" type="image/x-icon">
+</head>
+<body>
+  <div class="tab-container">
+    <div class="tab-header">
+      <button class="tab-button active" data-tab="ingredients">Ingredients</button>
+      <button class="tab-button" data-tab="recipes">Recipes</button>
+    </div>
+    <div class="tab-content">
+      <div id="ingredients" class="content active">
+        <h2>Ingredients</h2>
+        <p>Select an ingredient from the list below:</p>
+        <div id="ingredientsList"></div>
+        <button id="submit-ingredients" class="btn">Submit Ingredients</button>
+      </div>
+      <div id="recipes" class="content">
+        <h2>Recipes</h2>
+        <p>Here are the available dishes.</p>
+        <!-- Add your recipe content here -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

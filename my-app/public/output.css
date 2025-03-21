@@ -1,0 +1,78 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Disable horizontal scrolling */
+  }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 80px;
+    /* height: 100vh;
+    width: 100vw; */
+    position: relative;
+    display: flex;
+    flex-direction: column;  /* Ensure elements stack vertically */
+    align-items: center;
+    justify-content: flex-start; /* Align content from the top */
+  }
+  
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("bgs/seamless-3289975_1920.png") no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.85; /* Less alpha for background image */
+    z-index: -1; /* Make sure it's behind the content */
+  }
+  
+  h2 {
+    color: #146832;
+    margin-bottom: 20px; /* Add space below the heading */
+  }
+  
+  .section {
+    margin-bottom: 20px;
+    width: 90%; /* Ensure sections take full width */
+    max-width: 1200px; /* Limit maximum width */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    /* margin: 0 auto; */
+  }
+  
+  .missing-ingredients, .alternative-ingredients, .recipe {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.7); /* Transparent white background */
+    backdrop-filter: blur(8px); /* Frosted glass effect */
+    width: 100%; /* Ensure full width */
+    max-width: 900px;
+    /* margin: 0 auto; */
+  }
+  
+  .missing-ingredients ul, .alternative-ingredients ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .missing-ingredients li, .alternative-ingredients li {
+    display: block; /* Ensure they stack */
+    padding: 5px 0;
+    margin-bottom: 10px; /* Add spacing between items */
+  }
+  
+  .recipe {
+    white-space: pre-wrap; /* Keep line breaks */
+    max-width: 600px;
+  }
+  
