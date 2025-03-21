@@ -1,9 +1,12 @@
 package com.dishcraft.service;
 
+import com.dishcraft.dto.UserResponseDto;
 import com.dishcraft.model.User;
 import com.dishcraft.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
+import com.dishcraft.dto.UserRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,38 +36,74 @@ public class UserService {
     /*
      * Retrieve all users.
      */
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDto> getAllUsers() {
+        return userRepository.findAll().stream()
+            .map(user -> {
+                UserResponseDto userResponseDto = new UserResponseDto();
+                userResponseDto.setId(user.getId());
+                userResponseDto.setUsername(user.getUsername());
+                userResponseDto.setEmail(user.getEmail());
+                userResponseDto.setRole(user.getRole());
+                // Include role if needed
+                return userResponseDto;
+            })
+            .collect(Collectors.toList());
     }
 
     /*
      * Retrieve a user by its unique ID.
      */
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserResponseDto> getUserById(Long id) {
+        return userRepository.findById(id)
+            .map(user -> {
+                UserResponseDto userResponseDto = new UserResponseDto();
+                userResponseDto.setId(user.getId());
+                userResponseDto.setUsername(user.getUsername());
+                userResponseDto.setEmail(user.getEmail());
+                userResponseDto.setRole(user.getRole());
+                // Include role if needed
+                return userResponseDto;
+            });
     }
 
     /*
      * Create a new user, encrypting the password.
      */
-    public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User createUser(UserRequestDto dto) {
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(dto.getRole());
+        // Include role if needed
         return userRepository.save(user);
     }
 
     /*
      * Update an existing user by ID.
      */
-    public Optional<User> updateUser(Long id, User updatedUser) {
+    public Optional<UserResponseDto> updateUser(Long id, UserRequestDto dto) {
         return userRepository.findById(id)
             .map(user -> {
-                user.setUsername(updatedUser.getUsername());
-                user.setEmail(updatedUser.getEmail());
-                // If updating password, encrypt it
-                user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-                return userRepository.save(user);
+                user.setUsername(dto.getUsername());
+                user.setEmail(dto.getEmail());
+                
+                if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+                    user.setPassword(passwordEncoder.encode(dto.getPassword()));
+                }
+    
+                User updatedUser = userRepository.save(user);
+    
+                UserResponseDto responseDto = new UserResponseDto();
+                responseDto.setId(updatedUser.getId());
+                responseDto.setUsername(updatedUser.getUsername());
+                responseDto.setEmail(updatedUser.getEmail());
+    
+                return responseDto;
             });
     }
+    
+    
 
     /*
      * Delete a user by ID.
