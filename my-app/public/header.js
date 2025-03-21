@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
       headerContent = `
         <div>
           Welcome, <strong>${username}</strong> (Role: ${userRole})
-          ${userRole.toLowerCase() === 'root' ? `<button id="admin-btn" style="${buttonStyle} background:#4CAF50; color: #fff; margin-left: 10px;">Admin</button>` : ""}
+          ${userRole.toLowerCase() === 'root' ? `<button id="admin-btn" style="${buttonStyle} background:#FFB03B; color: #fff; margin-left: 10px;">Admin</button>` : ""}
         </div>
         <div>
           <button id="home-btn" style="${buttonStyle} background: #4CAF50; color: #fff; margin-right: 10px;">Home</button>
