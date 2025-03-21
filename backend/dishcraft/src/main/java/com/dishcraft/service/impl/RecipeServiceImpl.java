@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,6 +59,29 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDto createRecipe(RecipeDto recipeDto) {
         // Convert DTO to entity
         Recipe recipe = modelMapper.map(recipeDto, Recipe.class);
+
+        // Initialize the recipe ingredients collection
+        recipe.setRecipeIngredients(new ArrayList<>());
+
+        // if client sends recipeIngredients, process it
+
+        if (recipeDto.getRecipeIngredients() != null) {
+            for (RecipeIngredientDto riDto : recipeDto.getRecipeIngredients()) {
+                Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
+                        .orElseThrow(() -> new RuntimeException("Ingredient not found with id: " + riDto.getIngredientId()));
+                        // make new RecipeIngredient entity and give a parameters
+                RecipeIngredient recipeIngredient = new RecipeIngredient();
+                recipeIngredient.setRecipe(recipe);
+                recipeIngredient.setIngredient(ingredient);
+                recipeIngredient.setQuantity(riDto.getQuantity());
+                recipeIngredient.setUnit(riDto.getUnit());
+                recipeIngredient.setIsRequired(riDto.getIsRequired());
+                // add the RecipeIngredient entity to the Recipe entity
+                recipe.addIngredient(recipeIngredient);
+            }
+        }
+
+                
         Recipe savedRecipe = recipeRepository.save(recipe);
         // Convert the saved entity back to DTO
         return modelMapper.map(savedRecipe, RecipeDto.class);
