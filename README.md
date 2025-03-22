@@ -6,7 +6,7 @@ The system architecture separates concerns into three distinct layers:
 
 - **Frontend (React)**: A responsive and interactive user interface that communicates with backend services via REST APIs.
 - **Backend (Spring Boot)**: A scalable and secure API server that handles business logic, authentication, and database operations.
-- **AI Layer (Python LLM)**: A dedicated service that provides natural language processing capabilities, offering intelligent features powered by large language models.
+- **AI Layer (Python LLM)**: A dedicated service that provides natural language processing capabilities, offering intelligent features powered by the Google Gemini Flash 2.0 model.
 
 Dishcraft is designed with modularity, scalability, and maintainability in mind, making it ideal for teams looking to integrate AI-enhanced features into a traditional web application framework.
 
@@ -29,6 +29,47 @@ The backend database stores essential recipe data, including:
 - Concise cooking instructions  
 
 From this minimal data, Dishcraft leverages AI to deliver a richer, more interactive and adaptive cooking assistant experience.
+
+
+## 💻 Frontend (React + Nginx)
+
+The frontend of **Dishcraft** is built with **React** and follows a **Multi-Page Application (MPA) structure**, where different sections of the website are served as separate HTML files. The final production build is served using **Nginx** inside a Docker container.
+
+### 🧭 Responsibilities
+
+- Display recipe lists, details, and ingredient information via REST API calls.
+- Allow users to search for recipes by selecting multiple ingredients.
+- Communicate with the **Python LLM API** to:
+  - Suggest alternative ingredients.
+  - Generate detailed, AI-powered cooking instructions.
+- Handle JWT-based user authentication and authorization.
+- Provide an intuitive and responsive UI/UX optimized for desktop and mobile.
+
+### ⚙️ Tech Stack
+
+- **React** (User Interface)
+- **CSS & HTML** (Page structure and styling)
+- **Axios** (API communication)
+- **JWT handling** (Authentication & authorization)
+- **Nginx** (Production static file hosting)
+
+### 🚀 Deployment Workflow
+
+1. The React application is built using a lightweight Node.js environment.
+2. The build output (static HTML, CSS, and JavaScript files) is transferred to an **Nginx container**.
+3. Nginx serves these static files efficiently and handles client requests.
+
+### ⚠️ API Endpoint Configuration
+
+Before deploying the frontend, **API endpoint values must be updated** in the React code to ensure it connects to the correct backend server.
+
+- API URLs are currently **hardcoded** in files handling API requests.
+- These include recipe retrieval, ingredient search, and user authentication functions.
+- **Planned improvement:** API URLs will be managed using environment variables in a future update for easier configuration across different environments.
+
+---
+
+The frontend is fully decoupled from the backend, allowing for flexible deployment and easy integration with AI-powered enhancements.
 
 
 ## 🧩 Backend (Spring Boot)
@@ -92,46 +133,6 @@ This backend service forms the foundation of the Dishcraft application, providin
 
 
 
-
-## 💻 Frontend (React + Nginx)
-
-The frontend of **Dishcraft** is built with **React** and follows a **Multi-Page Application (MPA) structure**, where different sections of the website are served as separate HTML files. The final production build is served using **Nginx** inside a Docker container.
-
-### 🧭 Responsibilities
-
-- Display recipe lists, details, and ingredient information via REST API calls.
-- Allow users to search for recipes by selecting multiple ingredients.
-- Communicate with the **Python LLM API** to:
-  - Suggest alternative ingredients.
-  - Generate detailed, AI-powered cooking instructions.
-- Handle JWT-based user authentication and authorization.
-- Provide an intuitive and responsive UI/UX optimized for desktop and mobile.
-
-### ⚙️ Tech Stack
-
-- **React** (User Interface)
-- **CSS & HTML** (Page structure and styling)
-- **Axios** (API communication)
-- **JWT handling** (Authentication & authorization)
-- **Nginx** (Production static file hosting)
-
-### 🚀 Deployment Workflow
-
-1. The React application is built using a lightweight Node.js environment.
-2. The build output (static HTML, CSS, and JavaScript files) is transferred to an **Nginx container**.
-3. Nginx serves these static files efficiently and handles client requests.
-
-### ⚠️ API Endpoint Configuration
-
-Before deploying the frontend, **API endpoint values must be updated** in the React code to ensure it connects to the correct backend server.
-
-- API URLs are currently **hardcoded** in files handling API requests.
-- These include recipe retrieval, ingredient search, and user authentication functions.
-- **Planned improvement:** API URLs will be managed using environment variables in a future update for easier configuration across different environments.
-
----
-
-The frontend is fully decoupled from the backend, allowing for flexible deployment and easy integration with AI-powered enhancements.
 
 ## 🧠 AI Layer (Python LLM API)
 
