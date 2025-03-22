@@ -2,8 +2,12 @@ from flask import Flask, request, jsonify
 from flasgger import Swagger
 import google.generativeai as genai
 from flask_cors import CORS
+import os
+
+api_key = os.environ.get('API_KEY')
+
 # Configure the API key for Google Generative AI
-genai.configure(api_key="AIzaSyB6Z8R-k59SK3xoXL_vHEDAkhOyrh_XWHc")
+genai.configure(api_key)
 
 # Define the system prompt for the conversational AI
 system_prompt = """
@@ -98,7 +102,6 @@ def ContinueConv(input_str):
     else:
         return {"error": "No response received from AI."}
 #get some system environment variables
-import os
 
 #get cors information from the environment
 cors_origins = os.getenv('CORS', 'http://localhost:3000') #3000 is the default port for react
