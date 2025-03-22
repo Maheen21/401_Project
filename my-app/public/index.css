@@ -1,17 +1,25 @@
 body {
   font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  padding: 20px;
-  background-color: #f4f4f4;
+  background-image: url("bgs/seamless-3289975_1920.png"); /* Background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent white background */
+  backdrop-filter: blur(50px); /* Blur the background behind */
+  padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin-top: 900px; /* Prevent overlap with navbar */
 }
 
 h1 {
@@ -26,17 +34,28 @@ h1 {
 .recipe-list button {
   display: block;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #4CAF50;
-  color: white;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #ddd; /* Light border around button */
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  color: #333; /* Dark text for better contrast */
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease; /* Smooth transition for all changes */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .recipe-list button:hover {
-  background-color: #45a049;
+  background-color: rgba(255, 255, 255, 1); /* Fully opaque white on hover */
+  box-shadow: 0 8px 16px rgba(254, 200, 20, 0.2); /* Larger shadow on hover */
+  transform: translateY(-4px); /* Lift the button on hover */
+  border-color: #4CAF50; /* Subtle green border on hover */
+}
+
+.recipe-list button:active {
+  transform: translateY(-2px); /* Slightly compress the button when clicked */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* More intense shadow on click */
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly darker on click */
 }
