@@ -4,10 +4,10 @@ import google.generativeai as genai
 from flask_cors import CORS
 import os
 
-api_key = os.environ.get('API_KEY')
+api_keyenv = os.getenv('API_KEY')
 
 # Configure the API key for Google Generative AI
-genai.configure(api_key)
+genai.configure(api_key=api_keyenv)
 # actual key was hardcoded in the code, so we get a new key for the environment variable
 
 # Define the system prompt for the conversational AI
