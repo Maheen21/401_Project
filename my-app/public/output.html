@@ -40,34 +40,41 @@
 
     if (savedDataRaw) {
       try {
-        // Remove markdown formatting (```json and ```)
-        savedDataRaw = savedDataRaw.replace(/```json/g, '').replace(/```/g, '');
-        // Trim any extra whitespace or line breaks
-        savedDataRaw = savedDataRaw.trim();
-
-        // Parse the JSON string into an object
+        // Parse the outer JSON object (which contains the "response" field)
         const savedData = JSON.parse(savedDataRaw);
         console.log('Parsed savedData:', savedData);
 
+        // Extract the inner JSON string from the "response" field
+        let responseData = savedData.response;
+
+        // Remove Markdown formatting (```json and ```)
+        responseData = responseData.replace(/```json/g, '').replace(/```/g, '');
+        // Trim any extra whitespace or line breaks
+        responseData = responseData.trim();
+
+        // Parse the inner JSON string into an object
+        const parsedData = JSON.parse(responseData);
+        console.log('Parsed inner data:', parsedData);
+
         // Validate the parsed data structure
         if (
-          savedData &&
-          savedData.recipe !== undefined &&
-          savedData.missingIngredients !== undefined &&
-          savedData.steps !== undefined
+          parsedData &&
+          parsedData.recipe !== undefined &&
+          parsedData.missingIngredients !== undefined &&
+          parsedData.steps !== undefined
         ) {
-          const recipe = savedData.recipe || 'No recipe title';
-          const missingIngredients = savedData.missingIngredients || {};
-          const steps = savedData.steps || [];
+          const recipe = parsedData.recipe || 'No recipe title';
+          const missingIngredients = parsedData.missingIngredients || {};
+          const steps = parsedData.steps || [];
 
           console.log('recipe:', recipe);
           console.log('missingIngredients:', missingIngredients);
           console.log('steps:', steps);
 
-          // recipe name
+          // Display recipe name
           document.getElementById('recipe-name').textContent = recipe;
 
-          // missing ingredients
+          // Display missing ingredients
           let missingFormatted = '';
           if (Object.keys(missingIngredients).length > 0) {
             missingFormatted = Object.entries(missingIngredients)
@@ -78,13 +85,13 @@
           }
           document.getElementById('missing-ingredients').innerHTML = missingFormatted;
 
-          // steps with line breaks
+          // Display steps with line breaks
           const stepsFormatted = steps.length > 0
             ? steps.map(step => `${step}<br><br>`).join('')
             : 'No steps provided.';
           document.getElementById('steps').innerHTML = stepsFormatted;
         } else {
-          console.error('Invalid or incomplete data structure:', savedData);
+          console.error('Invalid or incomplete data structure:', parsedData);
           document.getElementById('recipe-name').textContent = 'Invalid or incomplete data structure!';
         }
       } catch (error) {
