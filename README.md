@@ -1,3 +1,6 @@
+> 🧪 University Project – Not for Commercial Use  
+> 📅 Last Updated: March 21, 2025  
+
 ## 🌐 Introduction
 
 **Dishcraft** is a full-stack, three-layer web application designed to deliver a seamless and intelligent user experience through a modern tech stack. Built with a React-based frontend, a robust Spring Boot API server, and a Python-powered LLM API endpoint, Dishcraft leverages a MySQL relational database to manage structured data efficiently.
@@ -9,6 +12,32 @@ The system architecture separates concerns into three distinct layers:
 - **AI Layer (Python LLM)**: A dedicated service that provides natural language processing capabilities, offering intelligent features powered by the Google Gemini Flash 2.0 model.
 
 Dishcraft is designed with modularity, scalability, and maintainability in mind, making it ideal for teams looking to integrate AI-enhanced features into a traditional web application framework.
+
+
+### 🧭 Git Branch Strategy & Documentation
+
+Our project follows a **layer-specific production branching strategy** rather than using a single `main` branch. Each core component of the system—frontend, backend, and LLM AI service—has its own dedicated production branch. This structure allows for independent deployment and CI/CD configuration per service.
+
+| Layer        | Production Branch             | Purpose |
+|--------------|-------------------------------|---------|
+| Frontend     | `frontend-prod`               | React frontend build and deployment via GCP |
+| Backend      | `backend-production-v0.1`     | Spring Boot API connected to MySQL |
+| LLM API      | `llm-prod-v01`                | Python Flask server using Gemini AI for recipe instruction generation |
+
+The `main` branch is present but unused; all meaningful production work is isolated within each layer's prod branch.
+
+To support consistent communication and documentation across the entire team, we also maintain a **`docs` branch**.  
+This branch contains a unified `README.md` file that documents:
+
+- System architecture
+- Setup instructions
+- API design
+- Deployment details
+- Known issues and fixes
+
+The `docs` branch acts as the **single source of truth** for the entire Dishcraft project. Other branches may have local README files for layer-specific setup, but all shared, cross-cutting documentation is centralized in `docs`.
+
+This branching model gave us the flexibility to iterate and deploy each component independently, while keeping our documentation clean, consistent, and accessible to all contributors.
 
 
 ## 🎯 Purpose
@@ -231,8 +260,6 @@ The entire Dishcraft system is deployed on **Google Cloud Platform**, utilizing 
 - **CORS restrictions are enabled on both the backend and LLM API**, allowing only requests from the deployed frontend domain.  
   This prevents direct access from unauthorized clients or external domains.
 - **JWT-based Authentication** is implemented on the backend to control access to protected endpoints.
-
-
 
 
 
