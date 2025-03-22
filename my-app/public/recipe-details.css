@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .recipe-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .recipe-details h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .recipe-details p {
+    color: #555;
+  }
+  
+  .ingredients-list {
+    margin-top: 20px;
+  }
+  
+  .ingredients-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ingredients-list li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ingredients-list input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  #submit-ingredients {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #submit-ingredients:hover {
+    background-color: #45a049;
+  }
+  
+  #back-button {
+    display: block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #back-button:hover {
+    background-color: #0056b3;
+  }
