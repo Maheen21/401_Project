@@ -170,3 +170,37 @@ The AI component of **Dishcraft** is implemented as a lightweight Flask server t
 
 This AI layer operates independently from the main backend and is designed to be stateless and easily replaceable or extendable.
 
+## 🗂 System Architecture Overview
+
+The overall system is deployed on **Google Cloud Platform**, using Cloud Run for all service layers. The architecture follows a modular, decoupled design with three main components:
+
+- **Frontend (React + Nginx)**: Served via Cloud Run, delivers the UI and communicates with the backend and AI service.
+- **Spring API Layer**: The core backend, responsible for recipe/ingredient data handling and database interaction.
+- **LLM API Layer (Python)**: A stateless AI module that uses Gemini to generate detailed cooking instructions and ingredient substitutions.
+- **MySQL Cloud SQL**: Managed database connected to the API layer via Serverless VPC access.
+
+### 🖼 Architecture Diagram
+
+![Dishcraft Architecture Overview](./docs/DEP-architecture.png)
+
+### 🔄 Data Flow Summary
+
+1. The **client** sends requests through the frontend.
+2. The **frontend** interacts with:
+   - The **Spring API Layer** for data (recipes, ingredients, auth)
+   - The **LLM API Layer** for AI-enhanced instructions
+3. The **Spring API Layer** accesses **Cloud SQL** to persist and retrieve structured data.
+4. The **LLM API Layer** sends requests to the **LLM service** (Google Gemini) and returns results to the frontend.
+
+## 🚀 Live Demo
+
+You can check out the live version of **Dishcraft** here:
+
+🔗 **[Dishcraft Live Demo](https://dishcraft-fe-414213457313.us-central1.run.app/)**
+
+This deployment runs on **Google Cloud Run** and connects to the full backend and AI services.
+
+## ⚖️ License
+
+This project is a university assignment and is **not licensed for public or commercial use**.  
+Unauthorized use, distribution, or modification of this code is prohibited.
