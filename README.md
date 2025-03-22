@@ -201,6 +201,39 @@ You can check out the live version of **Dishcraft** here:
 
 This deployment runs on **Google Cloud Run** and connects to the full backend and AI services.
 
+
+## 🚢 Deployment Details
+
+The entire Dishcraft system is deployed on **Google Cloud Platform**, utilizing Cloud Run for scalability, simplicity, and ease of CI/CD integration.
+
+### 🧩 Component Deployment
+
+| Component         | Platform           | Notes                                                                 |
+|------------------|--------------------|-----------------------------------------------------------------------|
+| **Frontend**      | Cloud Run (Docker) | Built with React, served via Nginx inside a Docker container         |
+| **Backend API**   | Cloud Run (Docker) | Spring Boot REST API connected to Cloud SQL via Serverless VPC       |
+| **LLM API**       | Cloud Run (Docker) | Flask-based Python server using Gemini LLM via Google Generative AI |
+| **Database**      | Cloud SQL (MySQL)  | Manages recipes, ingredients, and user data                          |
+
+### 🌐 Live Deployment URLs
+
+- **Frontend:**  
+  🔗 https://dishcraft-fe-414213457313.us-central1.run.app/
+
+- **Backend API & LLM API:**  
+  Accessed internally by the frontend.  
+  Not publicly documented to prevent unauthorized access.
+
+### 🛡 Security & Networking
+
+- All services run in **separate containers on Cloud Run**
+- **Serverless VPC Access** is used to connect the Spring API to the Cloud SQL database
+- **CORS restrictions are enabled on both the backend and LLM API**, allowing only requests from the deployed frontend domain.  
+  This prevents direct access from unauthorized clients or external domains.
+- **JWT-based Authentication** is implemented on the backend to control access to protected endpoints.
+
+
+
 ## ⚖️ License
 
 This project is a university assignment and is **not licensed for public or commercial use**.  

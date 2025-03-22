@@ -1,0 +1,274 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\vic20\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.18\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h2 id="-introduction">🌐 Introduction </h2>
+<p><strong>Dishcraft</strong> is a full-stack, three-layer web application designed to deliver a seamless and intelligent user experience through a modern tech stack. Built with a React-based frontend, a robust Spring Boot API server, and a Python-powered LLM API endpoint, Dishcraft leverages a MySQL relational database to manage structured data efficiently.</p>
+<p>The system architecture separates concerns into three distinct layers:</p>
+<ul>
+<li><strong>Frontend (React)</strong>: A responsive and interactive user interface that communicates with backend services via REST APIs.</li>
+<li><strong>Backend (Spring Boot)</strong>: A scalable and secure API server that handles business logic, authentication, and database operations.</li>
+<li><strong>AI Layer (Python LLM)</strong>: A dedicated service that provides natural language processing capabilities, offering intelligent features powered by the Google Gemini Flash 2.0 model.</li>
+</ul>
+<p>Dishcraft is designed with modularity, scalability, and maintainability in mind, making it ideal for teams looking to integrate AI-enhanced features into a traditional web application framework.</p>
+<h2 id="-purpose">🎯 Purpose </h2>
+<p><strong>Dishcraft</strong> is an AI-powered recipe platform designed to enhance the cooking experience by offering intelligent ingredient suggestions and detailed, personalized cooking instructions.</p>
+<p>The goal of this project is to:</p>
+<ul>
+<li>Provide users with alternative ingredient suggestions based on what they have at home or dietary preferences.</li>
+<li>Generate step-by-step cooking instructions using AI, based on minimal recipe data stored in the database.</li>
+<li>Offer a lightweight, scalable solution for managing and enhancing recipe content using large language models (LLMs).</li>
+</ul>
+<p>The backend database stores essential recipe data, including:</p>
+<ul>
+<li>Cooking time</li>
+<li>Short description</li>
+<li>Required ingredients</li>
+<li>Concise cooking instructions</li>
+</ul>
+<p>From this minimal data, Dishcraft leverages AI to deliver a richer, more interactive and adaptive cooking assistant experience.</p>
+<h2 id="-frontend-react--nginx">💻 Frontend (React + Nginx) </h2>
+<p>The frontend of <strong>Dishcraft</strong> is built with <strong>React</strong> and follows a <strong>Multi-Page Application (MPA) structure</strong>, where different sections of the website are served as separate HTML files. The final production build is served using <strong>Nginx</strong> inside a Docker container.</p>
+<h3 id="-responsibilities">🧭 Responsibilities </h3>
+<ul>
+<li>Display recipe lists, details, and ingredient information via REST API calls.</li>
+<li>Allow users to search for recipes by selecting multiple ingredients.</li>
+<li>Communicate with the <strong>Python LLM API</strong> to:
+<ul>
+<li>Suggest alternative ingredients.</li>
+<li>Generate detailed, AI-powered cooking instructions.</li>
+</ul>
+</li>
+<li>Handle JWT-based user authentication and authorization.</li>
+<li>Provide an intuitive and responsive UI/UX optimized for desktop and mobile.</li>
+</ul>
+<h3 id="️-tech-stack">⚙️ Tech Stack </h3>
+<ul>
+<li><strong>React</strong> (User Interface)</li>
+<li><strong>CSS &amp; HTML</strong> (Page structure and styling)</li>
+<li><strong>Axios</strong> (API communication)</li>
+<li><strong>JWT handling</strong> (Authentication &amp; authorization)</li>
+<li><strong>Nginx</strong> (Production static file hosting)</li>
+</ul>
+<h3 id="-deployment-workflow">🚀 Deployment Workflow </h3>
+<ol>
+<li>The React application is built using a lightweight Node.js environment.</li>
+<li>The build output (static HTML, CSS, and JavaScript files) is transferred to an <strong>Nginx container</strong>.</li>
+<li>Nginx serves these static files efficiently and handles client requests.</li>
+</ol>
+<h3 id="️-api-endpoint-configuration">⚠️ API Endpoint Configuration </h3>
+<p>Before deploying the frontend, <strong>API endpoint values must be updated</strong> in the React code to ensure it connects to the correct backend server.</p>
+<ul>
+<li>API URLs are currently <strong>hardcoded</strong> in files handling API requests.</li>
+<li>These include recipe retrieval, ingredient search, and user authentication functions.</li>
+<li><strong>Planned improvement:</strong> API URLs will be managed using environment variables in a future update for easier configuration across different environments.</li>
+</ul>
+<hr>
+<p>The frontend is fully decoupled from the backend, allowing for flexible deployment and easy integration with AI-powered enhancements.</p>
+<h2 id="-backend-spring-boot">🧩 Backend (Spring Boot) </h2>
+<p>The backend of <strong>Dishcraft</strong> is built with <strong>Spring Boot</strong>, serving as the core API layer that manages recipes, ingredients, and user authentication. It provides structured data to the frontend and supports AI-based enhancement via minimal, clean endpoints.</p>
+<p>This layer ensures secure, modular, and scalable data management for the application.</p>
+<h3 id="-responsibilities-1">🔧 Responsibilities </h3>
+<ul>
+<li>Exposes RESTful APIs for recipe and ingredient management</li>
+<li>Supports flexible recipe search by ingredient filters and modes</li>
+<li>Handles user authentication and token-based authorization using JWT</li>
+<li>Provides structured data (recipe titles, ingredients, short instructions) to the frontend for AI-powered enhancement</li>
+<li>Manages admin-level (root) permissions for content modification</li>
+</ul>
+<h3 id="️-tech-stack-1">⚙️ Tech Stack </h3>
+<ul>
+<li><strong>Spring Boot</strong></li>
+<li><strong>Spring Web</strong> (RESTful API)</li>
+<li><strong>Spring Data JPA</strong> (MySQL)</li>
+<li><strong>Spring Security + JWT</strong></li>
+<li><strong>Swagger / SpringDoc</strong> for API documentation</li>
+</ul>
+<h3 id="-core-features">📌 Core Features </h3>
+<ul>
+<li><strong>Recipe Management</strong>: Create, update, delete, view recipes</li>
+<li><strong>Ingredient Management</strong>: Add, update, delete, and search ingredients</li>
+<li><strong>Search API</strong>: Filter recipes by selected ingredient IDs and mode (<code>all</code> / <code>any</code>)</li>
+<li><strong>User Authentication</strong>: Register, login, refresh token via secure JWT handling</li>
+<li><strong>Pagination Support</strong>: Use Spring's <code>Pageable</code> for paginated recipe queries</li>
+<li><strong>Swagger API Docs</strong>: Interactive documentation accessible via <code>/swagger-ui.html</code></li>
+</ul>
+<blockquote>
+<p>Only users with <strong>root</strong> privileges are allowed to create, modify, or delete content.</p>
+</blockquote>
+<h3 id="-security--roles">🔐 Security &amp; Roles </h3>
+<ul>
+<li>JWT-based authentication and stateless session handling</li>
+<li>Admin role (<code>root</code>) enforced on protected endpoints</li>
+<li>Token refresh supported via a dedicated endpoint</li>
+</ul>
+<h3 id="️-environment-configuration">🛠️ Environment Configuration </h3>
+<p>Dishcraft's backend is configurable for multiple environments. All key properties (e.g., database credentials, JWT secrets, CORS settings, etc.) can be overridden using <strong>environment variables</strong>, enabling secure and flexible deployment.</p>
+<blockquote>
+<p>For example, in production:</p>
+<ul>
+<li><code>JWT_SECRET</code></li>
+<li><code>SPRING_DATASOURCE_PASSWORD</code></li>
+<li><code>SPRING_DATASOURCE_URL</code></li>
+<li><code>SPRING_DATASOURCE_USERNAME</code></li>
+<li><code>CORS_ALLOWED_ORIGINS</code></li>
+<li><code>OPENAPI_SERVER_URL</code></li>
+</ul>
+</blockquote>
+<p>This allows the application to run smoothly across local, development, and production environments without changing source code.</p>
+<h3 id="prerequisite">Prerequisite </h3>
+<p>this git is configured as the runs in development environment require mysql runs in default port which has user root with pw root</p>
+<hr>
+<p>This backend service forms the foundation of the Dishcraft application, providing clean APIs and secure data handling while supporting integration with intelligent frontend and AI services.</p>
+<h2 id="-ai-layer-python-llm-api">🧠 AI Layer (Python LLM API) </h2>
+<p>The AI component of <strong>Dishcraft</strong> is implemented as a lightweight Flask server that interacts with Google’s Gemini model via the Generative AI SDK. Its purpose is to enrich basic recipe data by generating:</p>
+<ul>
+<li>Step-by-step cooking instructions</li>
+<li>Ingredient substitutions based on user inventory</li>
+</ul>
+<h3 id="-key-responsibilities">🎯 Key Responsibilities </h3>
+<ul>
+<li>Receive structured recipe input (title, ingredients, available ingredients, and short description)</li>
+<li>Generate a consistent AI-powered response to guide the cooking process</li>
+<li>Adjust instructions based on missing or substituted ingredients</li>
+</ul>
+<h3 id="-endpoints-used">📌 Endpoints Used </h3>
+<ul>
+<li><code>POST /start</code><br>
+Starts a new LLM session with user input. This is the <strong>only</strong> endpoint currently used by the Dishcraft frontend.</li>
+</ul>
+<blockquote>
+<p>Other endpoints like <code>/continue</code> and <code>/clear</code> exist for managing session state, but are not actively used in the current implementation.</p>
+</blockquote>
+<h3 id="️-tech-stack-2">⚙️ Tech Stack </h3>
+<ul>
+<li><strong>Flask</strong> (Web server)</li>
+<li><strong>Flasgger</strong> (Swagger integration for API docs)</li>
+<li><strong>Google Generative AI SDK</strong> (Gemini model)</li>
+<li><strong>Flask-CORS</strong> (for cross-origin frontend access)</li>
+</ul>
+<h3 id="️-environment-configuration-1">⚙️ Environment Configuration </h3>
+<ul>
+<li><strong>CORS origins</strong> are configured through the <code>CORS</code> environment variable<br>
+(default: <code>http://localhost:3000</code> for local React development)</li>
+<li>The Gemini API key is currently embedded in the code for development purposes, but it will be moved to environment variable management in a future version to enhance security and flexibility.</li>
+</ul>
+<hr>
+<p>This AI layer operates independently from the main backend and is designed to be stateless and easily replaceable or extendable.</p>
+<h2 id="-system-architecture-overview">🗂 System Architecture Overview </h2>
+<p>The overall system is deployed on <strong>Google Cloud Platform</strong>, using Cloud Run for all service layers. The architecture follows a modular, decoupled design with three main components:</p>
+<ul>
+<li><strong>Frontend (React + Nginx)</strong>: Served via Cloud Run, delivers the UI and communicates with the backend and AI service.</li>
+<li><strong>Spring API Layer</strong>: The core backend, responsible for recipe/ingredient data handling and database interaction.</li>
+<li><strong>LLM API Layer (Python)</strong>: A stateless AI module that uses Gemini to generate detailed cooking instructions and ingredient substitutions.</li>
+<li><strong>MySQL Cloud SQL</strong>: Managed database connected to the API layer via Serverless VPC access.</li>
+</ul>
+<h3 id="-architecture-diagram">🖼 Architecture Diagram </h3>
+<p><img src="./docs/DEP-architecture.png" alt="Dishcraft Architecture Overview"></p>
+<h3 id="-data-flow-summary">🔄 Data Flow Summary </h3>
+<ol>
+<li>The <strong>client</strong> sends requests through the frontend.</li>
+<li>The <strong>frontend</strong> interacts with:
+<ul>
+<li>The <strong>Spring API Layer</strong> for data (recipes, ingredients, auth)</li>
+<li>The <strong>LLM API Layer</strong> for AI-enhanced instructions</li>
+</ul>
+</li>
+<li>The <strong>Spring API Layer</strong> accesses <strong>Cloud SQL</strong> to persist and retrieve structured data.</li>
+<li>The <strong>LLM API Layer</strong> sends requests to the <strong>LLM service</strong> (Google Gemini) and returns results to the frontend.</li>
+</ol>
+<h2 id="-live-demo">🚀 Live Demo </h2>
+<p>You can check out the live version of <strong>Dishcraft</strong> here:</p>
+<p>🔗 <strong><a href="https://dishcraft-fe-414213457313.us-central1.run.app/">Dishcraft Live Demo</a></strong></p>
+<p>This deployment runs on <strong>Google Cloud Run</strong> and connects to the full backend and AI services.</p>
+<h2 id="-deployment-details">🚢 Deployment Details </h2>
+<p>The entire Dishcraft system is deployed on <strong>Google Cloud Platform</strong>, utilizing Cloud Run for scalability, simplicity, and ease of CI/CD integration.</p>
+<h3 id="-component-deployment">🧩 Component Deployment </h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Platform</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frontend</strong></td>
+<td>Cloud Run (Docker)</td>
+<td>Built with React, served via Nginx inside a Docker container</td>
+</tr>
+<tr>
+<td><strong>Backend API</strong></td>
+<td>Cloud Run (Docker)</td>
+<td>Spring Boot REST API connected to Cloud SQL via Serverless VPC</td>
+</tr>
+<tr>
+<td><strong>LLM API</strong></td>
+<td>Cloud Run (Docker)</td>
+<td>Flask-based Python server using Gemini LLM via Google Generative AI</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>Cloud SQL (MySQL)</td>
+<td>Manages recipes, ingredients, and user data</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-live-deployment-urls">🌐 Live Deployment URLs </h3>
+<ul>
+<li>
+<p><strong>Frontend:</strong><br>
+🔗 <a href="https://dishcraft-fe-414213457313.us-central1.run.app/">https://dishcraft-fe-414213457313.us-central1.run.app/</a></p>
+</li>
+<li>
+<p><strong>Backend API &amp; LLM API:</strong><br>
+Accessed internally by the frontend.<br>
+Not publicly documented to prevent unauthorized access.</p>
+</li>
+</ul>
+<h3 id="-security--networking">🛡 Security &amp; Networking </h3>
+<ul>
+<li>All services run in <strong>separate containers on Cloud Run</strong></li>
+<li><strong>Serverless VPC Access</strong> is used to connect the Spring API to the Cloud SQL database</li>
+<li><strong>CORS restrictions are enabled on both the backend and LLM API</strong>, allowing only requests from the deployed frontend domain.<br>
+This prevents direct access from unauthorized clients or external domains.</li>
+<li><strong>JWT-based Authentication</strong> is implemented on the backend to control access to protected endpoints.</li>
+</ul>
+<h2 id="️-license">⚖️ License </h2>
+<p>This project is a university assignment and is <strong>not licensed for public or commercial use</strong>.<br>
+Unauthorized use, distribution, or modification of this code is prohibited.</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
