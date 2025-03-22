@@ -1,43 +1,43 @@
-// import { fetchIngredients } from 'ingredients.js';
-// import { fetchRecipes } from 'recipe.js';
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Check if a JWT exists and adjust UI if needed.
-  const jwt = localStorage.getItem('jwtToken');
-  if (jwt) {
-    const loginLink = document.querySelector('.login-link');
-    if (loginLink) {
-      loginLink.style.display = 'none';
+  const recipeList = document.querySelector('.recipe-list');
+
+  // Fetch the list of recipes from the backend
+  async function fetchRecipes() {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const response = await fetch('https://dishcraft-api-414213457313.us-central1.run.app/api/recipes/all', {
+        method: 'GET',
+        headers: {
+          'Accept': '*/*',
+          'Authorization': token ? `Bearer ${token}` : ''
+        }
+      });
+
+      if (response.ok) {
+        const recipes = await response.json();
+        displayRecipeList(recipes);
+      } else {
+        console.error('Failed to fetch recipes:', response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
     }
   }
 
-  // Tab-switching logic.
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const contentSections = document.querySelectorAll('.content');
-
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Remove active classes from all buttons and content sections.
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      contentSections.forEach(section => section.classList.remove('active'));
-
-      // Activate the clicked tab and its corresponding content.
-      button.classList.add('active');
-      const target = button.getAttribute('data-tab');
-      const activeSection = document.getElementById(target);
-      activeSection.classList.add('active');
-
-      // When the "recipes" tab is clicked, call fetchRecipes() from recipe.js.
-      if (target === 'recipes') {
-        fetchRecipes();
-      } 
-      // When the "ingredients" tab is activated, fetch the ingredients list.
-      else if (target === 'ingredients') {
-        fetchIngredients();
-      }
+  // Display the list of recipes
+  function displayRecipeList(recipes) {
+    recipeList.innerHTML = ''; // Clear any existing content
+    recipes.forEach(recipe => {
+      const recipeButton = document.createElement('button');
+      recipeButton.textContent = recipe.name;
+      recipeButton.addEventListener('click', () => {
+        // Redirect to recipe-details.html with the recipe ID as a URL parameter
+        window.location.href = `recipe-details.html?recipeId=${recipe.id}`;
+      });
+      recipeList.appendChild(recipeButton);
     });
-  });
+  }
 
-  // Since the ingredients tab is the default active tab, fetch the list on page load.
-  fetchIngredients();
+  // Fetch recipes when the page loads
+  fetchRecipes();
 });
