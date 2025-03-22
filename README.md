@@ -24,7 +24,7 @@ Our project follows a **layer-specific production branching strategy** rather th
 | Backend      | `backend-production-v0.1`     | Spring Boot API connected to MySQL |
 | LLM API      | `llm-prod-v01`                | Python Flask server using Gemini AI for recipe instruction generation |
 
-The `main` branch is present but unused; all meaningful production work is isolated within each layer's prod branch.
+The `main` branch is present but unused in most of time; all meaningful production work is isolated within each layer's prod branch.
 
 To support consistent communication and documentation across the entire team, we also maintain a **`docs` branch**.  
 This branch contains a unified `README.md` file that documents:
