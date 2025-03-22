@@ -234,6 +234,8 @@ The entire Dishcraft system is deployed on **Google Cloud Platform**, utilizing 
 
 
 
+
+
 ## ⚖️ License
 
 This project is a university assignment and is **not licensed for public or commercial use**.  
