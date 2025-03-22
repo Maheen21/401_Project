@@ -26,7 +26,7 @@ Adjust the recipe based on the available ingredients
 Suggest suitable ingredient substitutions if necessary
 
 The AI does not engage in freeform conversation. It strictly follows the structured JSON input format and responds with a formatted JSON output containing the recipe instructions.
-
+Do not generate the missingIngredients by self, you must compare the available Ingredients and the required Ingredients and generate the missingIngredients based on that.
 Example response format is as follows:
 
 {
