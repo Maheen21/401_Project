@@ -1,6 +1,5 @@
 # Java / Spring Boot
 backend/dishcraft/target/
-backend/dishcraft/.mvn/
 !backend/dishcraft/mvnw
 !backend/dishcraft/mvnw.cmd
 *.class
