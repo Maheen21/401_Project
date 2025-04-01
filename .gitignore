@@ -1,2 +1,3 @@
 backend/dishcraft/target/classes/*
 
+backend/dishcraft/target/classes/com/dishcraft/controller/*.class
