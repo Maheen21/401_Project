@@ -1,3 +1,11 @@
 backend/dishcraft/target/classes/*
 
 backend/dishcraft/target/classes/com/dishcraft/controller/*.class
+backend/dishcraft/target/classes/com/dishcraft/service/*.class
+backend/dishcraft/target/classes/com/dishcraft/repository/*.class
+backend/dishcraft/target/classes/com/dishcraft/model/*.class
+backend/dishcraft/target/classes/com/dishcraft/config/*.class
+backend/dishcraft/target/classes/com/dishcraft/exception/*.class
+backend/dishcraft/target/classes/com/dishcraft/security/*.class
+backend/dishcraft/target/classes/com/dishcraft/util/*.class
+backend/dishcraft/target/classes/com/dishcraft/mapper/*.class
