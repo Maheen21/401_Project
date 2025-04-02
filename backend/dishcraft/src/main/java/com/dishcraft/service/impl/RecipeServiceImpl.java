@@ -2,6 +2,7 @@ package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.RecipeDto;
 import com.dishcraft.dto.RecipeIngredientDto;
+import com.dishcraft.mapper.RecipeMapperUtil;
 import com.dishcraft.model.Ingredient;
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.RecipeIngredient;
@@ -11,13 +12,11 @@ import com.dishcraft.repository.RecipeIngredientRepository;
 import com.dishcraft.repository.RecipeRepository;
 import com.dishcraft.service.CurrentUserService;
 import com.dishcraft.service.RecipeService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
-    private final ModelMapper modelMapper;
     private final CurrentUserService currentUserService;
     private final IngredientRepository ingredientRepository;
 
@@ -43,28 +41,23 @@ public class RecipeServiceImpl implements RecipeService {
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository,
                              RecipeIngredientRepository recipeIngredientRepository,
-                             ModelMapper modelMapper,
                              IngredientRepository ingredientRepository,
                              CurrentUserService currentUserService) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientRepository = recipeIngredientRepository;
-        this.modelMapper = modelMapper;
-
         this.ingredientRepository = ingredientRepository;
-
         this.currentUserService = currentUserService;
     }
 
     @Override
     public RecipeDto createRecipe(RecipeDto recipeDto) {
         // Convert DTO to entity
-        Recipe recipe = modelMapper.map(recipeDto, Recipe.class);
+        Recipe recipe = RecipeMapperUtil.toEntity(recipeDto);
 
         // Initialize the recipe ingredients collection
         recipe.setRecipeIngredients(new ArrayList<>());
 
         // if client sends recipeIngredients, process it
-
         if (recipeDto.getRecipeIngredients() != null) {
             for (RecipeIngredientDto riDto : recipeDto.getRecipeIngredients()) {
                 Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
@@ -84,7 +77,7 @@ public class RecipeServiceImpl implements RecipeService {
                 
         Recipe savedRecipe = recipeRepository.save(recipe);
         // Convert the saved entity back to DTO
-        return modelMapper.map(savedRecipe, RecipeDto.class);
+        return RecipeMapperUtil.toDto(savedRecipe);
     }
 
 @Override
@@ -92,7 +85,7 @@ public RecipeDto getRecipeById(Long id) {
     Recipe recipe = recipeRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
 
-    RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
+    RecipeDto recipeDto = RecipeMapperUtil.toDto(recipe);
 
     // ✅ add name of ingredient to RecipeIngredientDto
     List<RecipeIngredientDto> ingredientDtos = recipe.getRecipeIngredients().stream()
@@ -131,7 +124,7 @@ public RecipeDto getRecipeById(Long id) {
             System.out.println("✅ Recipes retrieved: " + recipes.getTotalElements());
         }
             
-        return recipes.map(recipe -> modelMapper.map(recipe, RecipeDto.class));
+        return recipes.map(RecipeMapperUtil::toDto);
     }
 
     @Override
@@ -139,11 +132,7 @@ public RecipeDto getRecipeById(Long id) {
         Recipe existingRecipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + id));
     
-        existingRecipe.setName(recipeDto.getName());
-        existingRecipe.setDescription(recipeDto.getDescription());
-        existingRecipe.setInstruction(recipeDto.getInstruction());
-        existingRecipe.setCookingTime(recipeDto.getCookingTime());
-        existingRecipe.setImageUrl(recipeDto.getImageUrl());
+        RecipeMapperUtil.updateEntityFromDto(recipeDto, existingRecipe);
     
         if (recipeDto.getRecipeIngredients() != null) {
             // Delete existing recipe ingredients and add new ones
@@ -167,7 +156,7 @@ public RecipeDto getRecipeById(Long id) {
         }
     
         Recipe updatedRecipe = recipeRepository.save(existingRecipe);
-        return modelMapper.map(updatedRecipe, RecipeDto.class);
+        return RecipeMapperUtil.toDto(updatedRecipe);
     }
 
     @Override
@@ -183,7 +172,6 @@ public RecipeDto getRecipeById(Long id) {
         List<Recipe> candidateRecipes = recipeRepository.findDistinctByRecipeIngredientsIngredientIdIn(ingredientIds);
 
         // Retrieve the current user's dietary restrictions (as lower-case names)
-
         User currentUser;
 
         try {
@@ -230,7 +218,7 @@ public RecipeDto getRecipeById(Long id) {
 
         // Convert the filtered list of Recipe entities to RecipeDto objects
         return candidateRecipes.stream()
-                .map(recipe -> modelMapper.map(recipe, RecipeDto.class))
+                .map(RecipeMapperUtil::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -275,9 +263,6 @@ public RecipeDto getRecipeById(Long id) {
     @Override
     public List<RecipeDto> getAllRecipes() {
         List<Recipe> recipes = recipeRepository.findAll();
-        return recipes.stream()
-                .map(recipe -> modelMapper.map(recipe, RecipeDto.class))
-                .collect(Collectors.toList());
+        return RecipeMapperUtil.toDtoList(recipes);
     }
-
 }

@@ -2,13 +2,12 @@ package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.DietaryRestrictionDto;
 import com.dishcraft.dto.IngredientDto;
+import com.dishcraft.mapper.IngredientMapperUtil;
 import com.dishcraft.model.Ingredient;
 import com.dishcraft.repository.IngredientRepository;
 import com.dishcraft.service.IngredientService;
 
 import org.hibernate.Hibernate;
-import org.modelmapper.ModelMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +24,10 @@ import java.util.stream.Collectors;
 public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public IngredientServiceImpl(IngredientRepository ingredientRepository, ModelMapper modelMapper) {
+    public IngredientServiceImpl(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
-        this.modelMapper = modelMapper;
     }
 
     /**
@@ -46,7 +43,7 @@ public class IngredientServiceImpl implements IngredientService {
         Ingredient ingredient = ingredientRepository.findByIdWithDietaryRestrictions(id)
                 .orElseThrow(() -> new RuntimeException("Ingredient not found with id: " + id));
     
-        IngredientDto ingredientDto = modelMapper.map(ingredient, IngredientDto.class);
+        IngredientDto ingredientDto = IngredientMapperUtil.toDto(ingredient);
     
         // Initialize the dietary restrictions collection to avoid LazyInitializationException
         ingredientDto.setDietaryRestrictions(
@@ -58,7 +55,7 @@ public class IngredientServiceImpl implements IngredientService {
                         return dto;
                     })
                     .collect(Collectors.toList())
-);
+        );
     
         return ingredientDto;
     }
@@ -71,9 +68,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<IngredientDto> searchIngredientsByName(String name) {
         List<Ingredient> ingredients = ingredientRepository.findByNameContainingIgnoreCase(name);
-        return ingredients.stream()
-                .map(ingredient -> modelMapper.map(ingredient, IngredientDto.class))
-                .collect(Collectors.toList());
+        return IngredientMapperUtil.toDtoList(ingredients);
     }
 
     /**
@@ -84,9 +79,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<IngredientDto> getAllIngredients() {
         List<Ingredient> ingredients = ingredientRepository.findAll();
-        return ingredients.stream()
-                .map(ingredient -> modelMapper.map(ingredient, IngredientDto.class))
-                .collect(Collectors.toList());
+        return IngredientMapperUtil.toDtoList(ingredients);
     }
 
     /**
@@ -98,10 +91,10 @@ public class IngredientServiceImpl implements IngredientService {
     @Transactional
     @Override
     public IngredientDto createIngredient(IngredientDto ingredientDto) {
-        Ingredient ingredient = modelMapper.map(ingredientDto, Ingredient.class);
+        Ingredient ingredient = IngredientMapperUtil.toEntity(ingredientDto);
         ingredient.setDietaryRestrictions(new HashSet<>()); // Initialize the dietary restrictions collection
         Ingredient savedIngredient = ingredientRepository.save(ingredient);
-        return modelMapper.map(savedIngredient, IngredientDto.class);
+        return IngredientMapperUtil.toDto(savedIngredient);
     }
 
     /**
@@ -117,9 +110,9 @@ public class IngredientServiceImpl implements IngredientService {
         Ingredient ingredient = ingredientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ingredient not found with id: " + id));
     
-        modelMapper.map(ingredientDto, ingredient);
+        IngredientMapperUtil.updateEntityFromDto(ingredientDto, ingredient);
         Ingredient savedIngredient = ingredientRepository.save(ingredient);
-        return modelMapper.map(savedIngredient, IngredientDto.class);
+        return IngredientMapperUtil.toDto(savedIngredient);
     }
 
     /**
@@ -132,5 +125,4 @@ public class IngredientServiceImpl implements IngredientService {
     public void deleteIngredient(Long id) {
         ingredientRepository.deleteById(id);
     }
-
 }

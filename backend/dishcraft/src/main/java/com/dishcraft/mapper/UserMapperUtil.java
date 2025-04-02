@@ -40,7 +40,7 @@ public class UserMapperUtil {
         entity.setUsername(dto.getUsername());
         entity.setEmail(dto.getEmail());
         
-        // 패스워드는 암호화하여 저장
+        // save password with encryption
         if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         }

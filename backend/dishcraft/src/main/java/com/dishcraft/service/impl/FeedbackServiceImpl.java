@@ -1,14 +1,17 @@
 package com.dishcraft.service.impl;
 
 import com.dishcraft.dto.FeedbackDto;
+import com.dishcraft.mapper.FeedbackMapperUtil;
 import com.dishcraft.model.Feedback;
+import com.dishcraft.model.Recipe;
+import com.dishcraft.model.User;
 import com.dishcraft.repository.FeedbackRepository;
+import com.dishcraft.repository.RecipeRepository;
+import com.dishcraft.repository.UserRepository;
 import com.dishcraft.service.FeedbackService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Implementation of FeedbackService.
@@ -18,12 +21,16 @@ import java.util.stream.Collectors;
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
-    private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
+    private final RecipeRepository recipeRepository;
 
     @Autowired
-    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper) {
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, 
+                              UserRepository userRepository,
+                              RecipeRepository recipeRepository) {
         this.feedbackRepository = feedbackRepository;
-        this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
+        this.recipeRepository = recipeRepository;
     }
 
     /**
@@ -31,9 +38,22 @@ public class FeedbackServiceImpl implements FeedbackService {
      */
     @Override
     public FeedbackDto createFeedback(FeedbackDto feedbackDto) {
-        Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
+        User user = null;
+        Recipe recipe = null;
+        
+        if (feedbackDto.getUserId() != null) {
+            user = userRepository.findById(feedbackDto.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + feedbackDto.getUserId()));
+        }
+        
+        if (feedbackDto.getRecipeId() != null) {
+            recipe = recipeRepository.findById(feedbackDto.getRecipeId())
+                    .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + feedbackDto.getRecipeId()));
+        }
+        
+        Feedback feedback = FeedbackMapperUtil.toEntity(feedbackDto, user, recipe);
         Feedback savedFeedback = feedbackRepository.save(feedback);
-        return modelMapper.map(savedFeedback, FeedbackDto.class);
+        return FeedbackMapperUtil.toDto(savedFeedback);
     }
 
     /**
@@ -43,7 +63,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     public FeedbackDto getFeedbackById(Long id) {
         Feedback feedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Feedback not found with id: " + id));
-        return modelMapper.map(feedback, FeedbackDto.class);
+        return FeedbackMapperUtil.toDto(feedback);
     }
 
     /**
@@ -52,9 +72,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<FeedbackDto> getFeedbackByRecipeId(Long recipeId) {
         List<Feedback> feedbackList = feedbackRepository.findByRecipeId(recipeId);
-        return feedbackList.stream()
-                .map(feedback -> modelMapper.map(feedback, FeedbackDto.class))
-                .collect(Collectors.toList());
+        return FeedbackMapperUtil.toDtoList(feedbackList);
     }
 
     /**
@@ -65,12 +83,22 @@ public class FeedbackServiceImpl implements FeedbackService {
         Feedback existingFeedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Feedback not found with id: " + id));
 
-        existingFeedback.setRating(feedbackDto.getRating());
-        existingFeedback.setComment(feedbackDto.getComment());
-        // Optionally update other fields such as timestamp if needed
+        User user = null;
+        Recipe recipe = null;
+        
+        if (feedbackDto.getUserId() != null) {
+            user = userRepository.findById(feedbackDto.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + feedbackDto.getUserId()));
+        }
+        
+        if (feedbackDto.getRecipeId() != null) {
+            recipe = recipeRepository.findById(feedbackDto.getRecipeId())
+                    .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + feedbackDto.getRecipeId()));
+        }
 
+        FeedbackMapperUtil.updateEntityFromDto(feedbackDto, existingFeedback, user, recipe);
         Feedback updatedFeedback = feedbackRepository.save(existingFeedback);
-        return modelMapper.map(updatedFeedback, FeedbackDto.class);
+        return FeedbackMapperUtil.toDto(updatedFeedback);
     }
 
     /**

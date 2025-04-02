@@ -1,69 +1,13 @@
 package com.dishcraft.config;
 
-import com.dishcraft.dto.DietaryRestrictionDto;
-import com.dishcraft.dto.IngredientDto;
-import com.dishcraft.dto.RecipeIngredientDto;
-import com.dishcraft.model.DietaryRestriction;
-import com.dishcraft.model.Ingredient;
-import com.dishcraft.model.RecipeIngredient;
-
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.spi.MappingContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+/**
+ * This class previously contained ModelMapper configuration.
+ * It has been refactored to use custom mappers instead of ModelMapper
+ * to support GraalVM native image compilation.
+ */
 @Configuration
 public class ModelMapperConfig {
-
-    @Bean
-    public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setCollectionsMergeEnabled(false);
-
-        // set to list converter
-        Converter<Set<Object>, List<Object>> setToListConverter = context -> {
-            Set<Object> source = context.getSource();
-            return (source == null) ? null : new ArrayList<>(source);
-        };
-        modelMapper.addConverter(setToListConverter);
-
-        // Ingredient to IngredientDto mapping configuration to avoid infinite recursion
-        modelMapper.typeMap(Ingredient.class, IngredientDto.class)
-            .addMappings(mapping -> mapping.skip(IngredientDto::setDietaryRestrictions))
-            .setPostConverter(context -> {
-                Ingredient source = context.getSource();
-                IngredientDto destination = context.getDestination();
-
-                List<DietaryRestrictionDto> dietaryRestrictionDtos = source.getDietaryRestrictions().stream()
-                        .map(dietaryRestriction -> {
-                            DietaryRestrictionDto dto = new DietaryRestrictionDto();
-                            dto.setId(dietaryRestriction.getId());
-                            dto.setName(dietaryRestriction.getName());
-                            return dto;
-                        })
-                        .collect(Collectors.toList());
-
-                destination.setDietaryRestrictions(dietaryRestrictionDtos);
-
-                return destination;
-            });
-        
-        modelMapper.typeMap(RecipeIngredient.class, RecipeIngredientDto.class)
-            .setPostConverter(context -> {
-                RecipeIngredient source = context.getSource();
-                RecipeIngredientDto destination = context.getDestination();
-                if (source.getIngredient() != null) {
-                    destination.setName(source.getIngredient().getName());
-                }
-                return destination;
-            });
-
-        return modelMapper;
-    }
+    // ModelMapper configuration removed - using custom mappers instead
 }

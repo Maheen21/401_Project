@@ -1,12 +1,12 @@
 package com.dishcraft.service;
 
 import com.dishcraft.dto.UserResponseDto;
+import com.dishcraft.dto.UserRequestDto;
+import com.dishcraft.mapper.UserMapperUtil;
 import com.dishcraft.model.User;
 import com.dishcraft.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
-import com.dishcraft.dto.UserRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,17 +37,8 @@ public class UserService {
      * Retrieve all users.
      */
     public List<UserResponseDto> getAllUsers() {
-        return userRepository.findAll().stream()
-            .map(user -> {
-                UserResponseDto userResponseDto = new UserResponseDto();
-                userResponseDto.setId(user.getId());
-                userResponseDto.setUsername(user.getUsername());
-                userResponseDto.setEmail(user.getEmail());
-                userResponseDto.setRole(user.getRole());
-                // Include role if needed
-                return userResponseDto;
-            })
-            .collect(Collectors.toList());
+        List<User> users = userRepository.findAll();
+        return UserMapperUtil.toResponseDtoList(users);
     }
 
     /*
@@ -55,27 +46,14 @@ public class UserService {
      */
     public Optional<UserResponseDto> getUserById(Long id) {
         return userRepository.findById(id)
-            .map(user -> {
-                UserResponseDto userResponseDto = new UserResponseDto();
-                userResponseDto.setId(user.getId());
-                userResponseDto.setUsername(user.getUsername());
-                userResponseDto.setEmail(user.getEmail());
-                userResponseDto.setRole(user.getRole());
-                // Include role if needed
-                return userResponseDto;
-            });
+                .map(UserMapperUtil::toResponseDto);
     }
 
     /*
      * Create a new user, encrypting the password.
      */
     public User createUser(UserRequestDto dto) {
-        User user = new User();
-        user.setUsername(dto.getUsername());
-        user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(dto.getRole());
-        // Include role if needed
+        User user = UserMapperUtil.toEntity(dto, passwordEncoder);
         return userRepository.save(user);
     }
 
@@ -85,26 +63,12 @@ public class UserService {
     public Optional<UserResponseDto> updateUser(Long id, UserRequestDto dto) {
         return userRepository.findById(id)
             .map(user -> {
-                user.setUsername(dto.getUsername());
-                user.setEmail(dto.getEmail());
-                
-                if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-                    user.setPassword(passwordEncoder.encode(dto.getPassword()));
-                }
-    
+                UserMapperUtil.updateEntityFromDto(dto, user, passwordEncoder);
                 User updatedUser = userRepository.save(user);
-    
-                UserResponseDto responseDto = new UserResponseDto();
-                responseDto.setId(updatedUser.getId());
-                responseDto.setUsername(updatedUser.getUsername());
-                responseDto.setEmail(updatedUser.getEmail());
-    
-                return responseDto;
+                return UserMapperUtil.toResponseDto(updatedUser);
             });
     }
     
-    
-
     /*
      * Delete a user by ID.
      */
