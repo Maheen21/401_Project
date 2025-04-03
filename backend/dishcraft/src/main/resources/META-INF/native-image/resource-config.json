@@ -1,0 +1,21 @@
+{
+  "resources": {
+    "includes": [
+      {"pattern": "\\QMETA-INF/services/.*\\E"},
+      {"pattern": "\\Qapplication.properties\\E"},
+      {"pattern": "\\Qapplication-devdocker.properties\\E"},
+      {"pattern": "\\Qapplication-production.properties\\E"},
+      {"pattern": "\\Qdata.sql\\E"},
+      {"pattern": "\\Qschema.sql\\E"},
+      {"pattern": "\\QMETA-INF/native-image/.*\\E"},
+      {"pattern": "\\Qorg/springframework/boot/logging/.*\\E"},
+      {"pattern": ".*\\.properties$"},
+      {"pattern": ".*\\.json$"},
+      {"pattern": ".*\\.sql$"}
+    ]
+  },
+  "bundles": [
+    {"name": "messages"},
+    {"name": "org.springframework.security.messages"}
+  ]
+}

@@ -1,0 +1,66 @@
+# GraalVM Native Image for Dishcraft Application
+# Multi-stage build Dockerfile
+
+# Build stage - Using official GraalVM image
+FROM ghcr.io/graalvm/jdk:ol9-java17-22.3.2 AS builder
+
+# Install build tools
+# Oracle Linux 9 is used as the base image for GraalVM, and microdnf is the package manager
+RUN microdnf install -y gcc gcc-c++ glibc-devel zlib-devel libstdc++-devel 
+
+# Set working directory
+WORKDIR /app
+
+# Copy Maven wrapper and POM
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+# Make the Maven wrapper executable
+RUN chmod +x mvnw
+
+# Download dependencies (this layer will be cached unless pom.xml changes)
+RUN ./mvnw dependency:go-offline -B
+
+# Copy the source code
+COPY src src
+
+# Build the native image with specific options for SSL support and statically link libstdc++
+RUN ./mvnw -Pnative -DskipTests clean package \
+    -Dspring.native.verbose=true \
+    -Dspring.native.remove-yaml-support=false \
+    -Dorg.graalvm.nativeimage.imagecode=static-with-libcpp
+
+# Runtime stage
+FROM ubuntu:22.04
+
+# Set the working directory
+WORKDIR /app
+
+# Install necessary runtime libraries
+RUN apt-get update && apt-get install -y \
+    libz-dev \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the native executable from the builder stage
+COPY --from=builder /app/target/dishcraft /app/dishcraft
+
+# Copy application resources
+COPY --from=builder /app/target/classes/application.properties /app/
+COPY --from=builder /app/target/classes/application-production.properties /app/
+COPY --from=builder /app/target/classes/application-devdocker.properties /app/
+COPY --from=builder /app/target/classes/data.sql /app/
+COPY --from=builder /app/target/classes/schema.sql /app/
+
+# Make the executable runnable
+RUN chmod +x /app/dishcraft
+
+# Expose the port the application runs on
+EXPOSE 8080
+
+# Set environment variables - using devdocker profile for Docker environments
+ENV SPRING_PROFILES_ACTIVE=devdocker
+
+# Run the native executable
+ENTRYPOINT ["/app/dishcraft"]
