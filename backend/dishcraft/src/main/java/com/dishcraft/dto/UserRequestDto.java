@@ -1,5 +1,6 @@
 package com.dishcraft.dto;
 
+import com.dishcraft.model.Role;
 import lombok.Data;
 
 /*
@@ -15,5 +16,5 @@ public class UserRequestDto {
     private String username;
     private String email;
     private String password;
-    private String role;  // Include role if needed
+    private Role role;  // Changed from String to Role enum
 }

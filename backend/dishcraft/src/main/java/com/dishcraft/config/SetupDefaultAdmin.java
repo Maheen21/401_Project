@@ -1,6 +1,7 @@
 package com.dishcraft.config;
 
 import com.dishcraft.model.User;
+import com.dishcraft.model.Role;
 import com.dishcraft.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,7 +32,7 @@ public class SetupDefaultAdmin implements CommandLineRunner {
             rootUser.setUsername("admin");
             rootUser.setEmail("admin@example.com");
             rootUser.setPassword(passwordEncoder.encode("admin123"));
-            rootUser.setRole("root");
+            rootUser.setRole(Role.ROOT); // 직접 Role enum 사용
             userRepository.save(rootUser);
             System.out.println("Default root user created with id: " + generatedId);
         } else {

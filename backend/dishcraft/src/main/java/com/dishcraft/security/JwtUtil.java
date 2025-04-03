@@ -1,5 +1,6 @@
 package com.dishcraft.security;
 
+import com.dishcraft.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,7 +44,8 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
     
-    private Claims extractAllClaims(String token) {
+    // Made public to allow access from JwtAuthenticationFilter
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
             .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)))
             .build()
@@ -55,14 +57,16 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
     
-    public String generateToken(UserDetails userDetails, String role) {
+    // Updated to accept Role enum
+    public String generateToken(UserDetails userDetails, Role role) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername(), role);
     }
 
-    private String createToken(Map<String, Object> claims, String subject, String role) {
-        // Dynamically assign the role passed into the method
-        claims.put("role", role);
+    // Updated to accept Role enum
+    private String createToken(Map<String, Object> claims, String subject, Role role) {
+        // Store role name in token
+        claims.put("role", role.name());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -71,6 +75,19 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
                 .compact();
+    }
+    
+    // Add method to extract role from token
+    public Role extractRole(String token) {
+        String roleName = extractClaim(token, claims -> claims.get("role", String.class));
+        if (roleName != null) {
+            try {
+                return Role.valueOf(roleName);
+            } catch (IllegalArgumentException e) {
+                return Role.USER; // Default role if parsing fails
+            }
+        }
+        return Role.USER; // Default role if no role in token
     }
     
     public Boolean validateToken(String token, UserDetails userDetails) {

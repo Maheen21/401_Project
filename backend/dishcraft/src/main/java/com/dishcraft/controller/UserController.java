@@ -1,5 +1,6 @@
 package com.dishcraft.controller;
 
+import com.dishcraft.model.Role;
 import com.dishcraft.model.User;
 import com.dishcraft.service.UserService;
 import com.dishcraft.dto.LoginRequest;
@@ -77,7 +78,7 @@ public class UserController {
      * User Login Endpoint
      * URL: POST /api/auth/login
      * Input: JSON with username/email and password.
-     * Output: A JWT token in the response body.
+     * Output: A JWT token and user role in the response body.
      */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
@@ -87,13 +88,13 @@ public class UserController {
                     loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
 
             authenticationManager.authenticate(authToken);
-
-
             
             MyUserDetails myUser = (MyUserDetails) myUserDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
-            String role = myUser.getRole(); 
+            Role role = myUser.getRole();
             String token = jwtUtil.generateToken(myUser, role);
-            return ResponseEntity.ok(new JwtResponse(token));
+            
+            // return the JWT token and user role in the response body
+            return ResponseEntity.ok(new JwtResponse(token, role));
         } catch (Exception ex) {
             // Log exception details for troubleshooting.
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -105,14 +106,32 @@ public class UserController {
      * Token Refresh Endpoint
      * URL: POST /api/auth/refresh
      * Input: JSON with a refresh token.
-     * Output: A new JWT token.
+     * Output: A new JWT token and user role.
      */
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        // Normally, validate the refresh token and generate a new JWT.
-        // The code below is a simplified placeholder.
-        String newToken = "dummy-new-jwt-token";
-        return ResponseEntity.ok(new JwtResponse(newToken));
+        try {
+            // Extract username from the refresh token
+            String refreshToken = refreshTokenRequest.getRefreshToken();
+            String username = jwtUtil.extractUsername(refreshToken);
+            
+            if (username != null) {
+                // Load user details to get role
+                MyUserDetails myUser = (MyUserDetails) myUserDetailsService.loadUserByUsername(username);
+                
+                if (jwtUtil.validateToken(refreshToken, myUser)) {
+                    // Generate new token
+                    Role role = myUser.getRole();
+                    String newToken = jwtUtil.generateToken(myUser, role);
+                    
+                    // Return new token with role
+                    return ResponseEntity.ok(new JwtResponse(newToken, role));
+                }
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error processing refresh token: " + ex.getMessage());
+        }
     }
 
     @GetMapping("/users")//For Testing

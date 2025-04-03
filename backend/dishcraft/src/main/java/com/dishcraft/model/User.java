@@ -64,9 +64,11 @@ public class User {
     /*
      * role
      * - The user's role.
+     * - Stored as a string representation of the Role enum
      */
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role = "user";
+    private Role role = Role.USER;
 
     /*
      * Dietary Restrictions

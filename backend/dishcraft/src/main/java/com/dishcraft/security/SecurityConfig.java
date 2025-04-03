@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -38,7 +39,7 @@ import java.io.IOException;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService; // Should be your custom implementation
+    private final UserDetailsService userDetailsService; // Now using MyUserDetailsService
 
     public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
@@ -56,16 +57,33 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // Configure endpoint security: permit auth endpoints, secure others
             .authorizeHttpRequests(auth -> auth
+                // public endpoints
+                // Swagger and API documentation endpoints
                 .requestMatchers(
                     "/api/auth/**",
                     "/v3/api-docs/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**"
                 ).permitAll()
+                
+                // public API endpoints for get requests
                 .requestMatchers(HttpMethod.GET, "/api/recipes/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/ingredients/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/dietary-restrictions/**").permitAll()
                 
+                // api endpoints for user registration and login
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/root/**").hasRole("ROOT")
+                
+                // any loged-in user can access these endpoints
+                .requestMatchers(HttpMethod.DELETE, "/api/favorites/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/user-favorite-recipes/**").authenticated()
+                
+                // authenticated endpoints for user and recipe management which require admin or root role
+                .requestMatchers(HttpMethod.PUT, "/api/**").hasAnyRole("ADMIN", "ROOT")
+                .requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole("ADMIN", "ROOT")
+                
+                // 그 외 모든 요청은 인증이 필요함
                 .anyRequest().authenticated()
 
             )
@@ -115,11 +133,15 @@ class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             if (!token.isEmpty()) {
                 String username = jwtUtil.extractUsername(token);
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    var userDetails = userDetailsService.loadUserByUsername(username);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    
                     if (jwtUtil.validateToken(token, userDetails)) {
-                        SecurityContextHolder.getContext().setAuthentication(
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
-                        );
+                        // Use the authorities directly from UserDetails
+                        // This will now use the MyUserDetails.getAuthorities() implementation
+                        UsernamePasswordAuthenticationToken authToken = 
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }
             }

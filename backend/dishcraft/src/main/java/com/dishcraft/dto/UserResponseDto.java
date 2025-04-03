@@ -1,5 +1,6 @@
 package com.dishcraft.dto;
 
+import com.dishcraft.model.Role;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -18,5 +19,5 @@ public class UserResponseDto {
     private String email;
     
     @JsonProperty
-    private String role;  // Include role if needed
+    private Role role;  // Changed from String to Role enum
 }
