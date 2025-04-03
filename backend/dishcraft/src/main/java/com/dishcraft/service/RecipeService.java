@@ -71,6 +71,15 @@ public interface RecipeService {
      */
     List<RecipeDto> searchRecipes(List<Long> ingredientIds, String mode);    
 
+    /**
+     * filter recipes by dietary restrictions
+     * return only recipes that are compatible with all specified dietary restrictions
+     * 
+     * @param dietaryRestrictionIds the list of dietary restriction ids
+     * @return the list of recipe DTOs that match the dietary restrictions
+     */
+    List<RecipeDto> filterByDietaryRestrictions(List<Long> dietaryRestrictionIds);
+
     /*
      * get all recipes in the database and return them in a list
      * 

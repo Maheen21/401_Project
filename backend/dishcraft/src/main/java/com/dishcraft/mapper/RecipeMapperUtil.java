@@ -1,10 +1,14 @@
 package com.dishcraft.mapper;
 
+import com.dishcraft.dto.DietaryRestrictionDto;
 import com.dishcraft.dto.RecipeDto;
+import com.dishcraft.model.DietaryRestriction;
 import com.dishcraft.model.Recipe;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RecipeMapperUtil {
@@ -25,6 +29,15 @@ public class RecipeMapperUtil {
             dto.setRecipeIngredients(
                 RecipeIngredientMapperUtil.toDtoList(entity.getRecipeIngredients())
             );
+            
+            // Calculate and set dietary restrictions
+            Set<DietaryRestriction> allDietaryRestrictions = new HashSet<>();
+            entity.getRecipeIngredients().forEach(ri -> {
+                if (ri.getIngredient() != null && ri.getIngredient().getDietaryRestrictions() != null) {
+                    allDietaryRestrictions.addAll(ri.getIngredient().getDietaryRestrictions());
+                }
+            });
+            dto.setDietaryRestrictions(DietaryRestrictionMapperUtil.toDtoList(allDietaryRestrictions));
         }
         
         return dto;

@@ -120,6 +120,27 @@ public class RecipeController {
     }
 
     /**
+     * Filter recipes by dietary restrictions.
+     *
+     * @param dietaryRestrictionIds List of dietary restriction IDs to filter by
+     * @return a list of RecipeDto that match the dietary restrictions
+     */
+    @Operation(summary = "Filter Recipes by Dietary Restrictions",
+               description = "Returns recipes that are compatible with all specified dietary restrictions.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved filtered recipes"),
+            @ApiResponse(responseCode = "400", description = "Invalid dietary restriction parameters")
+    })
+    @GetMapping("/filter/dietary")
+    public ResponseEntity<List<RecipeDto>> filterByDietaryRestrictions(
+            @Parameter(description = "List of dietary restriction IDs", required = true)
+            @RequestParam List<Long> dietaryRestrictionIds) {
+
+        List<RecipeDto> recipes = recipeService.filterByDietaryRestrictions(dietaryRestrictionIds);
+        return ResponseEntity.ok(recipes);
+    }
+
+    /**
      * Retrieve all recipes.
      *
      * @return a list of all recipes

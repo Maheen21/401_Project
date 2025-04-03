@@ -18,4 +18,5 @@ public class RecipeDto {
     private Integer cookingTime;
     private List<RecipeIngredientDto> recipeIngredients;
     private String imageUrl;
+    private List<DietaryRestrictionDto> dietaryRestrictions;
 }

@@ -3,10 +3,12 @@ package com.dishcraft.service.impl;
 import com.dishcraft.dto.RecipeDto;
 import com.dishcraft.dto.RecipeIngredientDto;
 import com.dishcraft.mapper.RecipeMapperUtil;
+import com.dishcraft.model.DietaryRestriction;
 import com.dishcraft.model.Ingredient;
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.RecipeIngredient;
 import com.dishcraft.model.User;
+import com.dishcraft.repository.DietaryRestrictionRepository;
 import com.dishcraft.repository.IngredientRepository;
 import com.dishcraft.repository.RecipeIngredientRepository;
 import com.dishcraft.repository.RecipeRepository;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,17 +39,19 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final CurrentUserService currentUserService;
     private final IngredientRepository ingredientRepository;
-
+    private final DietaryRestrictionRepository dietaryRestrictionRepository;
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository,
                              RecipeIngredientRepository recipeIngredientRepository,
                              IngredientRepository ingredientRepository,
-                             CurrentUserService currentUserService) {
+                             CurrentUserService currentUserService,
+                             DietaryRestrictionRepository dietaryRestrictionRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientRepository = recipeIngredientRepository;
         this.ingredientRepository = ingredientRepository;
         this.currentUserService = currentUserService;
+        this.dietaryRestrictionRepository = dietaryRestrictionRepository;
     }
 
     @Override
@@ -218,6 +223,44 @@ public RecipeDto getRecipeById(Long id) {
 
         // Convert the filtered list of Recipe entities to RecipeDto objects
         return candidateRecipes.stream()
+                .map(RecipeMapperUtil::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RecipeDto> filterByDietaryRestrictions(List<Long> dietaryRestrictionIds) {
+        // Get all dietary restrictions by their IDs
+        List<DietaryRestriction> dietaryRestrictions = dietaryRestrictionRepository.findAllById(dietaryRestrictionIds);
+        
+        if (dietaryRestrictions.isEmpty()) {
+            throw new RuntimeException("No dietary restrictions found with the provided IDs");
+        }
+        
+        // Convert to lowercase names for case-insensitive comparison
+        Set<String> restrictionNames = dietaryRestrictions.stream()
+                .map(dr -> dr.getName().toLowerCase())
+                .collect(Collectors.toSet());
+        
+        // Get all recipes
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        
+        // Filter recipes based on the provided dietary restrictions
+        List<Recipe> filteredRecipes = allRecipes.stream()
+                .filter(recipe -> {
+                    // For each recipe, check if all its ingredients are compatible with the dietary restrictions
+                    return recipe.getRecipeIngredients().stream().allMatch(ri -> {
+                        // Check each ingredient's dietary restrictions
+                        Set<String> ingredientRestrictions = ri.getIngredient().getDietaryRestrictions().stream()
+                                .map(dr -> dr.getName().toLowerCase())
+                                .collect(Collectors.toSet());
+                        
+                        // Check if the ingredient's restrictions conflict with the requested restrictions
+                        return ingredientRestrictions.stream().noneMatch(restrictionNames::contains);
+                    });
+                })
+                .collect(Collectors.toList());
+        
+        return filteredRecipes.stream()
                 .map(RecipeMapperUtil::toDto)
                 .collect(Collectors.toList());
     }
