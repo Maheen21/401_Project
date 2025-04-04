@@ -23,7 +23,7 @@ hs_err_pid*
 *.iml
 *.ipr
 
-# Node.js / React
+# Node.js / React Frontend (old frontend app)
 my-app/node_modules/
 my-app/.pnp
 my-app/.pnp.js
@@ -37,6 +37,21 @@ my-app/.env.production.local
 my-app/npm-debug.log*
 my-app/yarn-debug.log*
 my-app/yarn-error.log*
+
+# TypeScript React Frontend (new frontend app)
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage/
+frontend/build/
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
 
 # Python / LLM
 LLM/__pycache__/
