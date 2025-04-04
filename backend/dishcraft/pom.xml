@@ -150,11 +150,20 @@
 				<groupId>org.graalvm.buildtools</groupId>
 				<artifactId>native-maven-plugin</artifactId>
 				<version>0.10.6</version> 
+				<configuration>
+					<mainClass>com.dishcraft.DishcraftApplication</mainClass>
+					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+					<metadataRepository>
+						<enabled>true</enabled>
+					</metadataRepository>
+				</configuration>
 				<executions>
 					<execution>
+						<id>build-native</id>
 						<goals>
 							<goal>compile-no-fork</goal>
 						</goals>
+						<phase>package</phase>
 					</execution>
 				</executions>
 			</plugin>

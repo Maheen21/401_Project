@@ -3,6 +3,7 @@ package com.dishcraft.mapper;
 import com.dishcraft.dto.UserRequestDto;
 import com.dishcraft.dto.UserResponseDto;
 import com.dishcraft.model.User;
+import com.dishcraft.model.Role;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -36,7 +37,9 @@ public class UserMapperUtil {
         if (dto == null) return null;
 
         User entity = new User();
-        entity.setId(dto.getId());
+        // Do not set ID - always let the database generate it with @GeneratedValue
+        // Ignoring any user-provided ID for security reasons
+        
         entity.setUsername(dto.getUsername());
         entity.setEmail(dto.getEmail());
         
@@ -45,7 +48,9 @@ public class UserMapperUtil {
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         
-        entity.setRole(dto.getRole());
+        // Always set role to USER for new registrations regardless of what was provided
+        // This ensures users cannot give themselves admin privileges
+        entity.setRole(Role.USER);
         
         return entity;
     }
@@ -66,8 +71,7 @@ public class UserMapperUtil {
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         
-        if (dto.getRole() != null) {
-            entity.setRole(dto.getRole());
-        }
+        // Note: Role updates should be handled by admin-specific endpoints with proper authorization
+        // Do not update role from standard user DTO to prevent privilege escalation
     }
 }

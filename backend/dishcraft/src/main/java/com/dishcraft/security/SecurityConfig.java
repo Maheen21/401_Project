@@ -70,6 +70,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/recipes/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/ingredients/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/dietary-restrictions/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                 
                 // api endpoints for user registration and login
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
@@ -83,7 +84,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/**").hasAnyRole("ADMIN", "ROOT")
                 .requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole("ADMIN", "ROOT")
                 
-                // 그 외 모든 요청은 인증이 필요함
+                // any other request requires authentication
                 .anyRequest().authenticated()
 
             )

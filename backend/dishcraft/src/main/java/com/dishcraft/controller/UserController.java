@@ -28,7 +28,7 @@ import com.dishcraft.security.JwtUtil;
  *
  * Endpoints:
  *   - POST /api/auth/register
- *       • Input: User details (username, email, password, etc.)
+ *       • Input: User details (username, email, password)
  *       • Output: Created user information or success message.
  *
  *   - POST /api/auth/login
@@ -65,13 +65,21 @@ public class UserController {
      * User Registration Endpoint
      * URL: POST /api/auth/register
      * Input: JSON representing a new User.
-     * Output: The created User or a success message.
+     * Required fields: username, email, password
+     * Note: id will be auto-generated and role will always be set to USER for security reasons
+     * Output: The created User information (id, username, email, role).
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRequestDto dto) {
-        // Typically, you would validate data and encode the password here.
         User createdUser = userService.createUser(dto);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        // Convert to UserResponseDto to avoid sending password and other sensitive info back
+        UserResponseDto responseDto = new UserResponseDto();
+        responseDto.setId(createdUser.getId());
+        responseDto.setUsername(createdUser.getUsername());
+        responseDto.setEmail(createdUser.getEmail());
+        responseDto.setRole(createdUser.getRole());
+        
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
     
     /**
