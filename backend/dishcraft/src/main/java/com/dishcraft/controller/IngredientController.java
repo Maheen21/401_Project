@@ -93,4 +93,16 @@ public class IngredientController {
         return ResponseEntity.noContent().build();
     }
     
+    /**
+     * Filter ingredients by excluding those with the specified dietary restrictions.
+     *
+     * @param dietaryRestrictionIds the list of dietary restriction IDs to exclude
+     * @return a list of ingredients that do NOT have any of the specified dietary restrictions
+     */
+    @GetMapping("/filter")
+    public ResponseEntity<List<IngredientDto>> filterIngredientsByDietaryRestrictions(
+            @RequestParam("dietaryRestrictionIds") List<Long> dietaryRestrictionIds) {
+        List<IngredientDto> filteredIngredients = ingredientService.filterByDietaryRestrictions(dietaryRestrictionIds);
+        return ResponseEntity.ok(filteredIngredients);
+    }
 }

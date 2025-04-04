@@ -54,4 +54,13 @@ public interface IngredientService {
      * @param id the unique identifier of the ingredient
      */
     void deleteIngredient(Long id);
+    
+    /**
+     * Filter ingredients by excluding those with the specified dietary restrictions.
+     * Returns ingredients that do NOT have any of the specified dietary restrictions.
+     *
+     * @param dietaryRestrictionIds the list of dietary restriction IDs to exclude
+     * @return a list of ingredients that are NOT associated with the specified dietary restrictions
+     */
+    List<IngredientDto> filterByDietaryRestrictions(List<Long> dietaryRestrictionIds);
 }
