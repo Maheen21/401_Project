@@ -6,6 +6,7 @@ import Explore from "./pages/Explore";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import MyPage from "./pages/MyPage";
+import TestComponents from "./pages/TestComponents";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/test" element={<TestComponents />} />
       </Routes>
     </BrowserRouter>
   );
