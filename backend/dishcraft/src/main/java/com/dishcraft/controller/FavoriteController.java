@@ -5,9 +5,12 @@ import com.dishcraft.dto.RecipeDto;
 import com.dishcraft.service.FavoriteService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,12 +37,23 @@ public class FavoriteController {
     /**
      * Add a recipe to the current user's favorites.
      *
-     * @param recipeId the ID of the recipe to add
+     * @param payload JSON object containing recipeId
      * @return the created favorite
      */
     @Operation(summary = "Add recipe to favorites", 
                description = "Add a recipe to the current user's favorites",
-               security = @SecurityRequirement(name = "bearerAuth"))
+               security = @SecurityRequirement(name = "BearerAuth"),
+               requestBody = @RequestBody(
+                   description = "Recipe ID to add to favorites",
+                   required = true,
+                   content = @Content(
+                       schema = @Schema(
+                           type = "object",
+                           example = "{\"recipeId\": 123}",
+                           requiredProperties = {"recipeId"}
+                       )
+                   )
+               ))
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Recipe successfully added to favorites"),
         @ApiResponse(responseCode = "400", description = "Invalid request"),
@@ -47,7 +61,7 @@ public class FavoriteController {
         @ApiResponse(responseCode = "401", description = "Not authenticated")
     })
     @PostMapping
-    public ResponseEntity<FavoriteDto> addFavorite(@RequestBody Map<String, Long> payload) {
+    public ResponseEntity<FavoriteDto> addFavorite(@org.springframework.web.bind.annotation.RequestBody Map<String, Long> payload) {
         Long recipeId = payload.get("recipeId");
         FavoriteDto favoriteDto = favoriteService.addFavorite(recipeId);
         return new ResponseEntity<>(favoriteDto, HttpStatus.CREATED);
@@ -61,7 +75,7 @@ public class FavoriteController {
      */
     @Operation(summary = "Remove recipe from favorites", 
                description = "Remove a recipe from the current user's favorites",
-               security = @SecurityRequirement(name = "bearerAuth"))
+               security = @SecurityRequirement(name = "BearerAuth"))
     @ApiResponses({
         @ApiResponse(responseCode = "204", description = "Recipe successfully removed from favorites"),
         @ApiResponse(responseCode = "404", description = "Recipe not found in favorites"),
@@ -80,7 +94,7 @@ public class FavoriteController {
      */
     @Operation(summary = "Get current user's favorite recipes", 
                description = "Returns a list of the current user's favorite recipes",
-               security = @SecurityRequirement(name = "bearerAuth"))
+               security = @SecurityRequirement(name = "BearerAuth"))
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Successfully retrieved favorite recipes"),
         @ApiResponse(responseCode = "401", description = "Not authenticated")
@@ -98,7 +112,7 @@ public class FavoriteController {
      */
     @Operation(summary = "Get current user's favorite recipes as recipe DTOs", 
                description = "Returns a list of complete recipe DTOs that are favorited by the current user",
-               security = @SecurityRequirement(name = "bearerAuth"))
+               security = @SecurityRequirement(name = "BearerAuth"))
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Successfully retrieved favorite recipes"),
         @ApiResponse(responseCode = "401", description = "Not authenticated")
@@ -117,7 +131,7 @@ public class FavoriteController {
      */
     @Operation(summary = "Check if recipe is favorite", 
                description = "Check if a recipe is in the current user's favorites",
-               security = @SecurityRequirement(name = "bearerAuth"))
+               security = @SecurityRequirement(name = "BearerAuth"))
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Status check successful"),
         @ApiResponse(responseCode = "401", description = "Not authenticated")

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * Jackson configuration for proper serialization in GraalVM native image
@@ -25,6 +26,11 @@ public class JacksonConfig {
         
         // Prevent failures on empty beans
         objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        
+        // Register JavaTimeModule to handle Java 8 date/time types like LocalDateTime
+        objectMapper.registerModule(new JavaTimeModule());
+        // Configure dates to be serialized as strings rather than timestamps
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         
         return objectMapper;
     }
