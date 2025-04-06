@@ -12,8 +12,14 @@ interface FavoriteButtonCardProps {
 
 const FavoriteButtonCard = ({ recipeId }: FavoriteButtonCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) return;
+
+    setIsLoggedIn(true);
+
     const fetchStatus = async () => {
       const status = await checkFavoriteStatus(recipeId);
       setIsFavorite(status);
@@ -34,6 +40,8 @@ const FavoriteButtonCard = ({ recipeId }: FavoriteButtonCardProps) => {
       console.error("Failed to update favorite status:", err);
     }
   };
+  
+  if (!isLoggedIn) return null;
 
   return (
     <div
