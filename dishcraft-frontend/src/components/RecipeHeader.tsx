@@ -1,5 +1,6 @@
 import type { Recipe } from "../types";
 
+
 interface RecipeHeaderProps {
     recipe: Recipe;
   }
@@ -16,6 +17,8 @@ interface RecipeHeaderProps {
         <p className="text-gray-700 mb-4">{recipe.description}</p>
         <p className="text-sm text-gray-500">⏱️ Cooking Time: {recipe.cookingTime} minutes</p>
       </div>
+
+
     </div>
   );
   

@@ -11,6 +11,7 @@ import RecipeHeader from "../components/RecipeHeader";
 import RecipeIngredientSection from "../components/RecipeIngredientSection";
 import GeneratedRecipeSection from "../components/GeneratedRecipeSection";
 import { fetchDietaryRestrictions } from "../utils/ingredientApi";
+import FavoriteButtonCard from "../components/FavoriteButtonCard";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,7 @@ const RecipeDetail = () => {
   const [generated, setGenerated] = useState<GeneratedRecipe | null>(null);
   const [loading, setLoading] = useState(false);
   const [allTags, setAllTags] = useState<DietaryRestriction[]>([]);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   // Fetch recipe + all ingredients on mount
   useEffect(() => {
@@ -87,6 +89,18 @@ const RecipeDetail = () => {
     <div className="p-6 max-w-screen-xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
       <RecipeHeader recipe={recipe} />
+        </div>
+
+        <div>
+        <div className="mt-4">
+        <FavoriteButtonCard
+            initial={isFavorite}
+            onToggle={(value) => {
+            setIsFavorite(value);
+            // TODO: API 요청 추가
+            }}
+        />
+        </div>
         </div>
       <RecipeDietaryInfo allTags={allTags} violatedTags={recipe.dietaryRestrictions} />
 
