@@ -4,7 +4,7 @@ import axios from "axios";
 import type { RecipeGenerationRequest, GeneratedRecipe } from "../types";
 
 // LLM backend URL
-const LLM_BASE_URL = "http://localhost:5000"; // will be replaced with env variable
+const LLM_BASE_URL = process.env.REACT_APP_LLM_BASE_URL; // will be replaced with env variable
 
 export const startRecipeGeneration = async (
   input: RecipeGenerationRequest

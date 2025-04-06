@@ -1,29 +1,19 @@
-// src/components/FavoriteButton.tsx
-
 import { useState } from "react";
 import { Star, StarOff } from "lucide-react";
 
 interface FavoriteButtonProps {
-  initial?: boolean;
-  onToggle?: (isFavorite: boolean) => void;
+  isFavorite: boolean;
+  onToggle: () => void;
 }
 
-const FavoriteButton = ({ initial = false, onToggle }: FavoriteButtonProps) => {
-  const [isFav, setIsFav] = useState(initial);
-
-  const handleClick = () => {
-    const newState = !isFav;
-    setIsFav(newState);
-    onToggle?.(newState);
-  };
-
+const FavoriteButton = ({ isFavorite, onToggle }: FavoriteButtonProps) => {
   return (
     <button
-      onClick={handleClick}
-      className={`text-yellow-400 hover:scale-110 transition-transform`}
-      title={isFav ? "Remove from favorites" : "Add to favorites"}
+      onClick={onToggle}
+      className="text-yellow-400 hover:scale-110 transition-transform"
+      title={isFavorite ? "Remove from favorites" : "Add to favorites"}
     >
-      {isFav ? <Star fill="currentColor" /> : <StarOff />}
+      {isFavorite ? <Star fill="currentColor" /> : <StarOff />}
     </button>
   );
 };

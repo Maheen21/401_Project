@@ -91,16 +91,11 @@ const RecipeDetail = () => {
       <RecipeHeader recipe={recipe} />
         </div>
 
-        <div>
-        <div className="mt-4">
+      
+        <div className="flex items-center gap-4 mb-6">
         <FavoriteButtonCard
-            initial={isFavorite}
-            onToggle={(value) => {
-            setIsFavorite(value);
-            // TODO: API 요청 추가
-            }}
+          recipeId={recipe.id}
         />
-        </div>
         </div>
       <RecipeDietaryInfo allTags={allTags} violatedTags={recipe.dietaryRestrictions} />
 

@@ -1,22 +1,67 @@
+import { useEffect, useState } from "react";
 import FavoriteButton from "./FavoriteButton";
+import {
+  checkFavoriteStatus,
+  addToFavorites,
+  removeFromFavorites,
+} from "../utils/favoriteApi";
 
 interface FavoriteButtonCardProps {
-  initial?: boolean;
-  onToggle?: (isFavorite: boolean) => void;
+  recipeId: number;
 }
 
-const FavoriteButtonCard = ({
-  initial = false,
-  onToggle,
-}: FavoriteButtonCardProps) => {
+const FavoriteButtonCard = ({ recipeId }: FavoriteButtonCardProps) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const status = await checkFavoriteStatus(recipeId);
+      setIsFavorite(status);
+    };
+
+    fetchStatus();
+  }, [recipeId]);
+
+  const handleToggle = async () => {
+    try {
+      if (isFavorite) {
+        await removeFromFavorites(recipeId);
+      } else {
+        await addToFavorites(recipeId);
+      }
+      setIsFavorite(!isFavorite);
+    } catch (err) {
+      console.error("Failed to update favorite status:", err);
+    }
+  };
+
   return (
     <div
-      className="w-full p-4 rounded-md border bg-white hover:bg-gray-50 flex justify-between items-center cursor-pointer transition"
+      role="button"
+
+      onClick={handleToggle}
+      className="
+      w-full
+      max-w-full
+      sm:max-w-[50%]
+      lg:max-w-[25%]
+      p-4 
+      rounded-md 
+      border 
+      bg-gray-50
+      hover:bg-gray-50 
+      flex 
+      justify-between items-center 
+      cursor-pointer transition"
     >
       <span className="text-sm font-medium text-gray-800">
-        {initial ? "Remove from favorites" : "Add to favorites"}
+        {isFavorite ? "Remove from favorites" : "Add to favorites"}
       </span>
-      <FavoriteButton initial={initial} onToggle={onToggle} />
+
+      {/* prevent nested click capture */}
+      <div className="pointer-events-none">
+        <FavoriteButton isFavorite={isFavorite} onToggle={() => {}} />
+      </div>
     </div>
   );
 };
