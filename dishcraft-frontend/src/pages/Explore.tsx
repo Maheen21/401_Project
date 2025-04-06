@@ -1,70 +1,51 @@
+// src/pages/Explore.tsx
+
 import { useEffect, useState } from "react";
-import axios from "../utils/axiosInstance";
-import RecipeCard from "../components/RecipeCard";
 import ExploreFilterBar from "../components/ExploreFilterBar";
-
-// Types
-interface Recipe {
-  id: number;
-  name: string;
-  description: string;
-  cookingTime: number;
-  imageUrl: string;
-  dietaryRestrictions: { id: number; name: string }[];
-}
-
-interface Tag {
-  id: number;
-  name: string;
-}
+import RecipeCard from "../components/RecipeCard";
+import { DietaryRestriction, Recipe } from "../types";
+import { getAllRecipes, getFilteredRecipes, getAllDietaryRestrictions } from "../utils/recipeApi";
 
 const Explore = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [sortKey, setSortKey] = useState<"name" | "time">("name");
-
+  const [allTags, setAllTags] = useState<DietaryRestriction[]>([]);
   const [excludedTags, setExcludedTags] = useState<string[]>([]);
-  const [allTags, setAllTags] = useState<Tag[]>([]);
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [sortKey, setSortKey] = useState<"name" | "time">("name");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   // Fetch dietary restriction tag list
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const res = await axios.get<Tag[]>("/api/dietary-restrictions");
-        setAllTags(res.data);
-      } catch {
-        console.error("Failed to fetch dietary restriction tags.");
+        const tags = await getAllDietaryRestrictions();
+        setAllTags(tags);
+      } catch (err) {
+        console.error("Failed to fetch dietary restriction tags:", err);
       }
     };
     fetchTags();
   }, []);
 
-  // Fetch recipes when excludedTags change
+  // Fetch recipes
   useEffect(() => {
     const fetchRecipes = async () => {
       setLoading(true);
+      setError("");
+
       try {
         if (excludedTags.length === 0) {
-          // Default: fetch all recipes
-          const res = await axios.get<Recipe[]>("/api/recipes/all");
-          setRecipes(res.data);
+          const data = await getAllRecipes();
+          setRecipes(data);
         } else {
-          // Filtered: convert tag names to IDs
-          const ids = allTags
+          const excludedIds = allTags
             .filter((tag) => excludedTags.includes(tag.name))
             .map((tag) => tag.id);
-
-          const params = new URLSearchParams();
-          ids.forEach((id) => params.append("dietaryRestrictionIds", id.toString()));
-
-          const res = await axios.get<Recipe[]>(
-            `/api/recipes/filter/dietary?${params.toString()}`
-          );
-          setRecipes(res.data);
+          const data = await getFilteredRecipes(excludedIds);
+          setRecipes(data);
         }
-      } catch {
+      } catch (err) {
+        console.error("Failed to fetch recipes:", err);
         setError("Failed to load recipes.");
       } finally {
         setLoading(false);
@@ -74,7 +55,7 @@ const Explore = () => {
     fetchRecipes();
   }, [excludedTags, allTags]);
 
-  // Optional frontend sort
+  // Sort frontend
   const sortedRecipes = [...recipes].sort((a, b) => {
     if (sortKey === "time") return a.cookingTime - b.cookingTime;
     return a.name.localeCompare(b.name);
@@ -89,7 +70,7 @@ const Explore = () => {
         setSortKey={setSortKey}
         excludedTags={excludedTags}
         setExcludedTags={setExcludedTags}
-        tagOptions={allTags.map((t) => t.name)}
+        tagOptions={allTags}
       />
 
       {loading && <p>Loading recipes...</p>}
@@ -97,14 +78,7 @@ const Explore = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {sortedRecipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            title={recipe.name}
-            time={`${recipe.cookingTime} min`}
-            description={recipe.description}
-            imageUrl={recipe.imageUrl}
-            tags={recipe.dietaryRestrictions.map((d) => d.name)}
-          />
+          <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
     </div>
