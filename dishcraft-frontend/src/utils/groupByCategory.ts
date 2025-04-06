@@ -1,14 +1,28 @@
-import { Ingredient } from "../types";
+// src/utils/groupByCategory.ts
+
+import type { Ingredient, IngredientCategory } from "../types";
+
+const CATEGORY_ORDER: IngredientCategory[] = [
+  "Main Protein",
+  "Supporting Ingredients",
+  "Spices & Sauces",
+];
 
 export const groupByCategory = (ingredients: Ingredient[]) => {
-  const groups: Record<string, Ingredient[]> = {};
+  const groups: Record<IngredientCategory, Ingredient[]> = {
+    "Main Protein": [],
+    "Supporting Ingredients": [],
+    "Spices & Sauces": [],
+  };
 
   for (const ing of ingredients) {
-    if (!groups[ing.category]) {
-      groups[ing.category] = [];
-    }
     groups[ing.category].push(ing);
   }
 
-  return groups;
+  return CATEGORY_ORDER.reduce((sorted, category) => {
+    if (groups[category].length > 0) {
+      sorted[category] = groups[category];
+    }
+    return sorted;
+  }, {} as Record<string, Ingredient[]>);
 };

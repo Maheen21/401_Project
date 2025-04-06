@@ -7,6 +7,8 @@ import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import MyPage from "./pages/MyPage";
 import TestComponents from "./pages/TestComponents";
+import RecipeDetail from "./pages/RecipeDetail";
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/test" element={<TestComponents />} />
+        <Route path="/recipes/:id" element={<RecipeDetail />} />
       </Routes>
     </BrowserRouter>
   );

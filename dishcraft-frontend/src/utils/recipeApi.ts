@@ -23,3 +23,8 @@ export const getAllDietaryRestrictions = async (): Promise<DietaryRestriction[]>
   const res = await axios.get("/api/dietary-restrictions");
   return res.data;
 };
+
+export const fetchRecipeById = async (id: number): Promise<Recipe> => {
+  const res = await axios.get(`/api/recipes/${id}`);
+  return res.data;
+};
