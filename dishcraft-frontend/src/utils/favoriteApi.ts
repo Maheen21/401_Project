@@ -1,5 +1,6 @@
 // src/utils/favoriteApi.ts
 import axios from "./axiosInstance";
+import type { Recipe } from "../types";
 
 const API_BASE = "/api/favorites";
 
@@ -14,14 +15,14 @@ export const checkFavoriteStatus = async (recipeId: number): Promise<boolean> =>
     const res = await axios.get(`${API_BASE}/check/${recipeId}`, {
       headers: getAuthHeader(),
     });
-    return res.data === true; // true if the recipe is a favorite, false otherwise
+    return res.data.isFavorite === true; // true if the recipe is a favorite, false otherwise
   } catch (err) {
     console.error("Failed to check favorite status:", err);
     return false;
   }
 };
 
-// 2. 즐겨찾기 추가
+// 2. add a recipe to favorites
 export const addToFavorites = async (recipeId: number): Promise<boolean> => {
   try {
     await axios.post(
@@ -41,7 +42,7 @@ export const addToFavorites = async (recipeId: number): Promise<boolean> => {
   }
 };
 
-// 3. 즐겨찾기 삭제
+// 3. delete a recipe from favorites
 export const removeFromFavorites = async (recipeId: number): Promise<boolean> => {
   try {
     await axios.delete(`${API_BASE}/${recipeId}`, {
@@ -52,4 +53,18 @@ export const removeFromFavorites = async (recipeId: number): Promise<boolean> =>
     console.error("Failed to remove favorite:", err);
     return false;
   }
+  
 };
+
+// 4. get all favorited recipes of the current user
+export const fetchUserFavoriteRecipes = async (): Promise<Recipe[]> => {
+    try {
+      const res = await axios.get(`${API_BASE}/recipes`, {
+        headers: getAuthHeader(),
+      });
+      return res.data;
+    } catch (err) {
+      console.error("Failed to fetch user favorite recipes:", err);
+      return [];
+    }
+  };
