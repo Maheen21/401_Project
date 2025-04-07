@@ -24,14 +24,17 @@ const Index = () => {
       </section>
 
       {/* Description Section */}
-      <section className="relative w-full max-w-screen-xl px-6 py-16">
-        <div className="relative w-full h-[400px]">
+      <section className="relative w-full max-w-screen-xl px-6 py-16 flex justify-center items-center mx-auto">
+        <div className="relative w-full  h-[400px]">
           <img
             src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg"
             alt="Pasta"
-            className="absolute inset-0 w-3/4 h-full object-cover"
+            className="absolute inset-0 w-3/4  h-full object-cover"
           />
+          {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/100 to-white/100" />
+          
+          {/* Text box */}
           <div className="relative z-10 flex items-center justify-end h-full px-8">
           <div className="bg-white/80 rounded-lg p-6 max-w-md shadow-lg">
             <p className="text-2xl leading-relaxed text-gray-800 max-w-sm">

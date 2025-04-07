@@ -16,8 +16,11 @@ const FavoriteButtonCard = ({ recipeId }: FavoriteButtonCardProps) => {
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
-    if (!token) return;
-
+    if (!token) {
+      setIsLoggedIn(false);
+      return; // 🛑 do not proceed
+    }
+    
     setIsLoggedIn(true);
 
     const fetchStatus = async () => {
