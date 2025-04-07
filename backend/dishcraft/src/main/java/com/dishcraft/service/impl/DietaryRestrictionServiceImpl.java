@@ -11,10 +11,10 @@ import com.dishcraft.service.DietaryRestrictionService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -27,14 +27,17 @@ public class DietaryRestrictionServiceImpl implements DietaryRestrictionService 
     private final DietaryRestrictionRepository dietaryRestrictionRepository;
     private final CurrentUserService currentUserService;
     private final UserRepository userRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public DietaryRestrictionServiceImpl(DietaryRestrictionRepository dietaryRestrictionRepository,
                                          CurrentUserService currentUserService,
-                                         UserRepository userRepository) {
+                                         UserRepository userRepository,
+                                         JdbcTemplate jdbcTemplate) {
         this.dietaryRestrictionRepository = dietaryRestrictionRepository;
         this.currentUserService = currentUserService;
         this.userRepository = userRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     /**
@@ -64,10 +67,10 @@ public class DietaryRestrictionServiceImpl implements DietaryRestrictionService 
             // Get the current authenticated user
             User currentUser = currentUserService.getCurrentUser();
             
-            // 저장소에서 직접 사용자의 식이 제한 데이터를 조회 (ConcurrentModificationException 회피)
+            // Query the repository directly to avoid collection issues
             List<DietaryRestriction> restrictions = dietaryRestrictionRepository.findByUser(currentUser);
             
-            // DTO로 변환
+            // Convert to DTOs
             return restrictions.stream()
                     .map(DietaryRestrictionMapperUtil::toDto)
                     .collect(Collectors.toList());
@@ -95,9 +98,10 @@ public class DietaryRestrictionServiceImpl implements DietaryRestrictionService 
         
         // Check if the user already has this restriction
         if (!dietaryRestrictionRepository.existsByUserAndDietaryRestrictionId(currentUser, dietaryRestrictionId)) {
-            // Add the restriction to user's set
-            currentUser.getDietaryRestrictions().add(dietaryRestriction);
-            userRepository.save(currentUser);
+            // Use direct JDBC instead of EntityManager for better GraalVM compatibility
+            jdbcTemplate.update(
+                "INSERT INTO user_dietary_restrictions (user_id, dietary_restriction_id) VALUES (?, ?)",
+                currentUser.getId(), dietaryRestrictionId);
         }
         
         return DietaryRestrictionMapperUtil.toDto(dietaryRestriction);
@@ -115,15 +119,15 @@ public class DietaryRestrictionServiceImpl implements DietaryRestrictionService 
     public boolean removeDietaryRestrictionFromCurrentUser(Long dietaryRestrictionId) {
         User currentUser = currentUserService.getCurrentUser();
         
-        // 존재 여부 확인
+        // Check if the user has this restriction
         if (!dietaryRestrictionRepository.existsByUserAndDietaryRestrictionId(currentUser, dietaryRestrictionId)) {
             return false;
         }
         
-        // 네이티브 SQL 쿼리를 사용해 연관관계 직접 삭제 (ConcurrentModificationException 방지)
+        // Use the repository method to delete the relationship
         int deletedCount = dietaryRestrictionRepository.deleteUserDietaryRestriction(currentUser.getId(), dietaryRestrictionId);
         
-        // 1건 이상 삭제된 경우 성공으로 간주
+        // Consider success if at least one row was deleted
         return deletedCount > 0;
     }
 
@@ -139,7 +143,7 @@ public class DietaryRestrictionServiceImpl implements DietaryRestrictionService 
             // Get the current authenticated user
             User currentUser = currentUserService.getCurrentUser();
             
-            // 저장소에서 직접 사용자가 해당 식이 제한을 가지고 있는지 확인
+            // Query the repository directly to check if the relationship exists
             return dietaryRestrictionRepository.existsByUserAndDietaryRestrictionId(currentUser, dietaryRestrictionId);
         } catch (Exception e) {
             // If there's any error (like no logged-in user), return false

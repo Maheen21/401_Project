@@ -79,6 +79,7 @@ public class SecurityConfig {
                 // any loged-in user can access these endpoints
                 .requestMatchers(HttpMethod.DELETE, "/api/favorites/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/api/user-favorite-recipes/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/dietary-restrictions/current-user/**").authenticated()
                 
                 // authenticated endpoints for user and recipe management which require admin or root role
                 .requestMatchers(HttpMethod.PUT, "/api/**").hasAnyRole("ADMIN", "ROOT")

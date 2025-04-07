@@ -2,8 +2,10 @@ package com.dishcraft.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,6 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"users", "ingredients"})
 public class DietaryRestriction {
 
     /**
@@ -35,13 +38,13 @@ public class DietaryRestriction {
      * The set of Users that have this dietary restriction.
      * Mapped by the "dietaryRestrictions" field in the User entity.
      */
-    @ManyToMany(mappedBy = "dietaryRestrictions")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "dietaryRestrictions", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
     /**
      * The set of Ingredients that comply with this dietary restriction.
      * Mapped by the "dietaryRestrictions" field in the Ingredient entity.
      */
-    @ManyToMany(mappedBy = "dietaryRestrictions")
-    private Set<Ingredient> ingredients;
+    @ManyToMany(mappedBy = "dietaryRestrictions", fetch = FetchType.LAZY)
+    private Set<Ingredient> ingredients = new HashSet<>();
 }

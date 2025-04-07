@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collections;
 
 /*
  * ## 1. User Model
@@ -75,7 +76,7 @@ public class User {
      * - Manages the many-to-many relationship between User and DietaryRestriction.
      * - Stores the dietary restrictions associated with the user.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_dietary_restrictions",
         joinColumns = @JoinColumn(name = "user_id"),
@@ -103,4 +104,9 @@ public class User {
      */
 //  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //  private List<Feedback> feedbacks;
+    
+    // Safely get dietary restrictions to avoid concurrent modification
+    public Set<DietaryRestriction> getDietaryRestrictionsReadOnly() {
+        return Collections.unmodifiableSet(dietaryRestrictions);
+    }
 }
