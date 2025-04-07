@@ -3,13 +3,18 @@ package com.dishcraft.service.impl;
 import com.dishcraft.dto.DietaryRestrictionDto;
 import com.dishcraft.mapper.DietaryRestrictionMapperUtil;
 import com.dishcraft.model.DietaryRestriction;
+import com.dishcraft.model.User;
 import com.dishcraft.repository.DietaryRestrictionRepository;
+import com.dishcraft.repository.UserRepository;
+import com.dishcraft.service.CurrentUserService;
 import com.dishcraft.service.DietaryRestrictionService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -20,10 +25,16 @@ import java.util.stream.Collectors;
 public class DietaryRestrictionServiceImpl implements DietaryRestrictionService {
 
     private final DietaryRestrictionRepository dietaryRestrictionRepository;
+    private final CurrentUserService currentUserService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public DietaryRestrictionServiceImpl(DietaryRestrictionRepository dietaryRestrictionRepository) {
+    public DietaryRestrictionServiceImpl(DietaryRestrictionRepository dietaryRestrictionRepository,
+                                         CurrentUserService currentUserService,
+                                         UserRepository userRepository) {
         this.dietaryRestrictionRepository = dietaryRestrictionRepository;
+        this.currentUserService = currentUserService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -39,5 +50,100 @@ public class DietaryRestrictionServiceImpl implements DietaryRestrictionService 
         return dietaryRestrictions.stream()
                 .map(DietaryRestrictionMapperUtil::toDto)
                 .collect(Collectors.toList());
+    }
+    
+    /**
+     * Retrieve dietary restrictions for the current authenticated user.
+     * 
+     * @return A list of dietary restrictions for the current user.
+     */
+    @Override
+    @Transactional
+    public List<DietaryRestrictionDto> getCurrentUserDietaryRestrictions() {
+        try {
+            // Get the current authenticated user
+            User currentUser = currentUserService.getCurrentUser();
+            
+            // 저장소에서 직접 사용자의 식이 제한 데이터를 조회 (ConcurrentModificationException 회피)
+            List<DietaryRestriction> restrictions = dietaryRestrictionRepository.findByUser(currentUser);
+            
+            // DTO로 변환
+            return restrictions.stream()
+                    .map(DietaryRestrictionMapperUtil::toDto)
+                    .collect(Collectors.toList());
+        } catch (IllegalStateException e) {
+            // If no authenticated user is found, return an empty list
+            return List.of();
+        }
+    }
+
+    /**
+     * Add a dietary restriction to the current user's profile.
+     * 
+     * @param dietaryRestrictionId The ID of the dietary restriction to add
+     * @return The added dietary restriction
+     * @throws IllegalStateException if no authenticated user is found
+     * @throws RuntimeException if the dietary restriction does not exist
+     */
+    @Override
+    @Transactional
+    public DietaryRestrictionDto addDietaryRestrictionToCurrentUser(Long dietaryRestrictionId) {
+        User currentUser = currentUserService.getCurrentUser();
+        
+        DietaryRestriction dietaryRestriction = dietaryRestrictionRepository.findById(dietaryRestrictionId)
+                .orElseThrow(() -> new RuntimeException("Dietary restriction not found with id: " + dietaryRestrictionId));
+        
+        // Check if the user already has this restriction
+        if (!dietaryRestrictionRepository.existsByUserAndDietaryRestrictionId(currentUser, dietaryRestrictionId)) {
+            // Add the restriction to user's set
+            currentUser.getDietaryRestrictions().add(dietaryRestriction);
+            userRepository.save(currentUser);
+        }
+        
+        return DietaryRestrictionMapperUtil.toDto(dietaryRestriction);
+    }
+    
+    /**
+     * Remove a dietary restriction from the current user's profile.
+     * 
+     * @param dietaryRestrictionId The ID of the dietary restriction to remove
+     * @return true if successfully removed, false if not found in user's restrictions
+     * @throws IllegalStateException if no authenticated user is found
+     */
+    @Override
+    @Transactional
+    public boolean removeDietaryRestrictionFromCurrentUser(Long dietaryRestrictionId) {
+        User currentUser = currentUserService.getCurrentUser();
+        
+        // 존재 여부 확인
+        if (!dietaryRestrictionRepository.existsByUserAndDietaryRestrictionId(currentUser, dietaryRestrictionId)) {
+            return false;
+        }
+        
+        // 네이티브 SQL 쿼리를 사용해 연관관계 직접 삭제 (ConcurrentModificationException 방지)
+        int deletedCount = dietaryRestrictionRepository.deleteUserDietaryRestriction(currentUser.getId(), dietaryRestrictionId);
+        
+        // 1건 이상 삭제된 경우 성공으로 간주
+        return deletedCount > 0;
+    }
+
+    /**
+     * Check if the current user has a specific dietary restriction.
+     *
+     * @param dietaryRestrictionId the ID of the dietary restriction to check
+     * @return true if the user has this dietary restriction, false otherwise
+     */
+    @Override
+    public boolean hasDietaryRestriction(Long dietaryRestrictionId) {
+        try {
+            // Get the current authenticated user
+            User currentUser = currentUserService.getCurrentUser();
+            
+            // 저장소에서 직접 사용자가 해당 식이 제한을 가지고 있는지 확인
+            return dietaryRestrictionRepository.existsByUserAndDietaryRestrictionId(currentUser, dietaryRestrictionId);
+        } catch (Exception e) {
+            // If there's any error (like no logged-in user), return false
+            return false;
+        }
     }
 }

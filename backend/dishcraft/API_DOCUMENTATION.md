@@ -209,3 +209,48 @@ This document provides a comprehensive overview of all API endpoints available i
 - **URL**: `GET /api/dietary-restrictions`
 - **Description**: Retrieve all dietary restrictions available in the system
 - **Response**: List of all dietary restrictions with status code 200
+
+### Get Current User's Dietary Restrictions
+- **URL**: `GET /api/dietary-restrictions/current-user`
+- **Description**: Retrieve the dietary restrictions of the currently authenticated user
+- **Authentication**: Required (Bearer token)
+- **Response**: List of the current user's dietary restrictions with status code 200
+
+### Add Dietary Restriction to Current User
+- **URL**: `POST /api/dietary-restrictions/current-user/{dietaryRestrictionId}`
+- **Description**: Add a dietary restriction to the currently authenticated user's profile
+- **Path Parameter**: `dietaryRestrictionId` - ID of the dietary restriction to add
+- **Authentication**: Required (Bearer token)
+- **Response**: The added dietary restriction with status code 201
+- **Error Responses**:
+  - 401: Not authenticated
+  - 404: Dietary restriction not found
+
+### Remove Dietary Restriction from Current User
+- **URL**: `DELETE /api/dietary-restrictions/current-user/{dietaryRestrictionId}`
+- **Description**: Remove a dietary restriction from the currently authenticated user's profile
+- **Path Parameter**: `dietaryRestrictionId` - ID of the dietary restriction to remove
+- **Authentication**: Required (Bearer token)
+- **Response**: Success status with status code 200
+  ```json
+  {
+    "removed": true
+  }
+  ```
+- **Error Responses**:
+  - 401: Not authenticated
+  - 404: Dietary restriction not found in user's profile
+
+### Check if User Has Dietary Restriction
+- **URL**: `GET /api/dietary-restrictions/has/{dietaryRestrictionId}`
+- **Description**: Check if the authenticated user has a specific dietary restriction
+- **Path Parameter**: `dietaryRestrictionId` - ID of the dietary restriction to check
+- **Authentication**: Required (Bearer token)
+- **Response**: Boolean value indicating if the user has this dietary restriction with status code 200
+  ```json
+  {
+    "has": true
+  }
+  ```
+- **Error Responses**:
+  - 401: Not authenticated
